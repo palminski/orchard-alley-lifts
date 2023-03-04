@@ -4,6 +4,7 @@ import {setContext} from '@apollo/client/link/context'
 import { ApolloProvider, InMemoryCache, ApolloClient, createHttpLink } from '@apollo/client';
 import Auth from "./utils/auth";
 
+
 //------[Components]------------------
 import Nav from './components/Nav';
 
