@@ -47,6 +47,21 @@ mutation AddExercise($workoutId: ID!, $name: String!, $sets: Int!, $reps: Int!, 
   }
 }
 `
+
+export const EDIT_EXERCISE = gql`
+mutation EditExercise($workoutId: ID!, $exerciseId: ID!, $name: String!, $sets: Int!, $reps: Int!, $weight: Float!) {
+  editExercise(workoutId: $workoutId, exerciseId: $exerciseId, name: $name, sets: $sets, reps: $reps, weight: $weight) {
+    username
+    workouts {
+      name
+      exercises {
+        name
+      }
+   }
+  }
+}
+`
+
 export const DELETE_EXERCISE = gql`
 mutation DeleteExercise($workoutId: ID!, $exerciseId: ID!) {
   deleteExercise(workoutId: $workoutId, exerciseId: $exerciseId) {
