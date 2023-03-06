@@ -7,6 +7,7 @@ const Workouts = () => {
     const user = (data?.currentUser)
     
     const [selectedWorkoutIndex, setSelectedWorkoutIndex] = useState("none")
+    const [mode,setMode] = useState("select");
     const [exerciseForm, setExerciseForm] = useState({name:"",reps:0,sets:0,weight:0});
 
     const handleSelectChange = (e) => {
@@ -35,40 +36,49 @@ const Workouts = () => {
                     </>
                     :
                     <>
-                        
                         <h2>{user.username}</h2>
-                        {user.workouts &&
+                        {user.workouts.length ?
                             <>
-                                <h2>{user.workouts.length}</h2>
+                                {mode === "select" ?
 
-
-                                <label htmlFor="workouts">Select a Workout: </label>
-                                <select name="workouts" onChange={handleSelectChange}>
-                                    <option value="none"></option>
-                                    {user.workouts && user.workouts.map(workout => (
-                                        <option key={workout._id} value={workout._id}>{workout.name}</option>
-                                    ))}
-                                </select>
-                                <hr></hr>
-
-                                {selectedWorkoutIndex !== "none" ?
                                     <>
-                                        <h3>{user.workouts[selectedWorkoutIndex].name}</h3>
-                                        {user.workouts[selectedWorkoutIndex].exercises && user.workouts[selectedWorkoutIndex].exercises.map(exercise => (
-                                            <p key={exercise._id}>{exercise.name} - {exercise.reps} x {exercise.sets} - {exercise.weight}lbs</p>
-                                        ))}
-                                        <form>
-                                            <h3>Add Exercise</h3>
-                                            <label htmlFor="name">Exercise: </label>
-                                            <input required={true} type="text" id="name" name="name"  onChange={handleFormChange}></input>
-                                        </form>
+                                        <label htmlFor="workouts">Select a Workout: </label>
+                                        <select name="workouts" onChange={handleSelectChange}>
+                                            <option value="none"></option>
+                                            {user.workouts && user.workouts.map(workout => (
+                                                <option key={workout._id} value={workout._id}>{workout.name}</option>
+                                            ))}
+                                        </select>
+                                        <hr></hr>
+                                        {selectedWorkoutIndex !== "none" ?
+                                            <>
+                                                <h3>{user.workouts[selectedWorkoutIndex].name}</h3>
+                                                {user.workouts[selectedWorkoutIndex].exercises && user.workouts[selectedWorkoutIndex].exercises.map(exercise => (
+                                                    <p key={exercise._id}>{exercise.name} - {exercise.reps} x {exercise.sets} - {exercise.weight}lbs</p>
+                                                ))}
+                                                <form>
+                                                    <h3>Add Exercise</h3>
+                                                    <label htmlFor="name">Exercise: </label>
+                                                    <input required={true} type="text" id="name" name="name" onChange={handleFormChange}></input>
+                                                </form>
+
+                                            </>
+                                            :
+                                            <>
+                                                <h3>Select a workout above!</h3>
+                                            </>
+                                        }
+
 
                                     </>
                                     :
                                     <>
-                                        <h3>Select a workout above!</h3>
                                     </>
                                 }
+                            </>
+                            :
+                            <>
+                            <h2>You have no workouts</h2>
                             </>
                         }
 
