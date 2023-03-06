@@ -60,7 +60,6 @@ const AddExerciseForm = (props) => {
     //===[Return]=============================================
     return (
        <form onSubmit={handleFormSubmit}>
-        <h1>{workoutId}</h1>
             <label htmlFor="exerciseName">Exercise Name: </label>
             <input name="exerciseName" type="text" id="exerciseName" onChange={handleFormChange} value={formState.exerciseName}/>
 
