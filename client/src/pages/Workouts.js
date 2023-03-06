@@ -43,6 +43,8 @@ const Workouts = () => {
                                 {mode === "select" ?
 
                                     <>
+                                        <button onClick={() => setMode("add")}>New Workout</button>
+                                        <br></br>
                                         <label htmlFor="workouts">Select a Workout: </label>
                                         <select name="workouts" onChange={handleSelectChange}>
                                             <option value="none"></option>
@@ -74,6 +76,8 @@ const Workouts = () => {
                                     </>
                                     :
                                     <>
+                                    <button onClick={() => setMode("select")}>Select a Workout</button>
+                                    <AddWorkoutForm></AddWorkoutForm>
                                     </>
                                 }
                             </>
