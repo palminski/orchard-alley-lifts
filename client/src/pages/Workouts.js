@@ -2,6 +2,8 @@ import { useQuery } from "@apollo/client";
 import {QUERY_CURRENT_USER} from '../utils/queries';
 import {useState} from 'react';
 
+import AddWorkoutForm from "../components/AddWorkoutForm";
+
 const Workouts = () => {
     const {loading,data} = useQuery(QUERY_CURRENT_USER);
     const user = (data?.currentUser)
@@ -36,7 +38,6 @@ const Workouts = () => {
                     </>
                     :
                     <>
-                        <h2>{user.username}</h2>
                         {user.workouts.length ?
                             <>
                                 {mode === "select" ?
@@ -78,7 +79,8 @@ const Workouts = () => {
                             </>
                             :
                             <>
-                            <h2>You have no workouts</h2>
+                            <h2>Add your first workout!</h2>
+                            <AddWorkoutForm></AddWorkoutForm>
                             </>
                         }
 
