@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from "@apollo/client";
 import {QUERY_CURRENT_USER} from '../utils/queries';
-import { DELETE_EXERCISE, DELETE_WORKOUT, EDIT_EXERCISE } from "../utils/mutations";
+import { DELETE_EXERCISE, DELETE_WORKOUT, EDIT_EXERCISE , EDIT_WORKOUT} from "../utils/mutations";
 import {useState} from 'react';
 
 import AddWorkoutForm from "../components/AddWorkoutForm";
@@ -11,13 +11,15 @@ const Workouts = () => {
     //===[States]=============================================
     const [selectedWorkoutIndex, setSelectedWorkoutIndex] = useState("none")
     const [mode,setMode] = useState("select");
-    const [exerciseForm, setExerciseForm] = useState({name:"",reps:0,sets:0,weight:0});
     const [currentlyEditing,setCurrentlyEditing] = useState('none');
     const [exerciseEditState, setExerciseEditState] = useState({
         exerciseName: "",
         sets: 0,
         reps: 0,
         weight: 0
+    });
+    const [workoutEditState, setWorkoutEditState] = useState({
+        workoutName: "",
     });
 
     //===[Queries]=============================================
@@ -28,6 +30,7 @@ const Workouts = () => {
     const [deleteExercise] = useMutation(DELETE_EXERCISE);
     const [deleteWorkout] = useMutation(DELETE_WORKOUT);
     const [editExercise] = useMutation(EDIT_EXERCISE);
+    const [editWorkout] = useMutation(EDIT_WORKOUT);
 
     //===[Functions]=============================================
     const handleSelectChange = (e) => {
@@ -69,6 +72,31 @@ const Workouts = () => {
         catch (error) {
             console.log(error);
         }
+    }
+
+    const handleWorkoutFormChange = (event) => {
+        const {name,value} = event.target;
+        setWorkoutEditState({
+            ...workoutEditState,
+            [name]:value   
+        });
+    };
+
+    async function handleWorkoutFormSubmit(event) {
+        event.preventDefault();
+        try {
+            const mutationResponse = await editWorkout({
+                variables: {
+                    workoutId: user.workouts[selectedWorkoutIndex]._id,
+                    name: workoutEditState.workoutName,
+                }
+            });
+            refetch();
+        }
+        catch (error) {
+            console.log(error);
+        }
+        setCurrentlyEditing('none');
     }
 
     const handleExerciseFormChange = (event) => {
@@ -132,7 +160,20 @@ const Workouts = () => {
                                         <hr></hr>
                                         {selectedWorkoutIndex !== "none" ?
                                             <>
-                                                <h3>{user.workouts[selectedWorkoutIndex].name} - <button onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex]._id) }}>Delete Workout</button></h3>
+
+                                                {currentlyEditing !== "title" ?
+                                                    <h2>{user.workouts[selectedWorkoutIndex].name} - 
+                                                    <button onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex]._id) }}>Delete Workout</button>
+                                                    <button onClick={() => { setCurrentlyEditing('title') }}>Edit Title</button>
+                                                    </h2>
+                                                    :
+                                                    <form onSubmit={handleWorkoutFormSubmit}>
+                                                        <label htmlFor="workoutName">Workout Name: </label>
+                                                        <input name="workoutName" type="text" id="workoutName" onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
+                                                        <button>Save</button>
+                                                    </form>}
+
+                                                
 
                                                 {user.workouts[selectedWorkoutIndex].exercises &&
                                                     <ul>
@@ -172,15 +213,13 @@ const Workouts = () => {
                                                                     </>
                                                                 }
 
-                                                                
-                                                                
-                                                            
-                                                                
                                                             </li>
 
                                                         ))}
                                                     </ul>
                                                 }
+                                                <hr></hr>
+                                                <h3>Add More Exercises to workout here</h3>
                                                 <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]._id}></AddExerciseForm>
                                             </>
                                             :
