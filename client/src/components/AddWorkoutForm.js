@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { useMutation } from "@apollo/client";
-import { ADD_WORKOUT } from '../utils/mutations'
+import { useMutation, useQuery } from "@apollo/client";
+
+import { ADD_WORKOUT } from '../utils/mutations';
+import { QUERY_CURRENT_USER } from "../utils/queries";
 
 const AddWorkoutForm = (props) => {
     //===[States]=============================================
@@ -8,6 +10,9 @@ const AddWorkoutForm = (props) => {
 
     //===[Mutations]=============================================
     const [addWorkout] = useMutation(ADD_WORKOUT);
+
+    //===[Queries]=============================================
+    const {refetch} = useQuery(QUERY_CURRENT_USER);
 
     //===[Functions]=============================================
     const handleFormChange = (event) => {
@@ -27,7 +32,7 @@ const AddWorkoutForm = (props) => {
                     name: formState.workoutName
                 }
             });
-            
+            refetch();
         }
         catch (error) {
             console.log(error);
@@ -39,7 +44,7 @@ const AddWorkoutForm = (props) => {
     return (
        <form onSubmit={handleFormSubmit}>
             <label htmlFor="workoutName">Workout Name: </label>
-            <input name="workoutName" type="workoutName" id="workoutName" onChange={handleFormChange}/>
+            <input name="workoutName" type="workoutName" id="workoutName" onChange={handleFormChange} value={formState.workoutName}/>
             <button>Submit</button>
        </form> 
     )

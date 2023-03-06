@@ -41,7 +41,6 @@ const Workouts = () => {
                         {user.workouts.length ?
                             <>
                                 {mode === "select" ?
-
                                     <>
                                         <button onClick={() => setMode("add")}>New Workout</button>
                                         <br></br>
@@ -64,15 +63,12 @@ const Workouts = () => {
                                                     <label htmlFor="name">Exercise: </label>
                                                     <input required={true} type="text" id="name" name="name" onChange={handleFormChange}></input>
                                                 </form>
-
                                             </>
                                             :
                                             <>
                                                 <h3>Select a workout above!</h3>
                                             </>
                                         }
-
-
                                     </>
                                     :
                                     <>
@@ -87,7 +83,6 @@ const Workouts = () => {
                             <AddWorkoutForm></AddWorkoutForm>
                             </>
                         }
-
                     </>
             }
         </>
