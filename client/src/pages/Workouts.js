@@ -3,6 +3,7 @@ import {QUERY_CURRENT_USER} from '../utils/queries';
 import {useState} from 'react';
 
 import AddWorkoutForm from "../components/AddWorkoutForm";
+import AddExerciseForm from "../components/AddExerciseForm";
 
 const Workouts = () => {
     const {loading,data} = useQuery(QUERY_CURRENT_USER);
@@ -58,11 +59,7 @@ const Workouts = () => {
                                                 {user.workouts[selectedWorkoutIndex].exercises && user.workouts[selectedWorkoutIndex].exercises.map(exercise => (
                                                     <p key={exercise._id}>{exercise.name} - {exercise.reps} x {exercise.sets} - {exercise.weight}lbs</p>
                                                 ))}
-                                                <form>
-                                                    <h3>Add Exercise</h3>
-                                                    <label htmlFor="name">Exercise: </label>
-                                                    <input required={true} type="text" id="name" name="name" onChange={handleFormChange}></input>
-                                                </form>
+                                                <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]._id}></AddExerciseForm>
                                             </>
                                             :
                                             <>
