@@ -164,7 +164,12 @@ const Workouts = () => {
                                                 {currentlyEditing !== "title" ?
                                                     <h2>{user.workouts[selectedWorkoutIndex].name} - 
                                                     <button onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex]._id) }}>Delete Workout</button>
-                                                    <button onClick={() => { setCurrentlyEditing('title') }}>Edit Title</button>
+                                                    <button onClick={() => { 
+                                                        setCurrentlyEditing('title');
+                                                        setWorkoutEditState({
+                                                            workoutName: user.workouts[selectedWorkoutIndex].name,
+                                                        })
+                                                 }}>Edit Title</button>
                                                     </h2>
                                                     :
                                                     <form onSubmit={handleWorkoutFormSubmit}>
