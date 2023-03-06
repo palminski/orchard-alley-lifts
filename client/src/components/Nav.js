@@ -1,8 +1,11 @@
 import Auth from "../utils/auth";
+import { useApolloClient } from "@apollo/client";
+
+
 
 const Nav = (props) => {
     const {pageSelected, setPageSelected} = props;
-
+    const client = useApolloClient();
     return (
         <nav>
         <ul>
@@ -30,8 +33,9 @@ const Nav = (props) => {
             </a>
                 <a>
                 <li href='/' onClick={() => {
-                    Auth.logout()
-                    setPageSelected('Home')
+                    Auth.logout();
+                    client.clearStore();
+                    setPageSelected('Home');
                     }}>Logout</li>
             </a>
             </>

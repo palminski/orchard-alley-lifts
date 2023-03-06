@@ -22,3 +22,77 @@ mutation AddUser($username: String!, $password: String!) {
   }
 }
 `
+
+export const ADD_WORKOUT = gql`
+mutation AddWorkout($name: String!) {
+  addWorkout(name: $name) {
+  username
+  workouts {
+    name
+  }  
+  }
+}
+`
+
+export const ADD_EXERCISE = gql`
+mutation AddExercise($workoutId: ID!, $name: String!, $sets: Int!, $reps: Int!, $weight: Float!) {
+  addExercise(workoutId: $workoutId, name: $name, sets: $sets, reps: $reps, weight: $weight) {
+    username
+    workouts {
+      name
+      exercises {
+        name
+      }
+   }
+  }
+}
+`
+
+export const EDIT_WORKOUT = gql`
+mutation EditWorkout($workoutId: ID!, $name: String!) {
+  editWorkout(workoutId: $workoutId, name: $name) {
+    username
+    workouts {
+    name
+  }
+  }
+}
+`
+
+export const EDIT_EXERCISE = gql`
+mutation EditExercise($workoutId: ID!, $exerciseId: ID!, $name: String!, $sets: Int!, $reps: Int!, $weight: Float!) {
+  editExercise(workoutId: $workoutId, exerciseId: $exerciseId, name: $name, sets: $sets, reps: $reps, weight: $weight) {
+    username
+    workouts {
+      name
+      exercises {
+        name
+      }
+   }
+  }
+}
+`
+
+export const DELETE_EXERCISE = gql`
+mutation DeleteExercise($workoutId: ID!, $exerciseId: ID!) {
+  deleteExercise(workoutId: $workoutId, exerciseId: $exerciseId) {
+    username
+    workouts {
+      name
+      exercises {
+        name
+      }
+   }
+  }
+}
+`
+export const DELETE_WORKOUT = gql`
+mutation DeleteWorkout($workoutId: ID!) {
+  deleteWorkout(workoutId: $workoutId) {
+    username
+    workouts {
+      name
+   }
+  }
+}
+`
