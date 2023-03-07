@@ -129,9 +129,7 @@ const Workouts = () => {
         }
         setCurrentlyEditing('none');
         
-    }
-
-    
+    };
 
     //===[Return]=============================================
     return (
