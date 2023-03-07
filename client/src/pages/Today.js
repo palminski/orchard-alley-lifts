@@ -1,5 +1,6 @@
 import { useQuery, useMutation } from "@apollo/client";
 import {QUERY_CURRENT_USER} from '../utils/queries';
+import {EDIT_EXERCISE} from "../utils/mutations";
 import {useState} from 'react';
 
 const Today = () => {
@@ -7,20 +8,37 @@ const Today = () => {
     //===[Queries]=======================================
     const {loading,data,refetch} = useQuery(QUERY_CURRENT_USER);
     const user = (data?.currentUser)
-
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday", "Thursday", "Friday", "Saturday"];
     const today = weekdays[new Date().getDay()];
-    
     const todayWorkoutId = user.calender[today.toLowerCase()];
-    
-
     const todaysWorkout = user.workouts.find(workout => workout._id === todayWorkoutId);
+
+    //===[Mutations]=======================================  
+    const [editExercise] = useMutation(EDIT_EXERCISE);
     
 
 
     //===[Function]
-    async function incrementWeight() {
+    async function incrementWeight(exerciseId,name,sets,reps,weight) {
         console.log("Hello World");
+
+        try {
+            const mutationResponse = await editExercise({
+                variables: {
+                    workoutId: todayWorkoutId,
+                    exerciseId: exerciseId,
+                    name: name,
+                    sets: parseInt(sets),
+                    reps: parseInt(reps),
+                    weight: (parseFloat(weight) + 2.5),
+                }
+            });
+            refetch();
+        }
+        catch (error) {
+            console.log(error);
+        }
+
     }
 
     return (
@@ -36,7 +54,7 @@ const Today = () => {
                 <ul>
                     {todaysWorkout.exercises.map( exercise => (
                         <li key={exercise._id}>
-                            {exercise.name} - {exercise.reps} -{exercise.sets} - {exercise.weight}lbs - <button onClick={() => incrementWeight()}>Increment</button>
+                            {exercise.name} - {exercise.reps} -{exercise.sets} - {exercise.weight}lbs - <button onClick={() => incrementWeight(exercise._id,exercise.name,exercise.sets,exercise.reps,exercise.weight)}>Increment</button>
                         </li>
                     ))}
                 </ul>
