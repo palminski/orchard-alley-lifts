@@ -1,5 +1,7 @@
 import { useQuery } from "@apollo/client";
 import {QUERY_ALL_USERS, QUERY_CURRENT_USER} from "../utils/queries"
+import background from "../images/background-homepage.jpeg";
+
 
 const Home = () => {
     const {data:currentUser} = useQuery(QUERY_CURRENT_USER);
@@ -9,6 +11,9 @@ const Home = () => {
     console.log(currentUser);
     return (
         <>
+            <div>
+                <img src={background} className="img-fluid. max-width: 100%"></img>
+            </div>
             <h1>HOME</h1>
             {currentUser && 
             <>
