@@ -149,7 +149,7 @@ const Workouts = () => {
                                         <button onClick={() => setMode("add")}>New Workout</button>
                                         <br></br>
                                         <label htmlFor="workouts">Select a Workout: </label>
-                                        <select name="workouts" onChange={handleSelectChange}>
+                                        <select name="workouts" onChange={handleSelectChange} value={user.workouts[selectedWorkoutIndex]?._id}>
                                             <option value="none"></option>
                                             {user.workouts && user.workouts.map(workout => (
                                                 <option key={workout._id} value={workout._id}>{workout.name}</option>
@@ -234,14 +234,14 @@ const Workouts = () => {
                                     :
                                     <>
                                         <button onClick={() => setMode("select")}>Select a Workout</button>
-                                        <AddWorkoutForm></AddWorkoutForm>
+                                        <AddWorkoutForm setMode={setMode} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddWorkoutForm>
                                     </>
                                 }
                             </>
                             :
                             <>
                                 <h2>Add your first workout!</h2>
-                                <AddWorkoutForm></AddWorkoutForm>
+                                <AddWorkoutForm setMode={setMode} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddWorkoutForm>
                             </>
                         }
                     </>
