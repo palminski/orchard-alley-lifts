@@ -24,6 +24,7 @@ const Nav = (props) => {
                 Calender
               </li>
             </a>
+            <div className="logSignupLinks">
             <a>
             {!Auth.loggedIn() && 
             <a>
@@ -44,6 +45,7 @@ const Nav = (props) => {
                 Logout
               </li>
             </a>
+            </div>
           </>
         )}
       </ul>

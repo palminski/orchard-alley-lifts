@@ -44,6 +44,11 @@ nav ul li{
   cursor: pointer;
 }
 
+.logSignupLinks {
+  align-self: flex-end;
+  justify-content: space-between;
+}
+
 /* Temporary while building app */
 form {
   background-color: burlywood;
