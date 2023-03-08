@@ -1,8 +1,8 @@
 import {useState} from 'react';
-import './App.css';
 import {setContext} from '@apollo/client/link/context'
 import { ApolloProvider, InMemoryCache, ApolloClient, createHttpLink } from '@apollo/client';
 import Auth from "./utils/auth";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 //------[Components]------------------
 import Nav from './components/Nav';
