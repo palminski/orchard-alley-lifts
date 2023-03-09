@@ -1,5 +1,6 @@
 import { useQuery, useMutation } from "@apollo/client";
 import {QUERY_CURRENT_USER} from '../utils/queries';
+import { UPDATE_PASSWORD } from "../utils/mutations";
 import {useState} from 'react';
 
 const MyPage = () => {
@@ -13,6 +14,8 @@ const MyPage = () => {
     const {loading,data,refetch} = useQuery(QUERY_CURRENT_USER);
     const user = (data?.currentUser);
     
+    //===[Mutations]=============================================
+    const [updatePassword] = useMutation(UPDATE_PASSWORD);
 
     //===[Functions]=============================================
     const handleFormChange = (event) => {
@@ -24,8 +27,21 @@ const MyPage = () => {
     }
 
     async function handleFormSubmit(event) {
-        event.preventDefault();
-        console.log(formState);
+        // event.preventDefault();
+        // console.log(formState);
+
+        try {
+            const mutationResponse = await updatePassword({
+                variables: {
+                    password: formState.currentPassword,
+                    newPassword: formState.newPassword,
+                }
+            });
+            
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
 
     //===[Return]=========================================

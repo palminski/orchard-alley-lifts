@@ -138,10 +138,10 @@ const resolvers = {
             if (!correctPassword) {
                 throw new AuthenticationError('Password Incorrect');
             }
-            console.log(user.password);
+            
             user.password = newPassword
             await user.save();
-            console.log(user.password);
+            
             const token = signToken(user);
             return{token,user}
         }
