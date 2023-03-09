@@ -1,6 +1,9 @@
 const { AuthenticationError } = require('apollo-server-express');
 const {User} = require('../models');
 const {signToken} = require('../utils/auth.js');
+const nodemailer = require('nodemailer');
+
+
 
 const resolvers = {
     Query: {
@@ -156,6 +159,40 @@ const resolvers = {
             const tempPassword = "test1234";
             user.password = tempPassword;
             await user.save();
+
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.EMAIL_ADRESS,
+                    pass: process.env.EMAIL_PASSWORD
+                }
+            });
+            
+            let mailOptions = {
+                from: process.env.EMAIL_ADRESS,
+                to: email,
+                subject: "Temporary Password",
+                text: `
+                Your Password has been set to ${tempPassword}. This is a temporary password and should updated next time you log in.`
+            };
+
+            transporter.sendMail(mailOptions, function(error, info) {
+                if (error) {
+                    console.log("=============================")
+                    console.log(process.env.EMAIL_ADRESS)
+                    console.log(process.env.EMAIL_PASSWORD)
+                    console.log(error)
+                    console.log("=============================")
+                }
+                else
+                {
+                    console.log("=============================")
+                    console.log(process.env.EMAIL_ADRESS)
+                    console.log(process.env.EMAIL_PASSWORD)
+                    console.log("Email Sent! " + info.response);
+                    console.log("=============================")
+                }
+            });
 
         }
     }
