@@ -23,8 +23,21 @@ code {
 .nav-container {
   position: relative;
   background-color: rgb(65, 90, 119);
-  height: 75px;
+  height: 95px;
+}
+
+.hrefCon {
   display: flex;
+  justify-content: space-between;
+}
+
+h1 {
+  text-align: center;
+}
+
+h2 {
+  align-self: flex-end;
+  padding-left: 20px;
 }
 
 nav ul {
@@ -33,6 +46,7 @@ nav ul {
   padding: 0;
   overflow: hidden;
   align-self: flex-end;
+  padding-right: 20px;
 }
 nav ul li{
   float:left;
@@ -50,8 +64,28 @@ nav ul li{
 }
 
 /* Temporary while building app */
+
+.formCon {
+  padding: 40px;
+}
+
 form {
-  background-color: burlywood;
+  background-color: rgb(224, 225, 221);
+  padding: 10px;
+  height: 40vh;
+  width: 45vh;
+  margin: 0 auto;
+  border: rgb(27, 38, 59) 5px;
+}
+
+.formEl {
+  flex-direction: column;
+  padding: 20px
+}
+
+.buttonCon {
+  display: flex;
+  justify-content: center;
 }
 
 .bgImg{
