@@ -54,7 +54,8 @@ const Nav = (props) => {
                     onClick={() => {
                       Auth.logout();
                       client.clearStore();
-                      setPageSelected("Home");
+                      
+                      window.location.reload(true);
                     }}
                   >
                     Logout
