@@ -25,6 +25,7 @@ const Workouts = () => {
     //===[Queries]=============================================
     const {loading,data,refetch} = useQuery(QUERY_CURRENT_USER);
     const user = (data?.currentUser)
+    console.log(user);
 
     //===[Mutations]=============================================
     const [deleteExercise] = useMutation(DELETE_EXERCISE);
