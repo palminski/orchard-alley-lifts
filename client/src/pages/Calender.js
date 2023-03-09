@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from "@apollo/client";
 import {QUERY_CURRENT_USER} from '../utils/queries';
 import { EDIT_CALENDER } from "../utils/mutations";
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 
 const Calender = () => {
 
@@ -18,7 +18,11 @@ const Calender = () => {
     
     //===[States]=============================================
     const [calenderState, setCalenderState] = useState(user?.calender);
-    
+
+    //===[Effects]==============================================
+    useEffect(() => {
+        setCalenderState(user?.calender);
+    })
 
     //===[Functions]=============================================
     const handleFormChange = (event) => {
@@ -59,6 +63,7 @@ const Calender = () => {
                 :
                 <>
                     <h1>Calender</h1>
+                    {calenderState && 
                     <form onSubmit={handleFormSubmit}>
                         <label htmlFor="monday">Monday: </label>
                         <select name="monday" value={calenderState.monday} onChange={handleFormChange}>
@@ -117,7 +122,8 @@ const Calender = () => {
                         </select>
                         <br></br>
                         <button>Save</button>
-                    </form>
+                    </form>}
+                    
                 </>
             }
         </>
