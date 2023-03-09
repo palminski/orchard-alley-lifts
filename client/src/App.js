@@ -12,6 +12,7 @@ import Home from './pages/Home';
 import Workouts from './pages/Workouts';
 import Calender from './pages/Calender';
 import Today from './pages/Today';
+import MyPage from './pages/MyPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 
@@ -54,6 +55,7 @@ function App() {
         {pageSelected === 'Workouts' && <Workouts/>}
         {pageSelected === 'Today' && <Today/>}
         {pageSelected === 'Calender' && <Calender/>}
+        {pageSelected === 'MyPage' && <MyPage/>}
         </>
       }
 
