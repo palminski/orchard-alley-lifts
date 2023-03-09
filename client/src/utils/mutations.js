@@ -22,6 +22,13 @@ mutation AddUser($username: String!, $password: String!) {
   }
 }
 `
+export const UPDATE_PASSWORD = gql`
+mutation UpdatePassword($password: String!, $newPassword: String!) {
+  updatePassword(password: $password, newPassword: $newPassword) {
+  token  
+  }
+}
+`
 
 export const ADD_WORKOUT = gql`
 mutation AddWorkout($name: String!) {

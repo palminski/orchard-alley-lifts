@@ -50,11 +50,20 @@ const Nav = (props) => {
                 </a>
                 <a>
                   <li
+                    href="#MyPage"
+                    onClick={() => setPageSelected("MyPage")}
+                  >
+                    My Page
+                  </li>
+                </a>
+                <a>
+                  <li
                     href="/"
                     onClick={() => {
                       Auth.logout();
                       client.clearStore();
-                      setPageSelected("Home");
+                      
+                      window.location.reload(true);
                     }}
                   >
                     Logout

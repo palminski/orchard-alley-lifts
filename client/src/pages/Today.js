@@ -7,11 +7,11 @@ const Today = () => {
 
     //===[Queries]=======================================
     const {loading,data,refetch} = useQuery(QUERY_CURRENT_USER);
-    const user = (data?.currentUser)
+    
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday", "Thursday", "Friday", "Saturday"];
     const today = weekdays[new Date().getDay()];
-    const todayWorkoutId = user.calender[today.toLowerCase()];
-    const todaysWorkout = user.workouts.find(workout => workout._id === todayWorkoutId);
+    const todayWorkoutId = data?.currentUser.calender[today.toLowerCase()];
+    const todaysWorkout = data?.currentUser.workouts.find(workout => workout._id === todayWorkoutId);
 
     //===[Mutations]=======================================  
     const [editExercise] = useMutation(EDIT_EXERCISE);
