@@ -61,8 +61,8 @@ const typeDefs = gql`
 
         addUser(username: String!, email: String!, password: String!): Auth
         loginUser(username: String!, password: String!): Auth
-
         updatePassword(password: String!, newPassword: String!): Auth
+        resetPassword(username: String!, email: String!): User
     }
 `
 

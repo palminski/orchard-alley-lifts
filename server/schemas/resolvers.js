@@ -144,6 +144,19 @@ const resolvers = {
             
             const token = signToken(user);
             return{token,user}
+        },
+        resetPassword: async (parent, {username, email}) => {
+            const user = await User.findOne({username});
+            if (!user) {
+                throw new AuthenticationError('User not found');
+            }
+            if (user.email !== email) {
+                throw new AuthenticationError('Email Incorrect');
+            }
+            const tempPassword = "test1234";
+            user.password = tempPassword;
+            await user.save();
+
         }
     }
 };
