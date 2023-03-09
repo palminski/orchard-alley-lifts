@@ -38,7 +38,7 @@ const Login = (props) => {
   return (
     <>
       <div className="formCon">
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleFormSubmit} className="loginForm">
       <h1>Login</h1>
         <div className="formEl">
           <label htmlFor="username">Username: </label>
@@ -59,8 +59,10 @@ const Login = (props) => {
           />
         </div>
         <div className="buttonCon">
-        <button type="submit">Submit</button>
+        <button className="loginBtn" type="submit">Submit</button>
         </div>
+        <div className="forgotPw">Forgot Password</div>
+        <div className="createAccount"> Create a new account</div>
       </form>
       </div>
     </>
