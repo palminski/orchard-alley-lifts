@@ -128,6 +128,22 @@ const resolvers = {
             }
             const token = signToken(user);
             return{token,user}
+        },
+        updatePassword: async (parent, {password, newPassword}, context) => {
+            const user = await User.findById(context.user._id);
+            if (!user) {
+                throw new AuthenticationError('User not found');
+            }
+            const correctPassword = await user.passwordCheck(password);
+            if (!correctPassword) {
+                throw new AuthenticationError('Password Incorrect');
+            }
+            console.log(user.password);
+            user.password = newPassword
+            await user.save();
+            console.log(user.password);
+            const token = signToken(user);
+            return{token,user}
         }
     }
 };
