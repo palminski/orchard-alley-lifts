@@ -24,6 +24,7 @@ code {
   position: relative;
   background-color: rgb(65, 90, 119);
   height: 95px;
+  border-bottom: rgb(255, 183, 3) solid 5px;
 }
 
 .hrefCon {
@@ -33,6 +34,7 @@ code {
 
 h1 {
   text-align: center;
+  color: white;
 }
 
 h2 {
@@ -69,23 +71,42 @@ nav ul li{
   padding: 40px;
 }
 
-form {
+.loginForm {
   background-color: rgb(224, 225, 221);
   padding: 10px;
-  height: 40vh;
+  height: 55vh;
   width: 45vh;
   margin: 0 auto;
-  border: rgb(27, 38, 59) 5px;
+  border: rgb(255, 183, 3) solid 5px;
+  border-radius: 25px;
 }
 
 .formEl {
+  display: flex;
   flex-direction: column;
-  padding: 20px
+  padding: 10px;
+  color: white;
 }
 
 .buttonCon {
   display: flex;
   justify-content: center;
+}
+
+.loginBtn {
+  
+  border-radius: 10px;
+  padding: 10px;
+  width: 150px;
+  background-color: rgb(58, 134, 255);
+  color: white;
+}
+
+.forgotPw, .createAccount{
+  color: rgb(58, 134, 255);
+  text-shadow: 0px 0px;
+  padding: 10px;
+  text-align: center;
 }
 
 .bgImg{
