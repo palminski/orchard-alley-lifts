@@ -159,7 +159,14 @@ const resolvers = {
                 throw new AuthenticationError('Email Incorrect');
             }
             //Create new temp password
-            const tempPassword = "test1234";
+            //Note- This is temporary and not super secure. Replace in final version.
+            let tempPassword = "TempPass_";
+            const alp = "NoOpPqQrRsStTuUvVwWxXyYzZaAbBcCdDeEfFgGhHiIjJkKlLmMn1234567890"
+            for (i = 0; i < 10; i++) {
+                tempPassword += alp[Math.floor(Math.random() * alp.length)]
+
+            }
+
             user.password = tempPassword;
             await user.save();
 
