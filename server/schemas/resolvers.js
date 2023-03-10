@@ -2,6 +2,7 @@ const { AuthenticationError } = require('apollo-server-express');
 const {User} = require('../models');
 const {signToken} = require('../utils/auth.js');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 
 
@@ -150,21 +151,24 @@ const resolvers = {
         },
         resetPassword: async (parent, {username, email}) => {
             const user = await User.findOne({username});
+            //Make sure user is found and email is correct
             if (!user) {
                 throw new AuthenticationError('User not found');
             }
             if (user.email !== email) {
                 throw new AuthenticationError('Email Incorrect');
             }
+            //Create new temp password
             const tempPassword = "test1234";
             user.password = tempPassword;
             await user.save();
 
+            //Send Email
             let transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
                     user: process.env.EMAIL_ADRESS,
-                    pass: process.env.EMAIL_PASSWORD
+                    pass: process.env.APP_PASSWORD
                 }
             });
             
@@ -172,8 +176,12 @@ const resolvers = {
                 from: process.env.EMAIL_ADRESS,
                 to: email,
                 subject: "Temporary Password",
-                text: `
-                Your Password has been set to ${tempPassword}. This is a temporary password and should updated next time you log in.`
+                html: `
+                <h1>Password Reset!</h1>
+                <p>Your Password has been temporarily set to <span style="font-weight: bold; background-color: cornsilk; border-radius: 15px; padding: 5px;">${tempPassword}</span>. Make sure to change it to something more secure next time you log in!</p>
+                <p>Thank you for using our app!</P>
+                <p>Note that this is an automated response. We can not respond to emails sent to this email adress.</p>
+                `
             };
 
             transporter.sendMail(mailOptions, function(error, info) {
