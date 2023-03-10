@@ -5,10 +5,13 @@ import {useState, useEffect} from 'react';
 
 const Calender = () => {
 
-    
+     //===[States]=============================================
+     const [calenderState, setCalenderState] = useState({});
 
     //===[Queries]=============================================
-    const { loading, data, refetch } = useQuery(QUERY_CURRENT_USER);
+    const { loading, data, refetch } = useQuery(QUERY_CURRENT_USER, {
+        onCompleted: data => setCalenderState(data.currentUser.calender)
+    });
     const user = (data?.currentUser)
     console.log(user);
 
@@ -16,13 +19,12 @@ const Calender = () => {
     const [editCalender] = useMutation(EDIT_CALENDER);
 
     
-    //===[States]=============================================
-    const [calenderState, setCalenderState] = useState(user?.calender);
+   
 
-    //===[Effects]==============================================
-    useEffect(() => {
-        setCalenderState(user?.calender);
-    })
+    // //===[Effects]==============================================
+    // useEffect(() => {
+    //     setCalenderState(user?.calender);
+    // })
 
     //===[Functions]=============================================
     const handleFormChange = (event) => {
