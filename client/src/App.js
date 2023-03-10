@@ -15,6 +15,7 @@ import Today from './pages/Today';
 import MyPage from './pages/MyPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import ForgotPassword from './pages/ForgotPassword';
 
 //------[Set Up Apollo]---------------
 const httpLink = createHttpLink({
@@ -47,6 +48,7 @@ function App() {
       <Nav pageSelected={pageSelected} setPageSelected={setPageSelected}/>
 
       {pageSelected === 'Home' && <Home/>}
+      {pageSelected === 'ForgotPassword' && <ForgotPassword/>}
       {pageSelected === 'Login' && <Login setPageSelected={setPageSelected}/>}
       {pageSelected === 'Signup' && <Signup setPageSelected={setPageSelected}/>}
 

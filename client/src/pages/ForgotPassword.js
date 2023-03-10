@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import Auth from "../utils/auth";
-import { LOGIN_USER } from "../utils/mutations";
+import { RESET_PASSWORD } from "../utils/mutations";
 
-const Login = (props) => {
-  const [login, { error }] = useMutation(LOGIN_USER);
-  const [formState, setFormState] = useState({ username: "", password: "" });
+
+const ForgotPassword = (props) => {
+  const [formState, setFormState] = useState({ username: "", email: ""});
+  const [resetPassword, { error }] = useMutation(RESET_PASSWORD);
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
-
     setFormState({
       ...formState,
       [name]: value,
@@ -18,17 +17,11 @@ const Login = (props) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
+    console.log(formState);
     try {
-      const response = await login({
-        variables: {
-          username: formState.username,
-          password: formState.password,
-        },
+      const response = await resetPassword({
+        variables: formState
       });
-      const token = response.data.loginUser.token;
-      Auth.login(token);
-      props.setPageSelected("Home");
     } catch (error) {
       console.log(formState);
       console.log(error);
@@ -39,7 +32,7 @@ const Login = (props) => {
     <>
       <div className="formCon">
       <form onSubmit={handleFormSubmit} className="loginForm">
-      <h1>Login</h1>
+      <h1>Forgot Password</h1>
         <div className="formEl">
           <label htmlFor="username">Username: </label>
           <input
@@ -50,23 +43,23 @@ const Login = (props) => {
           />
         </div>
         <div className="formEl">
-          <label htmlFor="password">Password: </label>
+          <label htmlFor="email">Email:</label>
           <input
-            name="password"
-            type="password"
-            id="password"
+            name="email"
+            type="email"
+            id="email"
             onChange={handleFormChange}
           />
         </div>
         <div className="buttonCon">
         <button className="loginBtn" type="submit">Submit</button>
         </div>
-        <div className="forgotPw" onClick={() => {props.setPageSelected("ForgotPassword");}}>Forgot Password</div>
-        <div className="createAccount"> Create a new account</div>
+        
       </form>
       </div>
+
     </>
   );
 };
 
-export default Login;
+export default ForgotPassword;

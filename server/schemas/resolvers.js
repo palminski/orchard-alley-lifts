@@ -187,16 +187,14 @@ const resolvers = {
             transporter.sendMail(mailOptions, function(error, info) {
                 if (error) {
                     console.log("=============================")
-                    console.log(process.env.EMAIL_ADRESS)
-                    console.log(process.env.EMAIL_PASSWORD)
+
                     console.log(error)
                     console.log("=============================")
                 }
                 else
                 {
                     console.log("=============================")
-                    console.log(process.env.EMAIL_ADRESS)
-                    console.log(process.env.EMAIL_PASSWORD)
+
                     console.log("Email Sent! " + info.response);
                     console.log("=============================")
                 }
