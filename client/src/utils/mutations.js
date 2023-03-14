@@ -13,8 +13,8 @@ mutation LoginUser($username: String!, $password: String!) {
 `
 
 export const ADD_USER = gql`
-mutation AddUser($username: String!, $password: String!) {
-  addUser(username: $username, password: $password) {
+mutation AddUser($username: String!, $email: String!, $password: String!) {
+  addUser(username: $username, email: $email, password: $password) {
   user {
     username
   }
@@ -26,6 +26,14 @@ export const UPDATE_PASSWORD = gql`
 mutation UpdatePassword($password: String!, $newPassword: String!) {
   updatePassword(password: $password, newPassword: $newPassword) {
   token  
+  }
+}
+`
+
+export const RESET_PASSWORD = gql`
+mutation ResetPassword($username: String!, $email: String!) {
+  resetPassword(username: $username, email: $email) {
+  username  
   }
 }
 `
