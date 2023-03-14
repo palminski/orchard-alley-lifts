@@ -1,10 +1,17 @@
-body {
+* {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: rgb(119, 141, 169) !important;
+  color: rgb(224, 225, 221) !important;
+  text-shadow: 1px 1px 2px black;
 }
 
 code {
@@ -15,6 +22,24 @@ code {
 /* Nav Bar */
 .nav-container {
   position: relative;
+  background-color: rgb(65, 90, 119);
+  height: 95px;
+  border-bottom: rgb(255, 183, 3) solid 5px;
+}
+
+.hrefCon {
+  display: flex;
+  justify-content: space-between;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+}
+
+h2 {
+  align-self: flex-end;
+  padding-left: 20px;
 }
 
 nav ul {
@@ -22,18 +47,89 @@ nav ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: rgb(54, 219, 95);
+  align-self: flex-end;
+  padding-right: 20px;
 }
 nav ul li{
   float:left;
   padding: 10px;
   transition-duration: 0.5s;
   text-decoration: none;
-  color: aliceblue;
+  color: rgb(224, 225, 221);
+  text-shadow: 1px 1px 2px black;
   cursor: pointer;
 }
 
+.logSignupLinks {
+  align-self: flex-end;
+  justify-content: space-between;
+}
+
 /* Temporary while building app */
-form {
-  background-color: burlywood;
+
+.formCon {
+  padding: 40px;
+}
+
+.loginForm {
+  background-color: rgb(224, 225, 221);
+  padding: 10px;
+  height: 55vh;
+  width: 45vh;
+  margin: 0 auto;
+  border: rgb(255, 183, 3) solid 5px;
+  border-radius: 25px;
+}
+
+.formEl {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  color: white;
+}
+
+.buttonCon {
+  display: flex;
+  justify-content: center;
+}
+
+.loginBtn {
+  
+  border-radius: 10px;
+  padding: 10px;
+  width: 150px;
+  background-color: rgb(58, 134, 255);
+  color: white;
+}
+
+.forgotPw, .createAccount{
+  color: rgb(58, 134, 255);
+  text-shadow: 0px 0px;
+  padding: 10px;
+  text-align: center;
+}
+
+.bgImg{
+  width: auto;
+  max-width: 100%;
+  object-fit:cover;
+}
+
+.container {
+  /* background-image: url('/client/src/images/background.jpeg') center center/cover no-repeat;  */
+  height: auto;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  object-fit: fill;
+}
+
+/* Centered text */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

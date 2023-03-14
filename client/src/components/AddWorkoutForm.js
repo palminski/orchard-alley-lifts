@@ -5,6 +5,11 @@ import { ADD_WORKOUT } from '../utils/mutations';
 import { QUERY_CURRENT_USER } from "../utils/queries";
 
 const AddWorkoutForm = (props) => {
+    const {setMode, setSelectedWorkoutIndex} = props;
+
+    // let workoutIndex = user.workouts.findIndex(workout => workout._id === e.target.value);
+    // setSelectedWorkoutIndex(workoutIndex);
+
     //===[States]=============================================
     const [formState,setFormState] = useState({workoutName: ""});
 
@@ -12,7 +17,8 @@ const AddWorkoutForm = (props) => {
     const [addWorkout] = useMutation(ADD_WORKOUT);
 
     //===[Queries]=============================================
-    const {refetch} = useQuery(QUERY_CURRENT_USER);
+    const {loading,data,refetch} = useQuery(QUERY_CURRENT_USER);
+    const user = (data?.currentUser)
 
     //===[Functions]=============================================
     const handleFormChange = (event) => {
@@ -32,12 +38,20 @@ const AddWorkoutForm = (props) => {
                     name: formState.workoutName
                 }
             });
-            refetch();
+            
+            await refetch();
+            console.log(mutationResponse.data.addWorkout.workouts.length-1);
+            let workoutIndex = mutationResponse.data.addWorkout.workouts.length-1;
+            
+            setSelectedWorkoutIndex(workoutIndex);
         }
         catch (error) {
             console.log(error);
         }
         setFormState({workoutName: ""});
+        
+         
+        setMode("select");
     }
 
     //===[Return]=============================================
