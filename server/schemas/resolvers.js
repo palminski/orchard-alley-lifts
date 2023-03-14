@@ -3,7 +3,7 @@ const {User} = require('../models');
 const {signToken} = require('../utils/auth.js');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
-
+const db = require('../config/connection');
 
 
 const resolvers = {
@@ -21,6 +21,7 @@ const resolvers = {
             }
             throw new AuthenticationError('Not Logged In');
         },
+        
     },
     Mutation: {
         //Workout Mutations--------------------------------------------------------------------------------
@@ -206,6 +207,15 @@ const resolvers = {
                     console.log("=============================")
                 }
             });
+
+        },
+        //TESTING ONLY
+        resetEverything: async() => {
+            console.log("========================");
+            await User.deleteMany({});
+            db.dropDatabase();
+            return User.find();
+            console.log('========================');
 
         }
     }
