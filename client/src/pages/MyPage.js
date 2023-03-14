@@ -9,6 +9,7 @@ const MyPage = () => {
         currentPassword: "",
         newPassword: "",
     });
+    const [errorMessage, setErrorMessage] = useState("");
 
     //===[Queries]=============================================
     const {loading,data,refetch} = useQuery(QUERY_CURRENT_USER);
@@ -20,6 +21,7 @@ const MyPage = () => {
     //===[Functions]=============================================
     const handleFormChange = (event) => {
         const {name,value} = event.target;
+        setErrorMessage("");
         setFormState({
             ...formState,
             [name]:value   
@@ -27,7 +29,7 @@ const MyPage = () => {
     }
 
     async function handleFormSubmit(event) {
-        // event.preventDefault();
+        event.preventDefault();
         // console.log(formState);
 
         try {
@@ -37,9 +39,10 @@ const MyPage = () => {
                     newPassword: formState.newPassword,
                 }
             });
-            
+            setErrorMessage("Password Changed Succesfully!");
         }
         catch (error) {
+            setErrorMessage("Password Incorrect");
             console.log(error);
         }
     }
@@ -57,6 +60,7 @@ const MyPage = () => {
                         <input name="currentPassword" type="password" id="currentPassword" onChange={handleFormChange} value={formState.currentPassword} />
                         <label htmlFor="newPassword">New Password: </label>
                         <input name="newPassword" type="password" id="newPassword" onChange={handleFormChange} value={formState.newPassword} />
+                        {errorMessage && <p>{errorMessage}</p>}
                         <button>Submit</button>
                     </form>
                 </>
