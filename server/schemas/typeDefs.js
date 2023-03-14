@@ -66,7 +66,6 @@ const typeDefs = gql`
         updatePassword(password: String!, newPassword: String!): Auth
         resetPassword(username: String!, email: String!): User
 
-        resetEverything: [User]
 
     }
 `

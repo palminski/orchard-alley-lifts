@@ -209,15 +209,7 @@ const resolvers = {
             });
 
         },
-        //TESTING ONLY
-        resetEverything: async() => {
-            console.log("========================");
-            await User.deleteMany({});
-            db.dropDatabase();
-            return User.find();
-            console.log('========================');
 
-        }
     }
 };
 
