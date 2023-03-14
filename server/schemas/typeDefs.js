@@ -4,6 +4,7 @@ const typeDefs = gql`
     type User {
         _id: ID
         username: String
+        email: String
         workouts: [Workout]
         calender: Calender
     }
@@ -43,6 +44,8 @@ const typeDefs = gql`
     type Query {
         users: [User]
         currentUser: User
+
+        
     }
 
 
@@ -58,10 +61,12 @@ const typeDefs = gql`
 
         editCalender(monday: String!, tuesday:String!, wednesday:String!, thursday: String!, friday: String!, saturday: String!, sunday: String!): User
 
-        addUser(username: String!, password: String!): Auth
+        addUser(username: String!, email: String!, password: String!): Auth
         loginUser(username: String!, password: String!): Auth
-
         updatePassword(password: String!, newPassword: String!): Auth
+        resetPassword(username: String!, email: String!): User
+
+
     }
 `
 

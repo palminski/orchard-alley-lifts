@@ -1,57 +1,66 @@
 import { useQuery, useMutation } from "@apollo/client";
 import {QUERY_CURRENT_USER} from '../utils/queries';
 import { EDIT_CALENDER } from "../utils/mutations";
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 
 const Calender = () => {
 
-    
+     //===[States]=============================================
+     const [calenderState, setCalenderState] = useState({});
 
     //===[Queries]=============================================
-    const { loading, data, refetch } = useQuery(QUERY_CURRENT_USER);
+    const { loading, data, refetch } = useQuery(QUERY_CURRENT_USER, {
+        onCompleted: data => setCalenderState(data.currentUser.calender)
+    });
     const user = (data?.currentUser)
-    console.log(user);
+    
 
     //===[Mutations]=============================================
     const [editCalender] = useMutation(EDIT_CALENDER);
 
-    
-    //===[States]=============================================
-    const [calenderState, setCalenderState] = useState(user?.calender);
-
-    //===[Effects]==============================================
-    useEffect(() => {
-        setCalenderState(user?.calender);
-    })
-
     //===[Functions]=============================================
-    const handleFormChange = (event) => {
+    async function handleFormChange(event)  {
         const {name, value} = event.target; 
 
-        setCalenderState({
-            ...calenderState,
-            [name]:value
-        })
-        console.log(calenderState);
+        // setCalenderState({
+        //     ...calenderState,
+        //     [name]:value
+        // })
+        // console.log(calenderState);
 
-        console.log("Hello World.");
-    };
-
-    async function handleFormSubmit(event) {
-        event.preventDefault();
-        console.log(calenderState);
+        // console.log("Hello World.");
         try {
             const mutationResponse = await editCalender({
-                variables: calenderState
+                variables: {
+                    ...calenderState,
+                    [name]: value
+                }
             });
+            
             refetch();
+
         }
         catch (error) {
             console.log(error);
         }
 
-
     };
+
+    // async function handleFormSubmit(event) {
+    //     event.preventDefault();
+    //     console.log(calenderState);
+    //     try {
+    //         const mutationResponse = await editCalender({
+    //             variables: calenderState
+    //         });
+    //         refetch();
+    //     }
+    //     catch (error) {
+    //         console.log(error);
+    //     }
+
+
+    // };
 
     return (
 
@@ -64,7 +73,7 @@ const Calender = () => {
                 <>
                     <h1>Calender</h1>
                     {calenderState && 
-                    <form onSubmit={handleFormSubmit}>
+                    <form>
                         <label htmlFor="monday">Monday: </label>
                         <select name="monday" value={calenderState.monday} onChange={handleFormChange}>
                             <option value="none">none</option>
@@ -121,7 +130,7 @@ const Calender = () => {
                             ))}
                         </select>
                         <br></br>
-                        <button>Save</button>
+                        
                     </form>}
                     
                 </>
