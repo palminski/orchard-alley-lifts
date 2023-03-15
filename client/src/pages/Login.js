@@ -61,8 +61,10 @@ const Login = (props) => {
         <div className="buttonCon">
         <button className="loginBtn" type="submit">Submit</button>
         </div>
-        <div className="forgotPw" onClick={() => {props.setPageSelected("ForgotPassword");}}>Forgot Password</div>
-        <div className="createAccount"> Create a new account</div>
+        <br></br>
+        <p className="clickableP" onClick={() => {props.setPageSelected("Signup");}}>Don't have an account? Create a new account here!</p>
+        <p className="clickableP" onClick={() => {props.setPageSelected("ForgotPassword");}}>Forgot Password?</p>
+        
       </form>
       </div>
     </>

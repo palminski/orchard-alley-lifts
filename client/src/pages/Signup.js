@@ -70,7 +70,8 @@ const Signup = (props) => {
         <div className="buttonCon">
         <button className="loginBtn" type="submit">Submit</button>
         </div>
-        <div className="createAccount"> Already have an account? Click to login</div>
+        <br></br>
+        <p className="clickableP" onClick={() => {props.setPageSelected("Login");}}>Already have an account? Click here to login!</p>
       </form>
       </div>
 
