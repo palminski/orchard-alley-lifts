@@ -6,6 +6,13 @@ import {useState} from 'react';
 import AddWorkoutForm from "../components/AddWorkoutForm";
 import AddExerciseForm from "../components/AddExerciseForm";
 
+
+
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenToSquare, faTrashCan, faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
+
+
 const Workouts = () => {
     
     //===[States]=============================================
@@ -191,7 +198,7 @@ const Workouts = () => {
                                                 {user.workouts[selectedWorkoutIndex].exercises &&
                                                     <ul>
                                                         {user.workouts[selectedWorkoutIndex].exercises.map(exercise => (
-                                                            <li key={exercise._id}>
+                                                            <li className="exercise-li" key={exercise._id}>
                                                                 {currentlyEditing === exercise._id ?
                                                                     <form onSubmit={handleExerciseFormSubmit}>
                                                                         <label htmlFor="exerciseName">Exercise Name: </label>
@@ -206,22 +213,24 @@ const Workouts = () => {
                                                                         <label htmlFor="weight">Weight: </label>
                                                                         <input name="weight" type="number" step={2.5} id="weight" onChange={handleExerciseFormChange} value={exerciseEditState.weight} />
 
-                                                                        <button>Save</button>
+                                                                        <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk}/></button>
                                                                     </form>
 
                                                                     :
 
                                                                     <>
-                                                                        <p >{exercise.name} - {exercise.reps} x {exercise.sets} - {exercise.weight}lbs
-                                                                    <button onClick={() => { handleDeleteExercise(user.workouts[selectedWorkoutIndex]._id, exercise._id) }}>Delete</button>
-                                                                    <button onClick={() => { 
+                                                                        <p > <span className="exercise-name exercise-info">{exercise.name}</span> - <span className="exercise-info">{exercise.reps} x {exercise.sets}</span> - <span className="exercise-info">{exercise.weight}lbs</span> 
+                                                                        
+                                                                        <FontAwesomeIcon className="icon-button" icon={faPenToSquare} onClick={() => { 
                                                                         setExerciseEditState({
                                                                             exerciseName: exercise.name,
                                                                             sets: exercise.sets,
                                                                             reps: exercise.reps,
                                                                             weight: exercise.weight
                                                                         });
-                                                                        setCurrentlyEditing(exercise._id) }}>Edit</button>
+                                                                        setCurrentlyEditing(exercise._id) }}/>
+                                                                        <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteExercise(user.workouts[selectedWorkoutIndex]._id, exercise._id) }}/>
+                                                                        
                                                                     </p>
                                                                     </>
                                                                 }
