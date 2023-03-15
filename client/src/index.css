@@ -1,3 +1,9 @@
+:root {
+  --darkMainColor: rgb(65, 90, 119);
+  --lightMainColor: rgb(119, 141, 169);
+  --accentColor:rgb(255, 183, 3);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -8,8 +14,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+
 body {
-  background-color: rgb(119, 141, 169) !important;
+  background-color: var(--lightMainColor) !important;
   color: rgb(224, 225, 221) !important;
   text-shadow: 1px 1px 2px black;
 }
@@ -22,9 +30,9 @@ code {
 /* Nav Bar */
 .nav-container {
   position: relative;
-  background-color: rgb(65, 90, 119);
+  background-color: var(--darkMainColor);
   height: auto;
-  border-bottom: rgb(255, 183, 3) solid 5px;
+  border-bottom: var(--accentColor) solid 5px;
   padding: 25px 0;
 }
 
@@ -72,10 +80,27 @@ nav ul li{
   justify-content: space-between;
 }
 
+/* Workouts Page */
+.select-workout-form {
+  background-color: var(--darkMainColor);
+  padding: 20px;
+}
+
+.selected-workout {
+  background-color: rgba(240, 248, 255, 0);
+  padding: 10px;
+  font-size: x-large;
+  color: aliceblue;
+}
+option {
+  color: black;
+}
+
 /* Temporary while building app */
 
 .formCon {
   padding: 40px;
+  
 }
 
 .loginForm {

@@ -149,36 +149,45 @@ const Workouts = () => {
                                     <>
                                         <button onClick={() => setMode("add")}>New Workout</button>
                                         <br></br>
-                                        <label htmlFor="workouts">Select a Workout: </label>
-                                        <select name="workouts" onChange={handleSelectChange} value={user.workouts[selectedWorkoutIndex]?._id}>
-                                            <option value="none"></option>
-                                            {user.workouts && user.workouts.map(workout => (
-                                                <option key={workout._id} value={workout._id}>{workout.name}</option>
-                                            ))}
-                                        </select>
-                                        <hr></hr>
-                                        {selectedWorkoutIndex !== "none" ?
-                                            <>
+                                        <div className="select-workout-form">
 
-                                                {currentlyEditing !== "title" ?
-                                                    <h2>{user.workouts[selectedWorkoutIndex].name} - 
-                                                    <button onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex]._id) }}>Delete Workout</button>
-                                                    <button onClick={() => { 
-                                                        setCurrentlyEditing('title');
-                                                        setWorkoutEditState({
-                                                            workoutName: user.workouts[selectedWorkoutIndex].name,
-                                                        })
-                                                 }}>Edit Title</button>
-                                                    </h2>
-                                                    :
+                                            {currentlyEditing !== "title" ?
+                                                <>
+                                                    <label htmlFor="workouts">Selected Workout: </label>
+                                                    <br></br>
+                                                    <select className="selected-workout" name="workouts" onChange={handleSelectChange} value={user.workouts[selectedWorkoutIndex]?._id}>
+                                                        <option value="none"></option>
+                                                        {user.workouts && user.workouts.map(workout => (
+                                                            <option key={workout._id} value={workout._id}>{workout.name}</option>
+                                                        ))}
+                                                    </select>
+                                                    {selectedWorkoutIndex !== "none" &&
+                                                        <>
+                                                            <br></br>
+                                                            <button onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex]._id) }}>Delete Workout</button>
+                                                            <button onClick={() => {
+                                                                setCurrentlyEditing('title');
+                                                                setWorkoutEditState({
+                                                                    workoutName: user.workouts[selectedWorkoutIndex].name,
+                                                                })
+                                                            }}>Edit Title</button>
+                                                        </>}
+
+                                                </>
+                                                :
+                                                <>
                                                     <form onSubmit={handleWorkoutFormSubmit}>
                                                         <label htmlFor="workoutName">Workout Name: </label>
                                                         <input name="workoutName" type="text" id="workoutName" onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
                                                         <button>Save</button>
-                                                    </form>}
+                                                    </form>
+                                                </>}
 
-                                                
-
+                                        </div>
+                                        
+                                        
+                                        {selectedWorkoutIndex !== "none" ?
+                                            <>
                                                 {user.workouts[selectedWorkoutIndex].exercises &&
                                                     <ul>
                                                         {user.workouts[selectedWorkoutIndex].exercises.map(exercise => (
@@ -222,9 +231,12 @@ const Workouts = () => {
                                                         ))}
                                                     </ul>
                                                 }
-                                                <hr></hr>
+                                                
+                                                <div className="select-workout-form">
                                                 <h3>Add More Exercises to workout here</h3>
                                                 <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]._id}></AddExerciseForm>
+                                                </div>
+                                                
                                             </>
                                             :
                                             <>
