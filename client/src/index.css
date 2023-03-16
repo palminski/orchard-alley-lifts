@@ -49,7 +49,7 @@ h1 {
   color: white;
 }
 
-h2 {
+nav h2 {
   align-self: flex-end;
   padding-left: 20px;
 }
@@ -83,9 +83,44 @@ nav ul li{
 }
 
 /* Workouts Page */
+
+.swap-tab {
+  background-color: rgb(75, 75, 75);
+  border: none;
+  padding: 15px 15px 10px 15px;
+  border-radius: 25px 25px 0 0;
+  margin: 0;
+  color: aliceblue;
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+.swap-tab:hover {
+  background-color: var(--darkMainColor);
+
+}
+.current-tab {
+  background-color: var(--darkMainColor);
+  border: none;
+  padding: 15px 15px 10px 15px;
+  border-radius: 25px 25px 0 0;
+  margin: 0;
+  color: aliceblue;
+}
+
+.workout-container{
+  margin: 0 60px 0 20px;
+}
+
 .select-workout-form {
   background-color: var(--darkMainColor);
   padding: 20px;
+  border-radius: 0 25px 0 0;
+}
+.add-exercise-section {
+  background-color: var(--darkMainColor);
+  padding: 20px;
+  border-radius: 0 0 25px 25px;
+
 }
 
 .selected-workout {
@@ -95,6 +130,15 @@ nav ul li{
   font-size: x-large;
   color: aliceblue;
 }
+
+.title-edit {
+  background-color: rgba(240, 248, 255, 0);
+  padding: 10px;
+  min-width: 49%;
+  font-size: x-large;
+  color: aliceblue;
+}
+
 option {
   color: black;
 }
@@ -102,6 +146,9 @@ option {
 .exercise-li {
   padding: 10px;
   background-color: var(--listItemAColor);
+  list-style-type: none;
+  transition-duration: 0.5s;
+
 }
 .exercise-li:nth-child(even) {
   background-color: var(--listItemBColor);
@@ -112,10 +159,10 @@ option {
 }
 .exercise-info {
   font-size: large;
-  margin: 0 10px;
+  margin: 0 15px;
 }
+
 .icon-button {
-  margin: 0 5px;
   transition-duration: 0.5s;
   cursor: pointer;
   font-size: large;
@@ -132,6 +179,33 @@ option {
   border: none;
   color: aliceblue;
 }
+
+.first-workout-container {
+  background-color: var(--darkMainColor);
+  padding: 20px;
+  border-radius: 25px;
+}
+
+.edit-exercise-form {
+  margin: 0 15px;
+}
+
+.small-number-input {
+  width: 32px;
+}
+.large-number-input {
+  width: 64px;
+}
+/*  */
+
+.add-workout-form-container {
+  padding: 20px;
+  background-color: var(--darkMainColor);
+  border-radius: 0 25px 25px 25px;
+}
+
+/* Add Workout Form */
+
 
 /* Temporary while building app */
 

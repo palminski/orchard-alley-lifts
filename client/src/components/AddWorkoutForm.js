@@ -4,6 +4,9 @@ import { useMutation, useQuery } from "@apollo/client";
 import { ADD_WORKOUT } from '../utils/mutations';
 import { QUERY_CURRENT_USER } from "../utils/queries";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
+
 const AddWorkoutForm = (props) => {
     const {setMode, setSelectedWorkoutIndex} = props;
 
@@ -57,9 +60,10 @@ const AddWorkoutForm = (props) => {
     //===[Return]=============================================
     return (
        <form onSubmit={handleFormSubmit}>
-            <label htmlFor="workoutName">Workout Name: </label>
-            <input name="workoutName" type="workoutName" id="workoutName" onChange={handleFormChange} value={formState.workoutName}/>
-            <button>Submit</button>
+            <label htmlFor="workoutName">New Workout Name: </label>
+            <br></br>
+            <input className="title-edit" name="workoutName" type="workoutName" id="workoutName" onChange={handleFormChange} value={formState.workoutName}/>
+            <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk}/></button>
        </form> 
     )
 }
