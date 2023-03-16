@@ -6,8 +6,10 @@ import Auth from "../utils/auth";
 const Signup = (props) => {
   const [formState, setFormState] = useState({ username: "", password: "", email: ""});
   const [addUser, { error }] = useMutation(ADD_USER);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleFormChange = (event) => {
+    setErrorMessage("");
     const { name, value } = event.target;
     setFormState({
       ...formState,
@@ -30,6 +32,7 @@ const Signup = (props) => {
       Auth.login(token);
       props.setPageSelected("Home");
     } catch (error) {
+      setErrorMessage("Username and Email must be unique, Password Must be at least 8 characters")
       console.log(formState);
       console.log(error);
     }
@@ -61,12 +64,14 @@ const Signup = (props) => {
         <div className="formEl">
           <label htmlFor="password">Password: </label>
           <input
+            minLength={8}
             name="password"
             type="password"
             id="password"
             onChange={handleFormChange}
           />
         </div>
+        {errorMessage && <p>{errorMessage}</p>}
         <div className="buttonCon">
         <button className="loginBtn" type="submit">Submit</button>
         </div>

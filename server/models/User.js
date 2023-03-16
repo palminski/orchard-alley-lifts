@@ -14,8 +14,8 @@ const UserSchema = new Schema(
         },
         email: {
             type: String,
-            unique: true,
             required: true,
+            unique: true,
             trim:true,
             match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/, 'You must enter a valid email adress']
         },

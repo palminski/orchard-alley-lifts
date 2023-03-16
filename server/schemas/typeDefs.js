@@ -44,6 +44,8 @@ const typeDefs = gql`
     type Query {
         users: [User]
         currentUser: User
+
+        
     }
 
 
@@ -63,6 +65,8 @@ const typeDefs = gql`
         loginUser(username: String!, password: String!): Auth
         updatePassword(password: String!, newPassword: String!): Auth
         resetPassword(username: String!, email: String!): User
+
+
     }
 `
 
