@@ -143,6 +143,7 @@ option {
   padding: 10px;
   background-color: var(--listItemAColor);
   list-style-type: none;
+  transition-duration: 0.5s;
 }
 .exercise-li:nth-child(even) {
   background-color: var(--listItemBColor);
@@ -155,6 +156,7 @@ option {
   font-size: large;
   margin: 0 15px;
 }
+
 .icon-button {
   margin: 0 7px;
   transition-duration: 0.5s;
@@ -177,6 +179,17 @@ option {
   background-color: var(--darkMainColor);
   padding: 20px;
   border-radius: 25px;
+}
+
+.edit-exercise-form {
+  margin: 0 15px;
+}
+
+.small-number-input {
+  width: 32px;
+}
+.large-number-input {
+  width: 64px;
 }
 /*  */
 

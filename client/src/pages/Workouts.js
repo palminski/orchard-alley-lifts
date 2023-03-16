@@ -203,24 +203,25 @@ const Workouts = () => {
                                                         {user.workouts[selectedWorkoutIndex].exercises.map(exercise => (
                                                             <li className="exercise-li" key={exercise._id}>
                                                                 {currentlyEditing === exercise._id ?
-                                                                    <form onSubmit={handleExerciseFormSubmit}>
-                                                                        <label htmlFor="exerciseName">Exercise Name: </label>
+                                                                // If currently editing this exercise
+                                                                    <form className="edit-exercise-form" onSubmit={handleExerciseFormSubmit}>
+                                                                        <label htmlFor="exerciseName"><span className="exercise-name">Exercise Name: </span></label>
                                                                         <input name="exerciseName" type="text" id="exerciseName" onChange={handleExerciseFormChange} value={exerciseEditState.exerciseName} />
 
                                                                         <label htmlFor="reps">Reps: </label>
-                                                                        <input name="reps" type="number" step={1} id="reps" onChange={handleExerciseFormChange} value={exerciseEditState.reps} />
+                                                                        <input className="small-number-input" name="reps" type="number" step={1} id="reps" onChange={handleExerciseFormChange} value={exerciseEditState.reps} />
 
-                                                                        <label htmlFor="sets">Sets: </label>
-                                                                        <input name="sets" type="number" step={1} id="sets" onChange={handleExerciseFormChange} value={exerciseEditState.sets} />
+                                                                        <label  htmlFor="sets">Sets: </label>
+                                                                        <input className="small-number-input" name="sets" type="number" step={1} id="sets" onChange={handleExerciseFormChange} value={exerciseEditState.sets} />
 
                                                                         <label htmlFor="weight">Weight: </label>
-                                                                        <input name="weight" type="number" step={2.5} id="weight" onChange={handleExerciseFormChange} value={exerciseEditState.weight} />
+                                                                        <input className="large-number-input" name="weight" type="number" step={2.5} id="weight" onChange={handleExerciseFormChange} value={exerciseEditState.weight} />
 
                                                                         <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk}/></button>
                                                                     </form>
 
                                                                     :
-
+                                                                    // Otherwise
                                                                     <>
                                                                         <p > <span className="exercise-name exercise-info">{exercise.name}</span> - <span className="exercise-info">{exercise.reps} x {exercise.sets}</span> - <span className="exercise-info">{exercise.weight}lbs</span> 
                                                                         
@@ -252,7 +253,10 @@ const Workouts = () => {
                                             </>
                                             :
                                             <>
-                                                <h3>Select a workout above!</h3>
+                                            <div className="add-exercise-section">
+                                            <h3>Select a workout above to edit!</h3>
+                                            </div>
+                                                
                                             </>
                                         }
                                     </>
