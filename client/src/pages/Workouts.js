@@ -258,8 +258,12 @@ const Workouts = () => {
                                     </>
                                     :
                                     <>
-                                        <button onClick={() => setMode("select")}>Select a Workout</button>
-                                        <AddWorkoutForm setMode={setMode} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddWorkoutForm>
+                                        <button className="swap-tab" onClick={() => setMode("select")}>Edit Workouts</button>
+                                        <button className="current-tab" >New Workout</button>
+                                        <div className="add-workout-form-container">
+                                        <AddWorkoutForm  setMode={setMode} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddWorkoutForm>
+                                        </div>
+                                        
                                     </>
                                 }
                             </>

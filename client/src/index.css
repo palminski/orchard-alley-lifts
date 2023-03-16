@@ -86,7 +86,7 @@ nav ul li{
 .swap-tab {
   background-color: rgb(75, 75, 75);
   border: none;
-  padding: 15px 15px 5px 15px;
+  padding: 15px 15px 10px 15px;
   border-radius: 25px 25px 0 0;
   margin: 0;
   color: aliceblue;
@@ -95,7 +95,7 @@ nav ul li{
 .swap-tab:hover {
   background-color: var(--darkMainColor);
   border: none;
-  padding: 15px 15px 5px 15px;
+  padding: 15px 15px 10px 15px;
   border-radius: 25px 25px 0 0;
   margin: 0;
   color: aliceblue;
@@ -103,7 +103,7 @@ nav ul li{
 .current-tab {
   background-color: var(--darkMainColor);
   border: none;
-  padding: 15px 15px 5px 15px;
+  padding: 15px 15px 10px 15px;
   border-radius: 25px 25px 0 0;
   margin: 0;
   color: aliceblue;
@@ -176,6 +176,15 @@ option {
   border: none;
   color: aliceblue;
 }
+/*  */
+
+.add-workout-form-container {
+  padding: 20px;
+  background-color: var(--darkMainColor);
+  border-radius: 0 25px 25px 25px;
+}
+
+/* Add Workout Form */
 
 /* Temporary while building app */
 
