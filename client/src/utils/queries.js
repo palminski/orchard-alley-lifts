@@ -24,6 +24,16 @@ query CurrentUser {
           weight
         }
       }
+      calender {
+        _id
+        monday
+        tuesday
+        wednesday
+        thursday
+        friday
+        saturday
+        sunday
+      }
       _id
     }
   }

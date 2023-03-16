@@ -1,15 +1,16 @@
+<<<<<<< HEAD
 import { useQuery } from "@apollo/client";
 import {QUERY_ALL_USERS, QUERY_CURRENT_USER} from "../utils/queries"
 import background from "../images/background-homepage.jpeg";
 
+=======
+import './Home.css';
+import photo from '../img/background.jpeg'
+>>>>>>> eb6fd98ac41250849ac29d35aea8c5c4e6fb4c64
 
 const Home = () => {
-    const {data:currentUser} = useQuery(QUERY_CURRENT_USER);
-    const {loading, data} = useQuery(QUERY_ALL_USERS);
-    const users = (data?.users)
-    
-    console.log(currentUser);
     return (
+<<<<<<< HEAD
         <>
             <div>
                 <img src={background} className="img-fluid. max-width: 100%"></img>
@@ -28,6 +29,13 @@ const Home = () => {
                 ))}
             </ul>
         </>
+=======
+       <div className="jumbotron">
+        <img src={photo} alt="man lifting weights"/>
+            <h1>Get Jacked!</h1>
+            <p>What are you waiting for??</p>
+       </div>
+>>>>>>> eb6fd98ac41250849ac29d35aea8c5c4e6fb4c64
     )
 }
 

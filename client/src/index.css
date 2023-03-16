@@ -1,10 +1,27 @@
-body {
+:root {
+  --darkMainColor: rgb(65, 90, 119);
+  --lightMainColor: rgb(119, 141, 169);
+  --accentColor:rgb(255, 183, 3);
+  --listItemAColor: rgb(136, 161, 196);
+  --listItemBColor: rgb(104, 121, 143);
+}
+
+* {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+body {
+  background-color: var(--lightMainColor) !important;
+  color: rgb(224, 225, 221) !important;
+  text-shadow: 1px 1px 2px black;
 }
 
 code {
@@ -15,6 +32,31 @@ code {
 /* Nav Bar */
 .nav-container {
   position: relative;
+  background-color: var(--darkMainColor);
+  height: auto;
+  border-bottom: var(--accentColor) solid 5px;
+  padding: 25px 0;
+}
+
+
+.hrefCon {
+  display: flex;
+  justify-content: space-between;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+}
+
+h2 {
+  align-self: flex-end;
+  padding-left: 20px;
+}
+
+nav h1 {
+  padding-left: 20px;
+  font-size: 50px;
 }
 
 nav ul {
@@ -22,18 +64,147 @@ nav ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: rgb(54, 219, 95);
+  align-self: flex-end;
+  padding-right: 20px;
 }
 nav ul li{
   float:left;
   padding: 10px;
   transition-duration: 0.5s;
   text-decoration: none;
-  color: aliceblue;
+  color: rgb(224, 225, 221);
+  text-shadow: 1px 1px 2px black;
   cursor: pointer;
 }
 
+.logSignupLinks {
+  align-self: flex-end;
+  justify-content: space-between;
+}
+
+/* Workouts Page */
+.select-workout-form {
+  background-color: var(--darkMainColor);
+  padding: 20px;
+}
+
+.selected-workout {
+  background-color: rgba(240, 248, 255, 0);
+  padding: 10px;
+  min-width: 50%;
+  font-size: x-large;
+  color: aliceblue;
+}
+option {
+  color: black;
+}
+
+.exercise-li {
+  padding: 10px;
+  background-color: var(--listItemAColor);
+}
+.exercise-li:nth-child(even) {
+  background-color: var(--listItemBColor);
+  padding: 10px;
+}
+.exercise-name{
+  font-size: x-large !important; 
+}
+.exercise-info {
+  font-size: large;
+  margin: 0 10px;
+}
+.icon-button {
+  margin: 0 5px;
+  transition-duration: 0.5s;
+  cursor: pointer;
+  font-size: large;
+}
+.icon-button:hover {
+  color: white;
+  transform: scale(1.2);
+}
+.icon-button-danger:hover {
+  color: rgb(255, 32, 32) !important;
+}
+.hidden-button {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  color: aliceblue;
+}
+
 /* Temporary while building app */
-form {
-  background-color: burlywood;
+
+.formCon {
+  padding: 40px;
+  
+}
+
+.loginForm {
+  background-color: rgb(224, 225, 221);
+  padding: 10px;
+  height: auto;
+  width: 45vh;
+  margin: 0 auto;
+  border: rgb(255, 183, 3) solid 5px;
+  border-radius: 25px;
+}
+
+.formEl {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  color: white;
+}
+
+.buttonCon {
+  display: flex;
+  justify-content: center;
+}
+
+.loginBtn {
+  
+  border-radius: 10px;
+  padding: 10px;
+  width: 150px;
+  background-color: rgb(58, 134, 255);
+  color: white;
+}
+
+.clickableP{
+  color: rgb(58, 134, 255);
+  text-shadow: 0px 0px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+.clickableP:hover{
+  color: rgb(0, 98, 255);
+  
+}
+
+.bgImg{
+  width: auto;
+  max-width: 100%;
+  object-fit:cover;
+}
+
+.container {
+  /* background-image: url('/client/src/images/background.jpeg') center center/cover no-repeat;  */
+  height: auto;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  object-fit: fill;
+}
+
+/* Centered text */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
