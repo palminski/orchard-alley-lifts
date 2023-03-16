@@ -208,3 +208,27 @@ option {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+/* Calendar Page */
+
+.calendar-h1 {
+  margin: 20px;
+}
+
+
+
+.calendar-dates {
+  background-color: rgb(224, 225, 221);
+  padding: 10px;
+  height: 10vh;
+  width: 22vh;
+  margin: 10px;
+  border: rgb(255, 183, 3) solid 5px;
+  border-radius: 20px;
+  margin: auto;
+}
+
+label {
+  color: white;
+  text-shadow: 2px 2px black;
+}
