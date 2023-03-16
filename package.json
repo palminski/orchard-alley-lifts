@@ -5,8 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "develop": "concurrently \"cd server && npm run dev\" \"cd client && npm start\"",
-    "install": "cd server && npm i && cd ../client && npm i"
+    "develop": "concurrently \"cd server && npm run dev\" \"cd client && npm run build\" \"npm run serve\"",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "client-serve": "cd client && npm run build && serve -s build", 
+    "client-serve-develop": "cd client && npm run start",
+    "install-all": "cd server && npm i && cd ../client && npm i",
+    "client-dev-start": "cd client && npm start",
+    "client-pwa-build": "cd client && npm run build",
+    "client-pwa-start": "cd client && npm run start-pwa",
+    "server-start": "cd server && npm run start"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +22,7 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "serve": "^14.2.0"
   }
 }
