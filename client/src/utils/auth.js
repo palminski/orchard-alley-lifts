@@ -36,7 +36,7 @@ class AuthService {
     }
     logout() {
         localStorage.removeItem('id_token');
-        
+        localStorage.removeItem('apollo-cache-persist');
     }
 }
 export default new AuthService();

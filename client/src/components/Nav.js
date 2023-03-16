@@ -7,9 +7,10 @@ const Nav = (props) => {
   return (
     <>
       <nav className="nav-container">
-        <h1>Example Title</h1>
         <div className="hrefCon">
-            <h2>Logo</h2>
+            
+      <h1>RepMaster</h1>
+
           <ul>
             {!Auth.loggedIn() && (
               <a>
@@ -50,11 +51,20 @@ const Nav = (props) => {
                 </a>
                 <a>
                   <li
+                    href="#MyPage"
+                    onClick={() => setPageSelected("MyPage")}
+                  >
+                    My Page
+                  </li>
+                </a>
+                <a>
+                  <li
                     href="/"
                     onClick={() => {
                       Auth.logout();
                       client.clearStore();
-                      setPageSelected("Home");
+                      
+                      window.location.reload(true);
                     }}
                   >
                     Logout

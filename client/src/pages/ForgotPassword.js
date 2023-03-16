@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { ADD_USER } from "../utils/mutations";
-import Auth from "../utils/auth";
+import { RESET_PASSWORD } from "../utils/mutations";
 
-const Signup = (props) => {
-  const [formState, setFormState] = useState({ username: "", password: "", email: ""});
-  const [addUser, { error }] = useMutation(ADD_USER);
+
+const ForgotPassword = (props) => {
+  const [formState, setFormState] = useState({ username: "", email: ""});
+  const [resetPassword, { error }] = useMutation(RESET_PASSWORD);
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleFormChange = (event) => {
-    setErrorMessage("");
     const { name, value } = event.target;
+    setErrorMessage("");
     setFormState({
       ...formState,
       [name]: value,
@@ -19,22 +19,15 @@ const Signup = (props) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
+    console.log(formState);
     try {
-      const response = await addUser({
-        variables: {
-          username: formState.username,
-          email: formState.email,
-          password: formState.password,
-        },
+      const response = await resetPassword({
+        variables: formState
       });
-      const token = response.data.addUser.token;
-      Auth.login(token);
-      props.setPageSelected("Home");
     } catch (error) {
-      setErrorMessage("Username and Email must be unique, Password Must be at least 8 characters")
       console.log(formState);
       console.log(error);
+      setErrorMessage("A user with this email could not be found!")
     }
   };
 
@@ -42,7 +35,7 @@ const Signup = (props) => {
     <>
       <div className="formCon">
       <form onSubmit={handleFormSubmit} className="loginForm">
-      <h1>Signup</h1>
+      <h1>Forgot Password</h1>
         <div className="formEl">
           <label htmlFor="username">Username: </label>
           <input
@@ -61,22 +54,11 @@ const Signup = (props) => {
             onChange={handleFormChange}
           />
         </div>
-        <div className="formEl">
-          <label htmlFor="password">Password: </label>
-          <input
-            minLength={8}
-            name="password"
-            type="password"
-            id="password"
-            onChange={handleFormChange}
-          />
-        </div>
         {errorMessage && <p>{errorMessage}</p>}
         <div className="buttonCon">
         <button className="loginBtn" type="submit">Submit</button>
         </div>
-        <br></br>
-        <p className="clickableP" onClick={() => {props.setPageSelected("Login");}}>Already have an account? Click here to login!</p>
+        
       </form>
       </div>
 
@@ -84,4 +66,4 @@ const Signup = (props) => {
   );
 };
 
-export default Signup;
+export default ForgotPassword;
