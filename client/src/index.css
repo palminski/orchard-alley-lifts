@@ -1,3 +1,11 @@
+:root {
+  --darkMainColor: rgb(65, 90, 119);
+  --lightMainColor: rgb(119, 141, 169);
+  --accentColor:rgb(255, 183, 3);
+  --listItemAColor: rgb(136, 161, 196);
+  --listItemBColor: rgb(104, 121, 143);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -8,8 +16,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+
 body {
-  background-color: rgb(119, 141, 169) !important;
+  background-color: var(--lightMainColor) !important;
   color: rgb(224, 225, 221) !important;
   text-shadow: 1px 1px 2px black;
 }
@@ -22,9 +32,9 @@ code {
 /* Nav Bar */
 .nav-container {
   position: relative;
-  background-color: rgb(65, 90, 119);
+  background-color: var(--darkMainColor);
   height: auto;
-  border-bottom: rgb(255, 183, 3) solid 5px;
+  border-bottom: var(--accentColor) solid 5px;
   padding: 25px 0;
 }
 
@@ -72,10 +82,62 @@ nav ul li{
   justify-content: space-between;
 }
 
+/* Workouts Page */
+.select-workout-form {
+  background-color: var(--darkMainColor);
+  padding: 20px;
+}
+
+.selected-workout {
+  background-color: rgba(240, 248, 255, 0);
+  padding: 10px;
+  min-width: 50%;
+  font-size: x-large;
+  color: aliceblue;
+}
+option {
+  color: black;
+}
+
+.exercise-li {
+  padding: 10px;
+  background-color: var(--listItemAColor);
+}
+.exercise-li:nth-child(even) {
+  background-color: var(--listItemBColor);
+  padding: 10px;
+}
+.exercise-name{
+  font-size: x-large !important; 
+}
+.exercise-info {
+  font-size: large;
+  margin: 0 10px;
+}
+.icon-button {
+  margin: 0 5px;
+  transition-duration: 0.5s;
+  cursor: pointer;
+  font-size: large;
+}
+.icon-button:hover {
+  color: white;
+  transform: scale(1.2);
+}
+.icon-button-danger:hover {
+  color: rgb(255, 32, 32) !important;
+}
+.hidden-button {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  color: aliceblue;
+}
+
 /* Temporary while building app */
 
 .formCon {
   padding: 40px;
+  
 }
 
 .loginForm {
