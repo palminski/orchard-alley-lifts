@@ -159,6 +159,7 @@ const Workouts = () => {
                                         <br></br>
                                         <div className="select-workout-form">
 
+
                                             {currentlyEditing !== "title" ?
                                                 // Not Editing Title
                                                 <>
@@ -190,6 +191,7 @@ const Workouts = () => {
                                                         <br></br>
                                                         <input autoFocus="true"  className="title-edit" name="workoutName" type="text" id="workoutName" onFocus={(e) => e.target.select()} onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
                                                         <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk}/></button>
+
                                                     </form>
                                                 </>}
 
@@ -245,7 +247,10 @@ const Workouts = () => {
                                                     </ul>
                                                 }
                                                 
+
                                                 <div className="add-exercise-section">
+
+
                                                 <h3>Add More Exercises to workout here</h3>
                                                 <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]._id}></AddExerciseForm>
                                                 </div>
