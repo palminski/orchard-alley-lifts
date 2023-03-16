@@ -83,15 +83,58 @@ nav ul li{
 }
 
 /* Workouts Page */
+.swap-tab {
+  background-color: rgb(75, 75, 75);
+  border: none;
+  padding: 15px 15px 5px 15px;
+  border-radius: 25px 25px 0 0;
+  margin: 0;
+  color: aliceblue;
+  transition-duration: 0.5s;
+}
+.swap-tab:hover {
+  background-color: var(--darkMainColor);
+  border: none;
+  padding: 15px 15px 5px 15px;
+  border-radius: 25px 25px 0 0;
+  margin: 0;
+  color: aliceblue;
+}
+.current-tab {
+  background-color: var(--darkMainColor);
+  border: none;
+  padding: 15px 15px 5px 15px;
+  border-radius: 25px 25px 0 0;
+  margin: 0;
+  color: aliceblue;
+}
+
+.workout-container{
+  margin: 0 60px 0 20px;
+}
+
 .select-workout-form {
   background-color: var(--darkMainColor);
   padding: 20px;
+  border-radius: 0 25px 0 0;
+}
+.add-exercise-section {
+  background-color: var(--darkMainColor);
+  padding: 20px;
+  border-radius: 0 0 25px 25px;
 }
 
 .selected-workout {
   background-color: rgba(240, 248, 255, 0);
   padding: 10px;
   min-width: 50%;
+  font-size: x-large;
+  color: aliceblue;
+}
+.title-edit {
+  background-color: rgba(240, 248, 255, 0);
+  padding: 10px;
+  min-width: 49%;
   font-size: x-large;
   color: aliceblue;
 }
@@ -102,6 +145,7 @@ option {
 .exercise-li {
   padding: 10px;
   background-color: var(--listItemAColor);
+  list-style-type: none;
 }
 .exercise-li:nth-child(even) {
   background-color: var(--listItemBColor);
@@ -112,10 +156,10 @@ option {
 }
 .exercise-info {
   font-size: large;
-  margin: 0 10px;
+  margin: 0 15px;
 }
 .icon-button {
-  margin: 0 5px;
+  margin: 0 7px;
   transition-duration: 0.5s;
   cursor: pointer;
   font-size: large;

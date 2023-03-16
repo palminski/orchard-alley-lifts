@@ -149,16 +149,18 @@ const Workouts = () => {
                         <h2>Loading...</h2>
                     </>
                     :
-                    <>
+                    <div className="workout-container">
                         {user.workouts.length ?
                             <>
                                 {mode === "select" ?
                                     <>
-                                        <button onClick={() => setMode("add")}>New Workout</button>
+                                        <button className="current-tab">Edit Workouts</button>
+                                        <button className="swap-tab" onClick={() => setMode("add")}>New Workout</button>
                                         <br></br>
                                         <div className="select-workout-form">
 
                                             {currentlyEditing !== "title" ?
+                                                // Not Editing Title
                                                 <>
                                                     <label htmlFor="workouts">Selected Workout: </label>
                                                     <br></br>
@@ -170,23 +172,24 @@ const Workouts = () => {
                                                     </select>
                                                     {selectedWorkoutIndex !== "none" &&
                                                         <>
-                                                            <br></br>
-                                                            <button onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex]._id) }}>Delete Workout</button>
-                                                            <button onClick={() => {
+                                                        <FontAwesomeIcon className="icon-button" icon={faPenToSquare} onClick={() => {
                                                                 setCurrentlyEditing('title');
                                                                 setWorkoutEditState({
                                                                     workoutName: user.workouts[selectedWorkoutIndex].name,
                                                                 })
-                                                            }}>Edit Title</button>
+                                                        }} />
+                                                            <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex]._id) }}/>
                                                         </>}
 
                                                 </>
-                                                :
+                                                // Currently Editing Title
+                                                : 
                                                 <>
                                                     <form onSubmit={handleWorkoutFormSubmit}>
                                                         <label htmlFor="workoutName">Workout Name: </label>
-                                                        <input name="workoutName" type="text" id="workoutName" onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
-                                                        <button>Save</button>
+                                                        <br></br>
+                                                        <input autoFocus="true"  className="title-edit" name="workoutName" type="text" id="workoutName" onFocus={(e) => e.target.select()} onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
+                                                        <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk}/></button>
                                                     </form>
                                                 </>}
 
@@ -241,7 +244,7 @@ const Workouts = () => {
                                                     </ul>
                                                 }
                                                 
-                                                <div className="select-workout-form">
+                                                <div className="add-exercise-section">
                                                 <h3>Add More Exercises to workout here</h3>
                                                 <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]._id}></AddExerciseForm>
                                                 </div>
@@ -266,7 +269,7 @@ const Workouts = () => {
                                 <AddWorkoutForm setMode={setMode} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddWorkoutForm>
                             </>
                         }
-                    </>
+                    </div>
             }
         </>
     );
