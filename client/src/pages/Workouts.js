@@ -269,8 +269,11 @@ const Workouts = () => {
                             </>
                             :
                             <>
+                                <div className="first-workout-container">
                                 <h2>Add your first workout!</h2>
                                 <AddWorkoutForm setMode={setMode} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddWorkoutForm>
+                                </div>
+                                
                             </>
                         }
                     </div>

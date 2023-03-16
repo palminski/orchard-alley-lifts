@@ -49,7 +49,7 @@ h1 {
   color: white;
 }
 
-h2 {
+nav h2 {
   align-self: flex-end;
   padding-left: 20px;
 }
@@ -91,14 +91,11 @@ nav ul li{
   margin: 0;
   color: aliceblue;
   transition-duration: 0.5s;
+  cursor: pointer;
 }
 .swap-tab:hover {
   background-color: var(--darkMainColor);
-  border: none;
-  padding: 15px 15px 10px 15px;
-  border-radius: 25px 25px 0 0;
-  margin: 0;
-  color: aliceblue;
+
 }
 .current-tab {
   background-color: var(--darkMainColor);
@@ -175,6 +172,11 @@ option {
   background-color: rgba(0, 0, 0, 0);
   border: none;
   color: aliceblue;
+}
+.first-workout-container {
+  background-color: var(--darkMainColor);
+  padding: 20px;
+  border-radius: 25px;
 }
 /*  */
 
