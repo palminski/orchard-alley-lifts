@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "develop": "concurrently \"cd server && npm run dev\" \"cd client && npm run build\" \"npm run serve\"",
+    "develop": "concurrently \"cd server && npm run dev\" \"cd client && npm run start\"",
+    "develop-pwa": "concurrently \"cd server && npm run start\" \"cd client && npm run build && npm run start-pwa\"",
     "install": "cd server && npm i && cd ../client && npm i",
     "client-serve": "cd client && npm run build && serve -s build", 
     "client-serve-develop": "cd client && npm run start",
