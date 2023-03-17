@@ -132,7 +132,7 @@ nav ul li{
 }
 
 .title-edit {
-  background-color: rgba(240, 248, 255, 0);
+  background-color: rgb(56, 56, 56);
   padding: 10px;
   min-width: 49%;
   font-size: x-large;
@@ -166,6 +166,7 @@ option {
   transition-duration: 0.5s;
   cursor: pointer;
   font-size: large;
+  margin: 0 5px;
 }
 .icon-button:hover {
   color: white;
@@ -190,11 +191,20 @@ option {
   margin: 0 15px;
 }
 
+input {
+  color: aliceblue;
+  background-color: rgb(56, 56, 56);
+  border-radius: 5px;
+  border-style: solid;
+  padding: 5px;
+}
 .small-number-input {
   width: 32px;
+  color: aliceblue;
 }
 .large-number-input {
   width: 64px;
+  color: aliceblue;
 }
 /*  */
 

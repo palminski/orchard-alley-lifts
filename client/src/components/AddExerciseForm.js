@@ -4,6 +4,9 @@ import { useMutation, useQuery } from "@apollo/client";
 import { ADD_EXERCISE } from '../utils/mutations';
 import { QUERY_CURRENT_USER } from "../utils/queries";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faCircleCheck } from '@fortawesome/free-solid-svg-icons'
+
 const AddExerciseForm = (props) => {
     //===[Props]=============================================
     const {workoutId} = props;
@@ -64,15 +67,15 @@ const AddExerciseForm = (props) => {
             <input name="exerciseName" type="text" id="exerciseName" onChange={handleFormChange} value={formState.exerciseName}/>
 
             <label htmlFor="reps">Reps: </label>
-            <input name="reps" type="number" step={1}  id="reps" onChange={handleFormChange} value={formState.reps}/>
+            <input className="small-number-input" name="reps" type="number" step={1}  id="reps" onChange={handleFormChange} value={formState.reps}/>
 
             <label htmlFor="sets">Sets: </label>
-            <input name="sets" type="number" step={1}  id="sets" onChange={handleFormChange} value={formState.sets}/>
+            <input className="small-number-input" name="sets" type="number" step={1}  id="sets" onChange={handleFormChange} value={formState.sets}/>
 
             <label htmlFor="weight">Weight: </label>
-            <input name="weight" type="number" step={2.5} id="weight" onChange={handleFormChange} value={formState.weight}/>
+            <input className="large-number-input" name="weight" type="number" step={2.5} id="weight" onChange={handleFormChange} value={formState.weight}/>
 
-            <button>Submit</button>
+            <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faCircleCheck}/></button>
        </form> 
     )
 }
