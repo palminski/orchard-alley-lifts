@@ -1,11 +1,18 @@
+/* Variables */
+/* =============================================================== */
 :root {
   --darkMainColor: rgb(65, 90, 119);
   --lightMainColor: rgb(119, 141, 169);
   --accentColor:rgb(255, 183, 3);
   --listItemAColor: rgb(136, 161, 196);
   --listItemBColor: rgb(104, 121, 143);
+  --clickableColor: rgb(75, 75, 75);
+  --transparent: rgb(0,0,0,0);
+  --backgroundColor: #393D3F;
 }
 
+/* Utility Classes and General Styling */
+/* =============================================================== */
 * {
   margin: 0;
   padding: 0;
@@ -16,12 +23,32 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-
 body {
   background-color: var(--lightMainColor) !important;
   color: rgb(224, 225, 221) !important;
   text-shadow: 1px 1px 2px black;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+}
+
+label {
+  color: white;
+  text-shadow: 2px 2px black;
+}
+
+input {
+  color: aliceblue;
+  background-color: var(--clickableColor);
+  border-radius: 5px;
+  border-style: solid;
+  padding: 5px;
+}
+
+option {
+  color: black;
 }
 
 code {
@@ -29,7 +56,43 @@ code {
     monospace;
 }
 
+.small-number-input {
+  width: 32px;
+  color: aliceblue;
+}
+.large-number-input {
+  width: 64px;
+  color: aliceblue;
+}
+
+.icon-button {
+  transition-duration: 0.5s;
+  cursor: pointer;
+  font-size: large;
+  margin: 0 5px;
+}
+.icon-button:hover {
+  color: white;
+  transform: scale(1.2);
+}
+.icon-button-danger:hover {
+  color: rgb(255, 32, 32) !important;
+}
+.hidden-button {
+  background-color: var(--transparent);
+  border: none;
+  color: aliceblue;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 /* Nav Bar */
+/* =============================================================== */
 .nav-container {
   position: relative;
   background-color: var(--darkMainColor);
@@ -38,15 +101,9 @@ code {
   padding: 25px 0;
 }
 
-
 .hrefCon {
   display: flex;
   justify-content: space-between;
-}
-
-h1 {
-  text-align: center;
-  color: white;
 }
 
 nav h2 {
@@ -83,9 +140,9 @@ nav ul li{
 }
 
 /* Workouts Page */
-
+/* =============================================================== */
 .swap-tab {
-  background-color: rgb(75, 75, 75);
+  background-color: var(--clickableColor);
   border: none;
   padding: 15px 15px 10px 15px;
   border-radius: 25px 25px 0 0;
@@ -116,15 +173,15 @@ nav ul li{
   padding: 20px;
   border-radius: 0 25px 0 0;
 }
+
 .add-exercise-section {
   background-color: var(--darkMainColor);
   padding: 20px;
   border-radius: 0 0 25px 25px;
-
 }
 
 .selected-workout {
-  background-color: rgba(240, 248, 255, 0);
+  background-color: var(--transparent);
   padding: 10px;
   min-width: 50%;
   font-size: x-large;
@@ -132,15 +189,11 @@ nav ul li{
 }
 
 .title-edit {
-  background-color: rgb(56, 56, 56);
+  background-color: var(--clickableColor);
   padding: 10px;
   min-width: 49%;
   font-size: x-large;
   color: aliceblue;
-}
-
-option {
-  color: black;
 }
 
 .exercise-li {
@@ -148,37 +201,20 @@ option {
   background-color: var(--listItemAColor);
   list-style-type: none;
   transition-duration: 0.5s;
-
 }
+
 .exercise-li:nth-child(even) {
   background-color: var(--listItemBColor);
   padding: 10px;
 }
+
 .exercise-name{
   font-size: x-large !important; 
 }
+
 .exercise-info {
   font-size: large;
   margin: 0 15px;
-}
-
-.icon-button {
-  transition-duration: 0.5s;
-  cursor: pointer;
-  font-size: large;
-  margin: 0 5px;
-}
-.icon-button:hover {
-  color: white;
-  transform: scale(1.2);
-}
-.icon-button-danger:hover {
-  color: rgb(255, 32, 32) !important;
-}
-.hidden-button {
-  background-color: rgba(0, 0, 0, 0);
-  border: none;
-  color: aliceblue;
 }
 
 .first-workout-container {
@@ -191,34 +227,31 @@ option {
   margin: 0 15px;
 }
 
-input {
-  color: aliceblue;
-  background-color: rgb(56, 56, 56);
-  border-radius: 5px;
-  border-style: solid;
-  padding: 5px;
-}
-.small-number-input {
-  width: 32px;
-  color: aliceblue;
-}
-.large-number-input {
-  width: 64px;
-  color: aliceblue;
-}
-/*  */
-
 .add-workout-form-container {
   padding: 20px;
   background-color: var(--darkMainColor);
   border-radius: 0 25px 25px 25px;
 }
 
-/* Add Workout Form */
+/* Calendar Page */
+/* =============================================================== */
+.calendar-h1 {
+  margin: 20px;
+}
 
+.calendar-dates {
+  background-color: rgb(224, 225, 221);
+  padding: 10px;
+  height: 10vh;
+  width: 22vh;
+  margin: 10px;
+  border: var(--accentColor) solid 5px;
+  border-radius: 20px;
+  margin: auto;
+}
 
 /* Temporary while building app */
-
+/* =============================================================== */
 .formCon {
   padding: 40px;
   
@@ -230,7 +263,7 @@ input {
   height: auto;
   width: 45vh;
   margin: 0 auto;
-  border: rgb(255, 183, 3) solid 5px;
+  border: var(--accentColor) solid 5px;
   border-radius: 25px;
 }
 
@@ -283,36 +316,4 @@ input {
   justify-content: center;
   align-items: center;
   object-fit: fill;
-}
-
-/* Centered text */
-.centered {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* Calendar Page */
-
-.calendar-h1 {
-  margin: 20px;
-}
-
-
-
-.calendar-dates {
-  background-color: rgb(224, 225, 221);
-  padding: 10px;
-  height: 10vh;
-  width: 22vh;
-  margin: 10px;
-  border: rgb(255, 183, 3) solid 5px;
-  border-radius: 20px;
-  margin: auto;
-}
-
-label {
-  color: white;
-  text-shadow: 2px 2px black;
 }
