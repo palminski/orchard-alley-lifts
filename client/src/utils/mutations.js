@@ -67,9 +67,17 @@ export const EDIT_WORKOUT = gql`
 mutation EditWorkout($workoutId: ID!, $name: String!) {
   editWorkout(workoutId: $workoutId, name: $name) {
     username
-    workouts {
-    name
-  }
+    workouts{
+      _id
+      name
+      exercises{
+        _id
+        name
+        reps
+        sets
+        weight
+      }
+    }
   }
 }
 `
@@ -78,12 +86,17 @@ export const EDIT_EXERCISE = gql`
 mutation EditExercise($workoutId: ID!, $exerciseId: ID!, $name: String!, $sets: Int!, $reps: Int!, $weight: Float!) {
   editExercise(workoutId: $workoutId, exerciseId: $exerciseId, name: $name, sets: $sets, reps: $reps, weight: $weight) {
     username
-    workouts {
+    workouts{
+      _id
       name
-      exercises {
+      exercises{
+        _id
         name
+        reps
+        sets
+        weight
       }
-   }
+    }
   }
 }
 `

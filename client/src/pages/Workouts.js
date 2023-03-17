@@ -64,8 +64,34 @@ const Workouts = () => {
         }
     });
 
-    const [editExercise] = useMutation(EDIT_EXERCISE);
-    const [editWorkout] = useMutation(EDIT_WORKOUT);
+    const [editExercise] = useMutation(EDIT_EXERCISE, {
+        update(cache, {data: {editExercise}}) {
+            try {
+                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                cache.writeQuery({
+                    query: QUERY_CURRENT_USER,
+                    data: {currentUser: {...currentUser, workouts: editExercise.workouts}}
+                });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    });
+    const [editWorkout] = useMutation(EDIT_WORKOUT, {
+        update(cache, {data: {editWorkout}}) {
+            try {
+                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                cache.writeQuery({
+                    query: QUERY_CURRENT_USER,
+                    data: {currentUser: {...currentUser, workouts: editWorkout.workouts}}
+                });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    });
 
     //===[Functions]=============================================
     const handleSelectChange = (e) => {
@@ -102,7 +128,6 @@ const Workouts = () => {
                     exerciseId: exerciseId,
                 }
             });
-            
         }
         catch (error) {
             console.log(error);
@@ -126,7 +151,6 @@ const Workouts = () => {
                     name: workoutEditState.workoutName,
                 }
             });
-            refetch();
         }
         catch (error) {
             console.log(error);
@@ -156,7 +180,6 @@ const Workouts = () => {
                     weight: parseFloat(exerciseEditState.weight),
                 }
             });
-            refetch();
         }
         catch (error) {
             console.log(error);
