@@ -34,10 +34,105 @@ const Workouts = () => {
     const user = (data?.currentUser)
 
     //===[Mutations]=============================================
-    const [deleteExercise] = useMutation(DELETE_EXERCISE);
-    const [deleteWorkout] = useMutation(DELETE_WORKOUT);
-    const [editExercise] = useMutation(EDIT_EXERCISE);
-    const [editWorkout] = useMutation(EDIT_WORKOUT);
+    const [deleteExercise] = useMutation(DELETE_EXERCISE, {
+        update(cache, {data: {deleteExercise}}) {
+            try {
+                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                cache.writeQuery({
+                    query: QUERY_CURRENT_USER,
+                    data: {currentUser: {...currentUser, workouts: deleteExercise.workouts}}
+                });
+                console.log("test")
+            }
+            catch (error) {
+                console.log(error);
+            }
+        },
+        optimisticResponse:{
+            
+              deleteExercise: {
+                username: "palminski",
+                workouts: [
+                  {
+                    _id: "6410c9c599d4d271116e2c0e",
+                    name: "Will's Workout :)",
+                    exercises: [
+                      {
+                        _id: "6410c9de99d4d271116e2c16",
+                        name: "Bench Press",
+                        reps: 5,
+                        sets: 5,
+                        weight: 190
+                      },
+                      {
+                        _id: "641346650afeb7990f483319",
+                        name: "Over Head Press",
+                        reps: 5,
+                        sets: 5,
+                        weight: 115
+                      }
+                    ]
+                  },
+                  {
+                    _id: "641355800afeb7990f4836ac",
+                    name: "Edit",
+                    exercises: []
+                  },
+                  {
+                    _id: "64148fa80ecb4cb9196bcbb0",
+                    name: "Test 1",
+                    exercises: []
+                  }
+                ]
+              }
+            }
+          
+        
+    });
+
+    const [deleteWorkout] = useMutation(DELETE_WORKOUT, {
+        update(cache, {data: {deleteWorkout}}) {
+            try {
+                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                cache.writeQuery({
+                    query: QUERY_CURRENT_USER,
+                    data: {currentUser: {...currentUser, workouts: deleteWorkout.workouts}}
+                });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    });
+
+    const [editExercise] = useMutation(EDIT_EXERCISE, {
+        update(cache, {data: {editExercise}}) {
+            try {
+                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                cache.writeQuery({
+                    query: QUERY_CURRENT_USER,
+                    data: {currentUser: {...currentUser, workouts: editExercise.workouts}}
+                });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    });
+    const [editWorkout] = useMutation(EDIT_WORKOUT, {
+        update(cache, {data: {editWorkout}}) {
+            try {
+                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                cache.writeQuery({
+                    query: QUERY_CURRENT_USER,
+                    data: {currentUser: {...currentUser, workouts: editWorkout.workouts}}
+                });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    });
 
     //===[Functions]=============================================
     const handleSelectChange = (e) => {
@@ -59,7 +154,7 @@ const Workouts = () => {
                     workoutId: workoutId,
                 }
             });
-            refetch();
+            
         }
         catch (error) {
             console.log(error);
@@ -74,7 +169,6 @@ const Workouts = () => {
                     exerciseId: exerciseId,
                 }
             });
-            refetch();
         }
         catch (error) {
             console.log(error);
@@ -98,7 +192,6 @@ const Workouts = () => {
                     name: workoutEditState.workoutName,
                 }
             });
-            refetch();
         }
         catch (error) {
             console.log(error);
@@ -128,7 +221,6 @@ const Workouts = () => {
                     weight: parseFloat(exerciseEditState.weight),
                 }
             });
-            refetch();
         }
         catch (error) {
             console.log(error);
