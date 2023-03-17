@@ -10,7 +10,7 @@ import AddExerciseForm from "../components/AddExerciseForm";
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare, faTrashCan, faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
+import { faPenToSquare, faTrashCan, faFloppyDisk,} from '@fortawesome/free-solid-svg-icons'
 
 
 const Workouts = () => {
