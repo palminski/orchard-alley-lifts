@@ -8,6 +8,7 @@
   --listItemBColor: rgb(104, 121, 143);
   --clickableColor: rgb(75, 75, 75);
   --transparent: rgb(0,0,0,0);
+  --backgroundColor: #393D3F;
 }
 
 /* Utility Classes and General Styling */

@@ -197,7 +197,7 @@ const Workouts = () => {
                                         //If there is a workout that has been selected
                                         //List of exercises contained in that workout
                                             <>
-                                                {user.workouts[selectedWorkoutIndex].exercises &&
+                                                {user.workouts[selectedWorkoutIndex].exercises.length > 0 &&
                                                     <ul>
                                                         {user.workouts[selectedWorkoutIndex].exercises.map(exercise => (
                                                             <li className="exercise-li" key={exercise._id}>
@@ -244,7 +244,7 @@ const Workouts = () => {
                                                 }
                                                 {/* //Form at bottom where exercises are added */}
                                                 <div className="add-exercise-section">
-                                                    <h3>Add More Exercises to workout here</h3>
+                                                    <h3>Add {user.workouts[selectedWorkoutIndex].exercises.length > 0 ? "more exercises" : "your fisrt exercise"} to this workout here</h3>
                                                     <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]._id}></AddExerciseForm>
                                                 </div>
                                             </>
