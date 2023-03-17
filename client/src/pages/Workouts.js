@@ -42,11 +42,52 @@ const Workouts = () => {
                     query: QUERY_CURRENT_USER,
                     data: {currentUser: {...currentUser, workouts: deleteExercise.workouts}}
                 });
+                console.log("test")
             }
             catch (error) {
                 console.log(error);
             }
-        }
+        },
+        optimisticResponse:{
+            
+              deleteExercise: {
+                username: "palminski",
+                workouts: [
+                  {
+                    _id: "6410c9c599d4d271116e2c0e",
+                    name: "Will's Workout :)",
+                    exercises: [
+                      {
+                        _id: "6410c9de99d4d271116e2c16",
+                        name: "Bench Press",
+                        reps: 5,
+                        sets: 5,
+                        weight: 190
+                      },
+                      {
+                        _id: "641346650afeb7990f483319",
+                        name: "Over Head Press",
+                        reps: 5,
+                        sets: 5,
+                        weight: 115
+                      }
+                    ]
+                  },
+                  {
+                    _id: "641355800afeb7990f4836ac",
+                    name: "Edit",
+                    exercises: []
+                  },
+                  {
+                    _id: "64148fa80ecb4cb9196bcbb0",
+                    name: "Test 1",
+                    exercises: []
+                  }
+                ]
+              }
+            }
+          
+        
     });
 
     const [deleteWorkout] = useMutation(DELETE_WORKOUT, {
