@@ -110,12 +110,17 @@ export const DELETE_EXERCISE = gql`
 mutation DeleteExercise($workoutId: ID!, $exerciseId: ID!) {
   deleteExercise(workoutId: $workoutId, exerciseId: $exerciseId) {
     username
-    workouts {
+    workouts{
+      _id
       name
-      exercises {
+      exercises{
+        _id
         name
+        reps
+        sets
+        weight
       }
-   }
+    }
   }
 }
 `
@@ -123,9 +128,17 @@ export const DELETE_WORKOUT = gql`
 mutation DeleteWorkout($workoutId: ID!) {
   deleteWorkout(workoutId: $workoutId) {
     username
-    workouts {
+    workouts{
+      _id
       name
-   }
+      exercises{
+        _id
+        name
+        reps
+        sets
+        weight
+      }
+    }
   }
 }
 `

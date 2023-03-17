@@ -34,8 +34,36 @@ const Workouts = () => {
     const user = (data?.currentUser)
 
     //===[Mutations]=============================================
-    const [deleteExercise] = useMutation(DELETE_EXERCISE);
-    const [deleteWorkout] = useMutation(DELETE_WORKOUT);
+    const [deleteExercise] = useMutation(DELETE_EXERCISE, {
+        update(cache, {data: {deleteExercise}}) {
+            try {
+                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                cache.writeQuery({
+                    query: QUERY_CURRENT_USER,
+                    data: {currentUser: {...currentUser, workouts: deleteExercise.workouts}}
+                });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    });
+
+    const [deleteWorkout] = useMutation(DELETE_WORKOUT, {
+        update(cache, {data: {deleteWorkout}}) {
+            try {
+                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                cache.writeQuery({
+                    query: QUERY_CURRENT_USER,
+                    data: {currentUser: {...currentUser, workouts: deleteWorkout.workouts}}
+                });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    });
+
     const [editExercise] = useMutation(EDIT_EXERCISE);
     const [editWorkout] = useMutation(EDIT_WORKOUT);
 
@@ -59,7 +87,7 @@ const Workouts = () => {
                     workoutId: workoutId,
                 }
             });
-            refetch();
+            
         }
         catch (error) {
             console.log(error);
@@ -74,7 +102,7 @@ const Workouts = () => {
                     exerciseId: exerciseId,
                 }
             });
-            refetch();
+            
         }
         catch (error) {
             console.log(error);
