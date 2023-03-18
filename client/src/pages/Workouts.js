@@ -112,9 +112,20 @@ const Workouts = () => {
     async function handleDeleteWorkout(workoutId) {
         setSelectedWorkoutIndex("none");
         try {
+
+            let optimisticWorkouts = [...user.workouts];
+            let workoutIndexToReplace = optimisticWorkouts.findIndex(workout => workout._id.toString() === workoutId);
+            optimisticWorkouts.splice(workoutIndexToReplace,1);
+
             const mutationResponse = await deleteWorkout({
                 variables: {
                     workoutId: workoutId,
+                },
+                optimisticResponse: {
+                    deleteWorkout: {
+                        username: user.username,
+                        workouts: optimisticWorkouts
+                    }
                 }
             });
             
@@ -127,37 +138,18 @@ const Workouts = () => {
     async function handleDeleteExercise(workoutId, exerciseId) {
         try {
             let optimisticWorkouts = [...user.workouts];
+            //Spread exercises as well so they can be edited
             for (let i = 0; i < optimisticWorkouts.length; i++) {
                 optimisticWorkouts[i] = {...optimisticWorkouts[i],exercises:[...optimisticWorkouts[i].exercises]}
             }
-            console.log('===================')
-            console.log(optimisticWorkouts)
-            console.log('===================')
+            
+            //find indexes to replace
             let workoutIndexToReplace = optimisticWorkouts.findIndex(workout => workout._id.toString() === workoutId);
             let exerciseIndexToReplace = optimisticWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === exerciseId);
 
-            console.log(workoutIndexToReplace);
-            console.log(exerciseIndexToReplace);
-
-            
-            console.log('===================')
-            console.log(optimisticWorkouts[workoutIndexToReplace].exercises)
+            //splice exercise out of the workout
             optimisticWorkouts[workoutIndexToReplace].exercises.splice(exerciseIndexToReplace,1);
-            console.log(optimisticWorkouts[workoutIndexToReplace].exercises)
-            console.log('===================')
-
-
-            // optimisticWorkouts.map(workout => {
-            //     console.log(workout);
-            //     if (workout._id.toString() === workoutId) {
-            //         let indexToDelete = workout.exercises.findIndex(exercise => exercise._id.toString() === exerciseId);
-            //         console.log(indexToDelete);
-            //         console.log(workout.exercises[indexToDelete]);
-            //         workout.exercises.splice(indexToDelete,1);
-            //     }
-            //     console.log(workout);
-            //     return workout
-            //   })
+            
 
             const mutationResponse = await deleteExercise({
                 variables: {
@@ -165,7 +157,6 @@ const Workouts = () => {
                     exerciseId: exerciseId,
                 },
                 optimisticResponse:{
-            
                     deleteExercise: {
                       username: user.username,
                       workouts: optimisticWorkouts
