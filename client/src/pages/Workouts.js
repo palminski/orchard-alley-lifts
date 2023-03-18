@@ -48,44 +48,7 @@ const Workouts = () => {
                 console.log(error);
             }
         },
-        optimisticResponse:{
-            
-              deleteExercise: {
-                username: "palminski",
-                workouts: [
-                  {
-                    _id: "6410c9c599d4d271116e2c0e",
-                    name: "Will's Workout :)",
-                    exercises: [
-                      {
-                        _id: "6410c9de99d4d271116e2c16",
-                        name: "Bench Press",
-                        reps: 5,
-                        sets: 5,
-                        weight: 190
-                      },
-                      {
-                        _id: "641346650afeb7990f483319",
-                        name: "Over Head Press",
-                        reps: 5,
-                        sets: 5,
-                        weight: 115
-                      }
-                    ]
-                  },
-                  {
-                    _id: "641355800afeb7990f4836ac",
-                    name: "Edit",
-                    exercises: []
-                  },
-                  {
-                    _id: "64148fa80ecb4cb9196bcbb0",
-                    name: "Test 1",
-                    exercises: []
-                  }
-                ]
-              }
-            }
+        
           
         
     });
@@ -163,11 +126,51 @@ const Workouts = () => {
 
     async function handleDeleteExercise(workoutId, exerciseId) {
         try {
+            let optimisticWorkouts = [...user.workouts];
+            for (let i = 0; i < optimisticWorkouts.length; i++) {
+                optimisticWorkouts[i] = {...optimisticWorkouts[i],exercises:[...optimisticWorkouts[i].exercises]}
+            }
+            console.log('===================')
+            console.log(optimisticWorkouts)
+            console.log('===================')
+            let workoutIndexToReplace = optimisticWorkouts.findIndex(workout => workout._id.toString() === workoutId);
+            let exerciseIndexToReplace = optimisticWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === exerciseId);
+
+            console.log(workoutIndexToReplace);
+            console.log(exerciseIndexToReplace);
+
+            
+            console.log('===================')
+            console.log(optimisticWorkouts[workoutIndexToReplace].exercises)
+            optimisticWorkouts[workoutIndexToReplace].exercises.splice(exerciseIndexToReplace,1);
+            console.log(optimisticWorkouts[workoutIndexToReplace].exercises)
+            console.log('===================')
+
+
+            // optimisticWorkouts.map(workout => {
+            //     console.log(workout);
+            //     if (workout._id.toString() === workoutId) {
+            //         let indexToDelete = workout.exercises.findIndex(exercise => exercise._id.toString() === exerciseId);
+            //         console.log(indexToDelete);
+            //         console.log(workout.exercises[indexToDelete]);
+            //         workout.exercises.splice(indexToDelete,1);
+            //     }
+            //     console.log(workout);
+            //     return workout
+            //   })
+
             const mutationResponse = await deleteExercise({
                 variables: {
                     workoutId: workoutId,
                     exerciseId: exerciseId,
-                }
+                },
+                optimisticResponse:{
+            
+                    deleteExercise: {
+                      username: user.username,
+                      workouts: optimisticWorkouts
+                    }
+                  }
             });
         }
         catch (error) {

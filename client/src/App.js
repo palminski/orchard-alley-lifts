@@ -1,5 +1,5 @@
+import { useEffect, useState } from 'react';
 
-import {useState} from 'react';
 import {setContext} from '@apollo/client/link/context'
 import { ApolloProvider, InMemoryCache, ApolloClient, createHttpLink } from '@apollo/client';
 import Auth from "./utils/auth";
@@ -15,6 +15,9 @@ import Calender from './pages/Calender';
 import Today from './pages/Today';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import getApolloClient from "./utils/getApolloClient/client";
+//import 'bootstrap/dist/css/bootstrap.min.css';
+import AppHome from './components/AppHome';
 
 //------[Set Up Apollo]---------------
 const httpLink = createHttpLink({
@@ -37,10 +40,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-import { useEffect, useState } from 'react';
-import getApolloClient from "./utils/getApolloClient/client";
-//import 'bootstrap/dist/css/bootstrap.min.css';
-import AppHome from './components/AppHome';
+
+
 
 
 function App() {
