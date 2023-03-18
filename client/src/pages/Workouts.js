@@ -1,24 +1,24 @@
+//===[Imports]================================================
+//react and apollo
 import { useQuery, useMutation } from "@apollo/client";
-import {QUERY_CURRENT_USER} from '../utils/queries';
-import { DELETE_EXERCISE, DELETE_WORKOUT, EDIT_EXERCISE , EDIT_WORKOUT} from "../utils/mutations";
-import {useState} from 'react';
+import { QUERY_CURRENT_USER } from '../utils/queries';
+import { DELETE_EXERCISE, DELETE_WORKOUT, EDIT_EXERCISE, EDIT_WORKOUT } from "../utils/mutations";
+import { useState } from 'react';
 
+//components
 import AddWorkoutForm from "../components/AddWorkoutForm";
 import AddExerciseForm from "../components/AddExerciseForm";
-
-
-
-
+//icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare, faTrashCan, faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
+import { faPenToSquare, faTrashCan, faFloppyDisk, } from '@fortawesome/free-solid-svg-icons'
 
 
 const Workouts = () => {
-    
+
     //===[States]=============================================
     const [selectedWorkoutIndex, setSelectedWorkoutIndex] = useState("none")
-    const [mode,setMode] = useState("select");
-    const [currentlyEditing,setCurrentlyEditing] = useState('none');
+    const [mode, setMode] = useState("select");
+    const [currentlyEditing, setCurrentlyEditing] = useState('none');
     const [exerciseEditState, setExerciseEditState] = useState({
         exerciseName: "",
         sets: 0,
@@ -30,15 +30,109 @@ const Workouts = () => {
     });
 
     //===[Queries]=============================================
-    const {loading,data,refetch} = useQuery(QUERY_CURRENT_USER);
+    const { loading, data, refetch } = useQuery(QUERY_CURRENT_USER);
     const user = (data?.currentUser)
-    console.log(user);
 
     //===[Mutations]=============================================
-    const [deleteExercise] = useMutation(DELETE_EXERCISE);
-    const [deleteWorkout] = useMutation(DELETE_WORKOUT);
-    const [editExercise] = useMutation(EDIT_EXERCISE);
-    const [editWorkout] = useMutation(EDIT_WORKOUT);
+    const [deleteExercise] = useMutation(DELETE_EXERCISE, {
+        update(cache, {data: {deleteExercise}}) {
+            try {
+                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                cache.writeQuery({
+                    query: QUERY_CURRENT_USER,
+                    data: {currentUser: {...currentUser, workouts: deleteExercise.workouts}}
+                });
+                console.log("test")
+            }
+            catch (error) {
+                console.log(error);
+            }
+        },
+        optimisticResponse:{
+            
+              deleteExercise: {
+                username: "palminski",
+                workouts: [
+                  {
+                    _id: "6410c9c599d4d271116e2c0e",
+                    name: "Will's Workout :)",
+                    exercises: [
+                      {
+                        _id: "6410c9de99d4d271116e2c16",
+                        name: "Bench Press",
+                        reps: 5,
+                        sets: 5,
+                        weight: 190
+                      },
+                      {
+                        _id: "641346650afeb7990f483319",
+                        name: "Over Head Press",
+                        reps: 5,
+                        sets: 5,
+                        weight: 115
+                      }
+                    ]
+                  },
+                  {
+                    _id: "641355800afeb7990f4836ac",
+                    name: "Edit",
+                    exercises: []
+                  },
+                  {
+                    _id: "64148fa80ecb4cb9196bcbb0",
+                    name: "Test 1",
+                    exercises: []
+                  }
+                ]
+              }
+            }
+          
+        
+    });
+
+    const [deleteWorkout] = useMutation(DELETE_WORKOUT, {
+        update(cache, {data: {deleteWorkout}}) {
+            try {
+                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                cache.writeQuery({
+                    query: QUERY_CURRENT_USER,
+                    data: {currentUser: {...currentUser, workouts: deleteWorkout.workouts}}
+                });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    });
+
+    const [editExercise] = useMutation(EDIT_EXERCISE, {
+        update(cache, {data: {editExercise}}) {
+            try {
+                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                cache.writeQuery({
+                    query: QUERY_CURRENT_USER,
+                    data: {currentUser: {...currentUser, workouts: editExercise.workouts}}
+                });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    });
+    const [editWorkout] = useMutation(EDIT_WORKOUT, {
+        update(cache, {data: {editWorkout}}) {
+            try {
+                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                cache.writeQuery({
+                    query: QUERY_CURRENT_USER,
+                    data: {currentUser: {...currentUser, workouts: editWorkout.workouts}}
+                });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    });
 
     //===[Functions]=============================================
     const handleSelectChange = (e) => {
@@ -52,7 +146,7 @@ const Workouts = () => {
         }
     }
 
-    async function handleDeleteWorkout(workoutId){
+    async function handleDeleteWorkout(workoutId) {
         setSelectedWorkoutIndex("none");
         try {
             const mutationResponse = await deleteWorkout({
@@ -60,7 +154,7 @@ const Workouts = () => {
                     workoutId: workoutId,
                 }
             });
-            refetch();
+            
         }
         catch (error) {
             console.log(error);
@@ -75,7 +169,6 @@ const Workouts = () => {
                     exerciseId: exerciseId,
                 }
             });
-            refetch();
         }
         catch (error) {
             console.log(error);
@@ -83,10 +176,10 @@ const Workouts = () => {
     }
 
     const handleWorkoutFormChange = (event) => {
-        const {name,value} = event.target;
+        const { name, value } = event.target;
         setWorkoutEditState({
             ...workoutEditState,
-            [name]:value   
+            [name]: value
         });
     };
 
@@ -99,7 +192,6 @@ const Workouts = () => {
                     name: workoutEditState.workoutName,
                 }
             });
-            refetch();
         }
         catch (error) {
             console.log(error);
@@ -108,17 +200,16 @@ const Workouts = () => {
     }
 
     const handleExerciseFormChange = (event) => {
-        const {name,value} = event.target;
+        const { name, value } = event.target;
         setExerciseEditState({
             ...exerciseEditState,
-            [name]:value   
+            [name]: value
         });
     };
 
     async function handleExerciseFormSubmit(event) {
         event.preventDefault();
         console.log(exerciseEditState);
-        
         try {
             const mutationResponse = await editExercise({
                 variables: {
@@ -130,13 +221,11 @@ const Workouts = () => {
                     weight: parseFloat(exerciseEditState.weight),
                 }
             });
-            refetch();
         }
         catch (error) {
             console.log(error);
         }
         setCurrentlyEditing('none');
-        
     };
 
     //===[Return]=============================================
@@ -151,17 +240,18 @@ const Workouts = () => {
                     :
                     <div className="workout-container">
                         {user.workouts.length ?
+                        //If the user has some workouts associated witht their account
                             <>
                                 {mode === "select" ?
+                                    //Toggle Tabs at top of form
                                     <>
                                         <button className="current-tab">Edit Workouts</button>
                                         <button className="swap-tab" onClick={() => setMode("add")}>New Workout</button>
                                         <br></br>
                                         <div className="select-workout-form">
-
-
                                             {currentlyEditing !== "title" ?
                                                 // Not Editing Title
+                                                // Drop down list for choosing a workout to edit
                                                 <>
                                                     <label htmlFor="workouts">Selected Workout: </label>
                                                     <br></br>
@@ -173,39 +263,39 @@ const Workouts = () => {
                                                     </select>
                                                     {selectedWorkoutIndex !== "none" &&
                                                         <>
-                                                        <FontAwesomeIcon className="icon-button" icon={faPenToSquare} onClick={() => {
+                                                            <FontAwesomeIcon className="icon-button" icon={faPenToSquare} onClick={() => {
                                                                 setCurrentlyEditing('title');
                                                                 setWorkoutEditState({
                                                                     workoutName: user.workouts[selectedWorkoutIndex].name,
                                                                 })
-                                                        }} />
-                                                            <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex]._id) }}/>
+                                                            }} />
+                                                            <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex]._id) }} />
                                                         </>}
-
                                                 </>
                                                 // Currently Editing Title
-                                                : 
+                                                //form to change workout name
+                                                :
                                                 <>
                                                     <form onSubmit={handleWorkoutFormSubmit}>
                                                         <label htmlFor="workoutName">Workout Name: </label>
                                                         <br></br>
-                                                        <input autoFocus="true"  className="title-edit" name="workoutName" type="text" id="workoutName" onFocus={(e) => e.target.select()} onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
-                                                        <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk}/></button>
+                                                        <input autoFocus="true" className="title-edit" name="workoutName" type="text" id="workoutName" onFocus={(e) => e.target.select()} onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
+                                                        <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk} /></button>
 
                                                     </form>
                                                 </>}
-
                                         </div>
-                                        
-                                        
                                         {selectedWorkoutIndex !== "none" ?
+                                        //If there is a workout that has been selected
+                                        //List of exercises contained in that workout
                                             <>
-                                                {user.workouts[selectedWorkoutIndex].exercises &&
+                                                {user.workouts[selectedWorkoutIndex].exercises.length > 0 &&
                                                     <ul>
                                                         {user.workouts[selectedWorkoutIndex].exercises.map(exercise => (
                                                             <li className="exercise-li" key={exercise._id}>
                                                                 {currentlyEditing === exercise._id ?
-                                                                // If currently editing this exercise
+                                                                    // If currently editing this exercise
+                                                                    //li becomes a form where values can be changed
                                                                     <form className="edit-exercise-form" onSubmit={handleExerciseFormSubmit}>
                                                                         <label htmlFor="exerciseName"><span className="exercise-name">Exercise Name: </span></label>
                                                                         <input name="exerciseName" type="text" id="exerciseName" onChange={handleExerciseFormChange} value={exerciseEditState.exerciseName} />
@@ -213,76 +303,73 @@ const Workouts = () => {
                                                                         <label htmlFor="reps">Reps: </label>
                                                                         <input className="small-number-input" name="reps" type="number" step={1} id="reps" onChange={handleExerciseFormChange} value={exerciseEditState.reps} />
 
-                                                                        <label  htmlFor="sets">Sets: </label>
+                                                                        <label htmlFor="sets">Sets: </label>
                                                                         <input className="small-number-input" name="sets" type="number" step={1} id="sets" onChange={handleExerciseFormChange} value={exerciseEditState.sets} />
 
                                                                         <label htmlFor="weight">Weight: </label>
                                                                         <input className="large-number-input" name="weight" type="number" step={2.5} id="weight" onChange={handleExerciseFormChange} value={exerciseEditState.weight} />
 
-                                                                        <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk}/></button>
+                                                                        <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk} /></button>
                                                                     </form>
-
                                                                     :
                                                                     // Otherwise
+                                                                    //Display the information regarding this exercise
                                                                     <>
-                                                                        <p > <span className="exercise-name exercise-info">{exercise.name}</span> - <span className="exercise-info">{exercise.reps} x {exercise.sets}</span> - <span className="exercise-info">{exercise.weight}lbs</span> 
-                                                                        
-                                                                        <FontAwesomeIcon className="icon-button" icon={faPenToSquare} onClick={() => { 
-                                                                        setExerciseEditState({
-                                                                            exerciseName: exercise.name,
-                                                                            sets: exercise.sets,
-                                                                            reps: exercise.reps,
-                                                                            weight: exercise.weight
-                                                                        });
-                                                                        setCurrentlyEditing(exercise._id) }}/>
-                                                                        <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteExercise(user.workouts[selectedWorkoutIndex]._id, exercise._id) }}/>
-                                                                        
-                                                                    </p>
+                                                                        <p > <span className="exercise-name exercise-info">{exercise.name}</span> - <span className="exercise-info">{exercise.reps} x {exercise.sets}</span> - <span className="exercise-info">{exercise.weight}lbs</span>
+
+                                                                            <FontAwesomeIcon className="icon-button" icon={faPenToSquare} onClick={() => {
+                                                                                setExerciseEditState({
+                                                                                    exerciseName: exercise.name,
+                                                                                    sets: exercise.sets,
+                                                                                    reps: exercise.reps,
+                                                                                    weight: exercise.weight
+                                                                                });
+                                                                                setCurrentlyEditing(exercise._id)
+                                                                            }} />
+                                                                            <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteExercise(user.workouts[selectedWorkoutIndex]._id, exercise._id) }} />
+                                                                        </p>
                                                                     </>
                                                                 }
-
                                                             </li>
-
                                                         ))}
                                                     </ul>
                                                 }
-                                                
-
+                                                {/* //Form at bottom where exercises are added */}
                                                 <div className="add-exercise-section">
-
-
-                                                <h3>Add More Exercises to workout here</h3>
-                                                <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]._id}></AddExerciseForm>
+                                                    <h3>Add {user.workouts[selectedWorkoutIndex].exercises.length > 0 ? "more exercises" : "your fisrt exercise"} to this workout here</h3>
+                                                    <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]._id}></AddExerciseForm>
                                                 </div>
-                                                
                                             </>
                                             :
+                                            //If a workout has yet to be selected 
+                                            //user is prompted to select one
                                             <>
-                                            <div className="add-exercise-section">
-                                            <h3>Select a workout above to edit!</h3>
-                                            </div>
-                                                
+                                                <div className="add-exercise-section">
+                                                    <h3>Select a workout above to edit!</h3>
+                                                </div>
                                             </>
                                         }
                                     </>
                                     :
+                                    //If mode is toggled to New workout
+                                    //Form to create new workout is presented
                                     <>
                                         <button className="swap-tab" onClick={() => setMode("select")}>Edit Workouts</button>
                                         <button className="current-tab" >New Workout</button>
                                         <div className="add-workout-form-container">
-                                        <AddWorkoutForm  setMode={setMode} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddWorkoutForm>
+                                            <AddWorkoutForm setMode={setMode} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddWorkoutForm>
                                         </div>
-                                        
                                     </>
                                 }
                             </>
                             :
+                            //If the user has yet to create a workout
+                            //A form will be displayed along with a prompt to create a workout
                             <>
                                 <div className="first-workout-container">
-                                <h2>Add your first workout!</h2>
-                                <AddWorkoutForm setMode={setMode} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddWorkoutForm>
+                                    <h2>Add your first workout!</h2>
+                                    <AddWorkoutForm setMode={setMode} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddWorkoutForm>
                                 </div>
-                                
                             </>
                         }
                     </div>

@@ -11,6 +11,7 @@ import Calender from '../pages/Calender';
 import Today from '../pages/Today';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
+import MyPage from '../pages/MyPage';
 
 const AppHome = ({client}) => {
 
@@ -23,12 +24,14 @@ const AppHome = ({client}) => {
             {pageSelected === 'Home' && <Home />}
             {pageSelected === 'Login' && <Login setPageSelected={setPageSelected} />}
             {pageSelected === 'Signup' && <Signup setPageSelected={setPageSelected} />}
+            
 
             {Auth.loggedIn() &&
                 <>
                     {pageSelected === 'Workouts' && <Workouts />}
                     {pageSelected === 'Today' && <Today />}
                     {pageSelected === 'Calender' && <Calender />}
+                    {pageSelected === 'MyPage' && <MyPage/>}
                 </>
             }
         </div>
