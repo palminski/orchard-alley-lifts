@@ -43,52 +43,52 @@ const resolvers = {
         },
         editWorkout:async(parent, {workoutId, name}, context) => {
             if (context.user) {
-                
-
                 const updatedWorkout = await Workout.findOneAndUpdate(
                     {_id: workoutId},
-                    {name: name}
+                    {name: name},
+                    {
+                        new:true
+                    }
                 );
                 return updatedWorkout
-                
             }
             throw new AuthenticationError('Must be logged in to perform this action');
         },
 
         //Excersize Mutations----------------------------------------------------------------------
-        addExercise: async(parent, {workoutId, name, reps, sets, weight}, context) => {
+        addExercise: async(parent, variables, context) => {
             if (context.user) {
-                const updatedUser = await User.findOneAndUpdate(
-                    {_id: context.user._id, "workouts._id":workoutId},
-                    {$push: {"workouts.$.exercises": {name:name,  sets:sets, reps:reps, weight:weight}}},
-                    {new:true, runValidators:true}
-                );
-                console.log(updatedUser);
-                return updatedUser;
+                const exercise = await Exercise.create(variables);
+                return exercise;
                 
             }
             throw new AuthenticationError('Must be logged in to perform this action');
         },
-        deleteExercise:async(parent, {workoutId, exerciseId}, context) => {
+        deleteExercise:async(parent, {exerciseId}, context) => {
             if (context.user) {
-                console.log(exerciseId);
-                const updatedUser = await User.findOneAndUpdate(
-                    {_id: context.user._id, "workouts._id":workoutId},
-                    {$pull: {"workouts.$.exercises": {_id:exerciseId}}},
-                    {new:true}
-                );
-                return updatedUser;
+                const deletedExercise = await Exercise.deleteOne({_id: exerciseId});
+                return deletedExercise;
             }
             throw new AuthenticationError('Must be logged in to perform this action');
         },
-        editExercise: async(parent, {workoutId, exerciseId, name, reps, sets, weight}, context) => {
+        editExercise: async(parent, {exerciseId, name, reps, sets, weight}, context) => {
             if (context.user) {
-                const user = await User.findById(context.user._id);
-                const index = user.workouts[user.workouts.findIndex(workout => workout._id.toString() === workoutId)].exercises.findIndex(exercise => exercise._id.toString() === exerciseId);
-                const replacer = {_id: exerciseId, name, reps,sets,weight};
-                user.workouts[user.workouts.findIndex(workout => workout._id.toString() === workoutId)].exercises.splice(index,1,replacer);
-                await user.save();
-                return user;
+                // const user = await User.findById(context.user._id);
+                // const index = user.workouts[user.workouts.findIndex(workout => workout._id.toString() === workoutId)].exercises.findIndex(exercise => exercise._id.toString() === exerciseId);
+                // const replacer = {_id: exerciseId, name, reps,sets,weight};
+                // user.workouts[user.workouts.findIndex(workout => workout._id.toString() === workoutId)].exercises.splice(index,1,replacer);
+                // await user.save();
+                // return user;
+
+                const updatedExercise = await Exercise.findOneAndUpdate(
+                    {_id: exerciseId},
+                    {name:name,reps:reps,sets:sets,weight:weight},
+                    {
+                        new:true
+                    }
+                );
+                return updatedExercise
+
             }
             throw new AuthenticationError('Must be logged in to perform this action');
         },
