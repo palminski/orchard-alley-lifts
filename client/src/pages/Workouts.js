@@ -47,10 +47,7 @@ const Workouts = () => {
             catch (error) {
                 console.log(error);
             }
-        },
-        
-          
-        
+        }, 
     });
 
     const [deleteWorkout] = useMutation(DELETE_WORKOUT, {
@@ -90,6 +87,7 @@ const Workouts = () => {
                     query: QUERY_CURRENT_USER,
                     data: {currentUser: {...currentUser, workouts: editWorkout.workouts}}
                 });
+                console.log("test")
             }
             catch (error) {
                 console.log(error);
@@ -128,7 +126,6 @@ const Workouts = () => {
                     }
                 }
             });
-            
         }
         catch (error) {
             console.log(error);
@@ -137,6 +134,7 @@ const Workouts = () => {
 
     async function handleDeleteExercise(workoutId, exerciseId) {
         try {
+            //spread the workouts into new temp holding array
             let optimisticWorkouts = [...user.workouts];
             //Spread exercises as well so they can be edited
             for (let i = 0; i < optimisticWorkouts.length; i++) {
@@ -163,6 +161,7 @@ const Workouts = () => {
                     }
                   }
             });
+            console.log(mutationResponse)
         }
         catch (error) {
             console.log(error);
@@ -180,12 +179,26 @@ const Workouts = () => {
     async function handleWorkoutFormSubmit(event) {
         event.preventDefault();
         try {
+            let optimisticWorkouts = [...user.workouts];
+            console.log(optimisticWorkouts[selectedWorkoutIndex]);
+            optimisticWorkouts[selectedWorkoutIndex] = {...optimisticWorkouts[selectedWorkoutIndex], name:"test"}
+            
+            console.log(optimisticWorkouts[selectedWorkoutIndex]);
+            
             const mutationResponse = await editWorkout({
                 variables: {
                     workoutId: user.workouts[selectedWorkoutIndex]._id,
                     name: workoutEditState.workoutName,
+                },
+                optimisticResponse: {
+                    editWorkout: {
+                        username: user.username,
+                        workouts: optimisticWorkouts
+                    }
                 }
             });
+
+            console.log(mutationResponse)
         }
         catch (error) {
             console.log(error);
@@ -204,6 +217,33 @@ const Workouts = () => {
     async function handleExerciseFormSubmit(event) {
         event.preventDefault();
         console.log(exerciseEditState);
+
+        //spread the workouts into new temp holding array
+        let optimisticWorkouts = [...user.workouts];
+        //Spread exercises as well so they can be edited
+        for (let i = 0; i < optimisticWorkouts.length; i++) {
+            optimisticWorkouts[i] = {...optimisticWorkouts[i],exercises:[...optimisticWorkouts[i].exercises]}
+        }
+        
+        //find indexes to replace
+        let workoutIndexToReplace = optimisticWorkouts.findIndex(workout => workout._id.toString() === user.workouts[selectedWorkoutIndex]._id);
+        let exerciseIndexToReplace = optimisticWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === currentlyEditing);
+
+        //edit the selected exercise
+        console.log(optimisticWorkouts)
+        console.log("======================================")
+        console.log(optimisticWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace])
+
+        optimisticWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace] = {
+            ...optimisticWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace],
+            name: exerciseEditState.exerciseName,
+            sets: parseInt(exerciseEditState.sets),
+            reps: parseInt(exerciseEditState.reps),
+            weight: parseFloat(exerciseEditState.weight),
+        }
+
+        console.log(optimisticWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace])
+
         try {
             const mutationResponse = await editExercise({
                 variables: {
@@ -213,7 +253,13 @@ const Workouts = () => {
                     sets: parseInt(exerciseEditState.sets),
                     reps: parseInt(exerciseEditState.reps),
                     weight: parseFloat(exerciseEditState.weight),
-                }
+                },
+                optimisticResponse:{
+                    editExercise: {
+                      username: user.username,
+                      workouts: optimisticWorkouts
+                    }
+                  }
             });
         }
         catch (error) {
