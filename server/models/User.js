@@ -25,7 +25,7 @@ const UserSchema = new Schema(
             minlength:8,
             trim: true
         },
-        workouts:[workoutSchema],
+        // workouts:[workoutSchema],
         calender: {
             type: calenderSchema,
             default: {

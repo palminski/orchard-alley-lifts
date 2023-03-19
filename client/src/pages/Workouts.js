@@ -87,7 +87,7 @@ const Workouts = () => {
                     query: QUERY_CURRENT_USER,
                     data: {currentUser: {...currentUser, workouts: editWorkout.workouts}}
                 });
-                console.log("test")
+                console.log(cache.readQuery({query: QUERY_CURRENT_USER}).currentUser.workouts)
             }
             catch (error) {
                 console.log(error);
@@ -148,7 +148,6 @@ const Workouts = () => {
             //splice exercise out of the workout
             optimisticWorkouts[workoutIndexToReplace].exercises.splice(exerciseIndexToReplace,1);
             
-
             const mutationResponse = await deleteExercise({
                 variables: {
                     workoutId: workoutId,
@@ -180,10 +179,7 @@ const Workouts = () => {
         event.preventDefault();
         try {
             let optimisticWorkouts = [...user.workouts];
-            console.log(optimisticWorkouts[selectedWorkoutIndex]);
             optimisticWorkouts[selectedWorkoutIndex] = {...optimisticWorkouts[selectedWorkoutIndex], name:"test"}
-            
-            console.log(optimisticWorkouts[selectedWorkoutIndex]);
             
             const mutationResponse = await editWorkout({
                 variables: {
@@ -192,13 +188,13 @@ const Workouts = () => {
                 },
                 optimisticResponse: {
                     editWorkout: {
+                        id: -1,
+                        __typename: 'User',
                         username: user.username,
                         workouts: optimisticWorkouts
                     }
                 }
             });
-
-            console.log(mutationResponse)
         }
         catch (error) {
             console.log(error);

@@ -1,9 +1,10 @@
 const { AuthenticationError } = require('apollo-server-express');
-const {User} = require('../models');
+const {User, Workout, Exercise} = require('../models');
 const {signToken} = require('../utils/auth.js');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 const db = require('../config/connection');
+
 
 
 const resolvers = {
@@ -28,36 +29,27 @@ const resolvers = {
 
         addWorkout: async(parent, {name}, context) => {
             if (context.user) {
-                const updatedUser = await User.findOneAndUpdate(
-                    {_id: context.user._id},
-                    {$push: {workouts: {name:name}}},
-                    {new:true, runValidators:true}
-                );
-                console.log(updatedUser)
-                return updatedUser;
+                const workout = await Workout.create({userId: context.user._id, name});
+                return workout;
             }
             throw new AuthenticationError('Must be logged in to perform this action');
         },
         deleteWorkout:async(parent, {workoutId}, context) => {
             if (context.user) {
-                const updatedUser = await User.findOneAndUpdate(
-                    {_id: context.user._id},
-                    {$pull: {workouts: {_id:workoutId}}},
-                    {new:true}
-                );
-                return updatedUser;
+                const deletedWorkout = await Workout.deleteOne({_id: workoutId});
+                return deletedWorkout;
             }
             throw new AuthenticationError('Must be logged in to perform this action');
         },
         editWorkout:async(parent, {workoutId, name}, context) => {
             if (context.user) {
-                const user = await User.findById(context.user._id);
-                const index = user.workouts.findIndex(workout => workout._id.toString() === workoutId);
-                const exercises = user.workouts[index].exercises;
-                const editedWorkout = {_id: workoutId, name, exercises};
-                user.workouts.splice(index, 1, editedWorkout);
-                await user.save();
-                return user;
+                
+
+                const updatedWorkout = await Workout.findOneAndUpdate(
+                    {_id: workoutId},
+                    {name: name}
+                );
+                return updatedWorkout
                 
             }
             throw new AuthenticationError('Must be logged in to perform this action');
@@ -210,6 +202,27 @@ const resolvers = {
 
         },
 
+    },
+    //Field Resolvers
+    User: {
+        workouts: async (root) => {
+            try{
+                return await Workout.find({userId: root._id})
+            }
+            catch (error) {
+                throw new Error(error);
+            }
+        }
+    },
+    Workout: {
+        exercises: async (root) => {
+            try{
+                return await Exercise.find({workoutId: root._id})
+            }
+            catch (error) {
+                throw new Error(error);
+            }
+        }
     }
 };
 
