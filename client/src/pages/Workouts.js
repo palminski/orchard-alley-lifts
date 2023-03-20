@@ -35,68 +35,46 @@ const Workouts = () => {
 
     //===[Mutations]=============================================
     const [deleteExercise] = useMutation(DELETE_EXERCISE, {
-        update(cache, {data: {deleteExercise}}) {
+        update(cache, { data: { deleteExercise } }) {
             try {
-                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
+                //spread the workouts into new temp holding array
+                let updatedWorkouts = [...currentUser.workouts];
+                //Spread exercises as well so they can be edited
+                for (let i = 0; i < updatedWorkouts.length; i++) {
+                    updatedWorkouts[i] = { ...updatedWorkouts[i], exercises: [...updatedWorkouts[i].exercises] }
+                }
+
+                //find indexes to replace
+                let workoutIndexToReplace = selectedWorkoutIndex;
+                let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === data._id);
+
+                //splice exercise out of the workout
+                updatedWorkouts[workoutIndexToReplace].exercises.splice(exerciseIndexToReplace, 1);
+
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
-                    data: {currentUser: {...currentUser, workouts: deleteExercise.workouts}}
+                    data: { currentUser: { ...currentUser, workouts: updatedWorkouts } }
                 });
                 console.log("test")
             }
             catch (error) {
                 console.log(error);
             }
-        },
-        optimisticResponse:{
-            
-              deleteExercise: {
-                username: "palminski",
-                workouts: [
-                  {
-                    _id: "6410c9c599d4d271116e2c0e",
-                    name: "Will's Workout :)",
-                    exercises: [
-                      {
-                        _id: "6410c9de99d4d271116e2c16",
-                        name: "Bench Press",
-                        reps: 5,
-                        sets: 5,
-                        weight: 190
-                      },
-                      {
-                        _id: "641346650afeb7990f483319",
-                        name: "Over Head Press",
-                        reps: 5,
-                        sets: 5,
-                        weight: 115
-                      }
-                    ]
-                  },
-                  {
-                    _id: "641355800afeb7990f4836ac",
-                    name: "Edit",
-                    exercises: []
-                  },
-                  {
-                    _id: "64148fa80ecb4cb9196bcbb0",
-                    name: "Test 1",
-                    exercises: []
-                  }
-                ]
-              }
-            }
-          
-        
+        }, 
     });
 
     const [deleteWorkout] = useMutation(DELETE_WORKOUT, {
         update(cache, {data: {deleteWorkout}}) {
             try {
                 const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                let updatedWorkouts = [...currentUser.workouts]
+                updatedWorkouts.splice(selectedWorkoutIndex,1);
+
+                
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
-                    data: {currentUser: {...currentUser, workouts: deleteWorkout.workouts}}
+                    data: {currentUser: {...currentUser, workouts: updatedWorkouts}}
                 });
             }
             catch (error) {
@@ -109,10 +87,33 @@ const Workouts = () => {
         update(cache, {data: {editExercise}}) {
             try {
                 const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+
+                //spread the workouts into new temp holding array
+                let updatedWorkouts = [...currentUser.workouts];
+                //Spread exercises as well so they can be edited
+                for (let i = 0; i < updatedWorkouts.length; i++) {
+                    updatedWorkouts[i] = { ...updatedWorkouts[i], exercises: [...updatedWorkouts[i].exercises] }
+                }
+
+                //find indexes to replace
+                let workoutIndexToReplace = selectedWorkoutIndex;
+                let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === editExercise.id);
+
+                //splice exercise out of the workout
+                updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace] = {
+                    ...updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace],
+                    name:editExercise.name,
+                    reps:editExercise.reps,
+                    sets:editExercise.sets,
+                    weight:editExercise.weight,
+                };
+
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
-                    data: {currentUser: {...currentUser, workouts: editExercise.workouts}}
+                    data: {currentUser: {...currentUser, workouts: updatedWorkouts}}
                 });
+                console.log("<><><><><><><>")
+                console.log(currentUser.workouts[selectedWorkoutIndex].exercises[exerciseIndexToReplace].name);
             }
             catch (error) {
                 console.log(error);
@@ -120,13 +121,18 @@ const Workouts = () => {
         }
     });
     const [editWorkout] = useMutation(EDIT_WORKOUT, {
-        update(cache, {data: {editWorkout}}) {
+        update(cache, { data: { editWorkout } }) {
             try {
-                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
+
+                let updatedWorkouts = [...currentUser.workouts]
+                updatedWorkouts[selectedWorkoutIndex]= {...updatedWorkouts[selectedWorkoutIndex], name: editWorkout.name};
+                
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
-                    data: {currentUser: {...currentUser, workouts: editWorkout.workouts}}
+                    data: { currentUser: { ...currentUser, workouts:updatedWorkouts} }
                 });
+                console.log(currentUser.workouts[selectedWorkoutIndex].name)
             }
             catch (error) {
                 console.log(error);
@@ -149,12 +155,21 @@ const Workouts = () => {
     async function handleDeleteWorkout(workoutId) {
         setSelectedWorkoutIndex("none");
         try {
+
+            let optimisticWorkouts = [...user.workouts];
+            let workoutIndexToReplace = optimisticWorkouts.findIndex(workout => workout._id.toString() === workoutId);
+            optimisticWorkouts.splice(workoutIndexToReplace,1);
+
             const mutationResponse = await deleteWorkout({
                 variables: {
                     workoutId: workoutId,
+                },
+                optimisticResponse: {
+                    deleteWorkout: {
+                        _id: workoutId
+                    }
                 }
             });
-            
         }
         catch (error) {
             console.log(error);
@@ -163,12 +178,31 @@ const Workouts = () => {
 
     async function handleDeleteExercise(workoutId, exerciseId) {
         try {
+            // //spread the workouts into new temp holding array
+            // let optimisticWorkouts = [...user.workouts];
+            // //Spread exercises as well so they can be edited
+            // for (let i = 0; i < optimisticWorkouts.length; i++) {
+            //     optimisticWorkouts[i] = {...optimisticWorkouts[i],exercises:[...optimisticWorkouts[i].exercises]}
+            // }
+            
+            // //find indexes to replace
+            // let workoutIndexToReplace = optimisticWorkouts.findIndex(workout => workout._id.toString() === workoutId);
+            // let exerciseIndexToReplace = optimisticWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === exerciseId);
+
+            // //splice exercise out of the workout
+            // optimisticWorkouts[workoutIndexToReplace].exercises.splice(exerciseIndexToReplace,1);
+            
             const mutationResponse = await deleteExercise({
                 variables: {
-                    workoutId: workoutId,
                     exerciseId: exerciseId,
-                }
+                },
+                optimisticResponse:{
+                    deleteExercise: {
+                      _id: exerciseId
+                    }
+                  }
             });
+            console.log(mutationResponse)
         }
         catch (error) {
             console.log(error);
@@ -186,12 +220,23 @@ const Workouts = () => {
     async function handleWorkoutFormSubmit(event) {
         event.preventDefault();
         try {
-            const mutationResponse = await editWorkout({
+            let optimisticWorkouts = [...user.workouts];
+            optimisticWorkouts[selectedWorkoutIndex] = {...optimisticWorkouts[selectedWorkoutIndex], name:"test"}
+            
+            const mutationResponse = editWorkout({
                 variables: {
                     workoutId: user.workouts[selectedWorkoutIndex]._id,
                     name: workoutEditState.workoutName,
+                },
+                optimisticResponse: {
+                    editWorkout: {
+                        id: user.workouts[selectedWorkoutIndex]._id,
+                        __typename: 'Workout',
+                        name: workoutEditState.workoutName
+                    }
                 }
             });
+            
         }
         catch (error) {
             console.log(error);
@@ -210,16 +255,30 @@ const Workouts = () => {
     async function handleExerciseFormSubmit(event) {
         event.preventDefault();
         console.log(exerciseEditState);
+
+        
+
+        
+
         try {
-            const mutationResponse = await editExercise({
+            const mutationResponse = editExercise({
                 variables: {
-                    workoutId: user.workouts[selectedWorkoutIndex]._id,
                     exerciseId: currentlyEditing,
                     name: exerciseEditState.exerciseName,
                     sets: parseInt(exerciseEditState.sets),
                     reps: parseInt(exerciseEditState.reps),
                     weight: parseFloat(exerciseEditState.weight),
-                }
+                },
+                optimisticResponse:{
+                    editExercise: {
+                        id: currentlyEditing,
+                        __typename: "Exercise",
+                        name: exerciseEditState.exerciseName,
+                        sets: parseInt(exerciseEditState.sets),
+                        reps: parseInt(exerciseEditState.reps),
+                        weight: parseFloat(exerciseEditState.weight),
+                    }
+                  }
             });
         }
         catch (error) {
@@ -239,6 +298,7 @@ const Workouts = () => {
                     </>
                     :
                     <div className="workout-container">
+                        
                         {user.workouts.length ?
                         //If the user has some workouts associated witht their account
                             <>
