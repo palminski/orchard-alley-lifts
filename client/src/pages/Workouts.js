@@ -6,13 +6,6 @@ import {useState} from 'react';
 import AddWorkoutForm from "../components/AddWorkoutForm";
 import AddExerciseForm from "../components/AddExerciseForm";
 
-
-
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare, faTrashCan, faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
-
-
 const Workouts = () => {
     
     //===[States]=============================================
@@ -32,7 +25,6 @@ const Workouts = () => {
     //===[Queries]=============================================
     const {loading,data,refetch} = useQuery(QUERY_CURRENT_USER);
     const user = (data?.currentUser)
-    console.log(user);
 
     //===[Mutations]=============================================
     const [deleteExercise] = useMutation(DELETE_EXERCISE);
@@ -142,6 +134,7 @@ const Workouts = () => {
     //===[Return]=============================================
     return (
         <>
+            {console.log("Re-rendering ===>",selectedWorkoutIndex!="none" ? user.workouts[selectedWorkoutIndex].exercises: null)}
             <h1>Workouts</h1>
             {
                 loading ?
@@ -156,49 +149,40 @@ const Workouts = () => {
                                     <>
                                         <button onClick={() => setMode("add")}>New Workout</button>
                                         <br></br>
-                                        <div className="select-workout-form">
+                                        <label htmlFor="workouts">Select a Workout: </label>
+                                        <select name="workouts" onChange={handleSelectChange} value={user.workouts[selectedWorkoutIndex]?._id}>
+                                            <option value="none"></option>
+                                            {user.workouts && user.workouts.map(workout => (
+                                                <option key={workout._id} value={workout._id}>{workout.name}</option>
+                                            ))}
+                                        </select>
+                                        <hr></hr>
+                                        {selectedWorkoutIndex !== "none" ?
+                                            <>
 
-                                            {currentlyEditing !== "title" ?
-                                                <>
-                                                    <label htmlFor="workouts">Selected Workout: </label>
-                                                    <br></br>
-                                                    <select className="selected-workout" name="workouts" onChange={handleSelectChange} value={user.workouts[selectedWorkoutIndex]?._id}>
-                                                        <option value="none"></option>
-                                                        {user.workouts && user.workouts.map(workout => (
-                                                            <option key={workout._id} value={workout._id}>{workout.name}</option>
-                                                        ))}
-                                                    </select>
-                                                    {selectedWorkoutIndex !== "none" &&
-                                                        <>
-                                                            <br></br>
-                                                            <button onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex]._id) }}>Delete Workout</button>
-                                                            <button onClick={() => {
-                                                                setCurrentlyEditing('title');
-                                                                setWorkoutEditState({
-                                                                    workoutName: user.workouts[selectedWorkoutIndex].name,
-                                                                })
-                                                            }}>Edit Title</button>
-                                                        </>}
-
-                                                </>
-                                                :
-                                                <>
+                                                {currentlyEditing !== "title" ?
+                                                    <h2>{user.workouts[selectedWorkoutIndex].name} - 
+                                                    <button onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex]._id) }}>Delete Workout</button>
+                                                    <button onClick={() => { 
+                                                        setCurrentlyEditing('title');
+                                                        setWorkoutEditState({
+                                                            workoutName: user.workouts[selectedWorkoutIndex].name,
+                                                        })
+                                                 }}>Edit Title</button>
+                                                    </h2>
+                                                    :
                                                     <form onSubmit={handleWorkoutFormSubmit}>
                                                         <label htmlFor="workoutName">Workout Name: </label>
                                                         <input name="workoutName" type="text" id="workoutName" onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
                                                         <button>Save</button>
-                                                    </form>
-                                                </>}
+                                                    </form>}
 
-                                        </div>
-                                        
-                                        
-                                        {selectedWorkoutIndex !== "none" ?
-                                            <>
+                                                
+                                                hello- {JSON.stringify(user.workouts[selectedWorkoutIndex].exercises.length)}
                                                 {user.workouts[selectedWorkoutIndex].exercises &&
                                                     <ul>
                                                         {user.workouts[selectedWorkoutIndex].exercises.map(exercise => (
-                                                            <li className="exercise-li" key={exercise._id}>
+                                                            <li key={exercise._id}>
                                                                 {currentlyEditing === exercise._id ?
                                                                     <form onSubmit={handleExerciseFormSubmit}>
                                                                         <label htmlFor="exerciseName">Exercise Name: </label>
@@ -213,24 +197,22 @@ const Workouts = () => {
                                                                         <label htmlFor="weight">Weight: </label>
                                                                         <input name="weight" type="number" step={2.5} id="weight" onChange={handleExerciseFormChange} value={exerciseEditState.weight} />
 
-                                                                        <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk}/></button>
+                                                                        <button>Save</button>
                                                                     </form>
 
                                                                     :
 
                                                                     <>
-                                                                        <p > <span className="exercise-name exercise-info">{exercise.name}</span> - <span className="exercise-info">{exercise.reps} x {exercise.sets}</span> - <span className="exercise-info">{exercise.weight}lbs</span> 
-                                                                        
-                                                                        <FontAwesomeIcon className="icon-button" icon={faPenToSquare} onClick={() => { 
+                                                                        <p >{exercise.name} - {exercise.reps} x {exercise.sets} - {exercise.weight}lbs
+                                                                    <button onClick={() => { handleDeleteExercise(user.workouts[selectedWorkoutIndex]._id, exercise._id) }}>Delete</button>
+                                                                    <button onClick={() => { 
                                                                         setExerciseEditState({
                                                                             exerciseName: exercise.name,
                                                                             sets: exercise.sets,
                                                                             reps: exercise.reps,
                                                                             weight: exercise.weight
                                                                         });
-                                                                        setCurrentlyEditing(exercise._id) }}/>
-                                                                        <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteExercise(user.workouts[selectedWorkoutIndex]._id, exercise._id) }}/>
-                                                                        
+                                                                        setCurrentlyEditing(exercise._id) }}>Edit</button>
                                                                     </p>
                                                                     </>
                                                                 }
@@ -240,12 +222,9 @@ const Workouts = () => {
                                                         ))}
                                                     </ul>
                                                 }
-                                                
-                                                <div className="select-workout-form">
+                                                <hr></hr>
                                                 <h3>Add More Exercises to workout here</h3>
-                                                <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]._id}></AddExerciseForm>
-                                                </div>
-                                                
+                                                <AddExerciseForm currentuserinfo={user} selectedworkout={user.workouts[selectedWorkoutIndex]}></AddExerciseForm>
                                             </>
                                             :
                                             <>
