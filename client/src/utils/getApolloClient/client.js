@@ -40,12 +40,15 @@ const getApolloClient = async () => {
     const serializingLink = new SerializingLink();
 
     const trackerLink = new ApolloLink((operation, forward) => {
+        console.log(`Tracker Link ===> ${operation.getContext()}`);
+        
         if (forward === undefined) return null;
 
         const context = operation.getContext();
+        console.log(context)
         const trackedQueries = JSON.parse(window.localStorage.getItem('trackedQueries') || null) || [];
 
-        if (context.tracked !== undefined) {
+        if (context.tracked) {
             const {operationName, query, variables} = operation;
 
             const newTrackedQuery = {
@@ -58,18 +61,41 @@ const getApolloClient = async () => {
             window.localStorage.setItem('trackedQueries', JSON.stringify([...trackedQueries, newTrackedQuery]))
         }
         return forward(operation).map((data) => {
-            if (context.tracked !== undefined) {
+            if (context.tracked) {
                 window.localStorage.setItem('trackedQueries', JSON.stringify(trackedQueries))
             }
             return data
         })
     })
 
+    const firstLink = new ApolloLink((operation,forward) => {
+        const context = operation.getContext();
+        console.log("1=========================");
+        console.log(context);
+        return forward(operation)
+    })
+    const secondLink = new ApolloLink((operation,forward) => {
+        const context = operation.getContext();
+        console.log("2=======================");
+        console.log(context);
+        return forward(operation)
+    })
+    const thirdLink = new ApolloLink((operation,forward) => {
+        const context = operation.getContext();
+        console.log("3=======================");
+        console.log(context);
+        return forward(operation)
+    })
+    
+
 
     const link = ApolloLink.from([
         trackerLink,
+        firstLink,
+        secondLink,
         queueLink,
         serializingLink,
+        thirdLink,
         retryLink,
         errorLink,
         authLink,

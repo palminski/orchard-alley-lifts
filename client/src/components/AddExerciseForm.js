@@ -87,7 +87,7 @@ const AddExerciseForm = (props) => {
                 },
                 optimisticResponse: {
                     addExercise: {
-                        id: "temp_id",
+                        id: -1,
                         __typename: "Exercise",
                         workoutId: workoutId,
                         name: formState.exerciseName,
