@@ -88,9 +88,8 @@ mutation EditExercise($exerciseId: ID!, $name: String!, $sets: Int!, $reps: Int!
 export const EDIT_CALENDER = gql`
 mutation EditCalender($monday: String!, $tuesday: String!, $wednesday: String!, $thursday: String!, $friday: String!, $saturday: String!, $sunday: String!) {
   editCalender(monday: $monday, tuesday: $tuesday, wednesday: $wednesday, thursday: $thursday, friday: $friday, saturday: $saturday, sunday: $sunday) {
-    username
     calender {
-      _id
+      
       monday
       tuesday
       wednesday
