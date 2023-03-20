@@ -36,7 +36,7 @@ const resolvers = {
         },
         deleteWorkout:async(parent, {workoutId}, context) => {
             if (context.user) {
-                const deletedWorkout = await Workout.deleteOne({_id: workoutId});
+                const deletedWorkout = await Workout.findOneAndDelete({_id: workoutId});
                 return deletedWorkout;
             }
             throw new AuthenticationError('Must be logged in to perform this action');
@@ -73,12 +73,6 @@ const resolvers = {
         },
         editExercise: async(parent, {exerciseId, name, reps, sets, weight}, context) => {
             if (context.user) {
-                // const user = await User.findById(context.user._id);
-                // const index = user.workouts[user.workouts.findIndex(workout => workout._id.toString() === workoutId)].exercises.findIndex(exercise => exercise._id.toString() === exerciseId);
-                // const replacer = {_id: exerciseId, name, reps,sets,weight};
-                // user.workouts[user.workouts.findIndex(workout => workout._id.toString() === workoutId)].exercises.splice(index,1,replacer);
-                // await user.save();
-                // return user;
 
                 const updatedExercise = await Exercise.findOneAndUpdate(
                     {_id: exerciseId},
