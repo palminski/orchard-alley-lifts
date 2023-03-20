@@ -98,14 +98,18 @@ const Workouts = () => {
         }
     });
     const [editWorkout] = useMutation(EDIT_WORKOUT, {
-        update(cache, {data: {editWorkout}}) {
+        update(cache, { data: { editWorkout } }) {
             try {
-                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
+
+                // let updatedWorkouts = [...currentUser.workouts]
+                // updatedWorkouts[selectedWorkoutIndex]= {...updatedWorkouts[selectedWorkoutIndex], name: editWorkout.name};
+                // console.log(updatedWorkouts[selectedWorkoutIndex]);
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
-                    data: {currentUser: {...currentUser, workouts: editWorkout.workouts}}
+                    data: { currentUser: { ...currentUser} }
                 });
-                console.log(cache.readQuery({query: QUERY_CURRENT_USER}).currentUser.workouts)
+                console.log(currentUser.workouts[selectedWorkoutIndex])
             }
             catch (error) {
                 console.log(error);
@@ -196,20 +200,20 @@ const Workouts = () => {
             let optimisticWorkouts = [...user.workouts];
             optimisticWorkouts[selectedWorkoutIndex] = {...optimisticWorkouts[selectedWorkoutIndex], name:"test"}
             
-            const mutationResponse = await editWorkout({
+            const mutationResponse = editWorkout({
                 variables: {
                     workoutId: user.workouts[selectedWorkoutIndex]._id,
                     name: workoutEditState.workoutName,
                 },
                 optimisticResponse: {
                     editWorkout: {
-                        id: -1,
-                        __typename: 'User',
-                        username: user.username,
-                        workouts: optimisticWorkouts
+                        id: user.workouts[selectedWorkoutIndex]._id,
+                        __typename: 'Workout',
+                        name: workoutEditState.workoutName
                     }
                 }
             });
+            
         }
         catch (error) {
             console.log(error);
@@ -290,6 +294,7 @@ const Workouts = () => {
                     </>
                     :
                     <div className="workout-container">
+                        
                         {user.workouts.length ?
                         //If the user has some workouts associated witht their account
                             <>

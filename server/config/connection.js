@@ -6,6 +6,11 @@ mongoose.connect(
         useNewUrlParser: true,
         useUnifiedTopology: true,
     }
+
+    // process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/orchard-alley-lifts',function(){
+
+    //     mongoose.connection.db.dropDatabase();
+    // }
 );
 
 

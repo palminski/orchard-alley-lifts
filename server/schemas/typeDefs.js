@@ -11,6 +11,7 @@ const typeDefs = gql`
 
     type Workout {
         _id: ID
+        id: ID
         userId: String
         name: String
         exercises: [Exercise]
@@ -46,8 +47,6 @@ const typeDefs = gql`
     type Query {
         users: [User]
         currentUser: User
-
-        
     }
 
 
