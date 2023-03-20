@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import {setContext} from '@apollo/client/link/context'
-import { ApolloProvider, InMemoryCache, ApolloClient, createHttpLink } from '@apollo/client';
+import { ApolloProvider, InMemoryCache, ApolloClient, createHttpLink, } from '@apollo/client';
 import Auth from "./utils/auth";
 
 
@@ -56,6 +56,34 @@ function App() {
       setLoading(false)
     })
   }, []);
+
+  useEffect(() => {
+    if (!client) return
+
+    const execute = async () => {
+      const trackedQueries = JSON.parse(window.localStorage.getItem('trackedQueries') || null) || []
+
+      const promises = trackedQueries.map(({variables, query, context, operationName}) => client.mutate({
+        context,
+        variables,
+        mutation: query,
+        // update: updateFunctions[operationName],
+        optimisticResponse: context.optimisticResponse,
+      }))
+
+      try{
+        await Promise.all(promises)
+      }
+      catch (error) {
+        //Test
+        console.log("test")
+      }
+
+      window.localStorage.setItem('trackedQueries', [])
+    }
+    execute()
+
+  }, [client])
 
   return (
     <>
