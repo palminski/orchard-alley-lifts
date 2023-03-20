@@ -41,10 +41,9 @@ mutation ResetPassword($username: String!, $email: String!) {
 export const ADD_WORKOUT = gql`
 mutation AddWorkout($name: String!) {
   addWorkout(name: $name) {
-  username
-  workouts {
+    userId
     name
-  }  
+    _id
   }
 }
 `
@@ -52,13 +51,12 @@ mutation AddWorkout($name: String!) {
 export const ADD_EXERCISE = gql`
 mutation AddExercise($workoutId: ID!, $name: String!, $sets: Int!, $reps: Int!, $weight: Float!) {
   addExercise(workoutId: $workoutId, name: $name, sets: $sets, reps: $reps, weight: $weight) {
-    username
-    workouts {
-      name
-      exercises {
-        name
-      }
-   }
+    _id
+    workoutId
+    name
+    reps
+    sets
+    weight  
   }
 }
 `
@@ -120,20 +118,9 @@ mutation EditCalender($monday: String!, $tuesday: String!, $wednesday: String!, 
 `
 
 export const DELETE_EXERCISE = gql`
-mutation DeleteExercise($workoutId: ID!, $exerciseId: ID!) {
-  deleteExercise(workoutId: $workoutId, exerciseId: $exerciseId) {
-    username
-    workouts{
-      _id
-      name
-      exercises{
-        _id
-        name
-        reps
-        sets
-        weight
-      }
-    }
+mutation DeleteExercise($exerciseId: ID!) {
+  deleteExercise(exerciseId: $exerciseId) {
+    _id
   }
 }
 `

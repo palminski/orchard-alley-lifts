@@ -35,12 +35,26 @@ const Workouts = () => {
 
     //===[Mutations]=============================================
     const [deleteExercise] = useMutation(DELETE_EXERCISE, {
-        update(cache, {data: {deleteExercise}}) {
+        update(cache, { data: { deleteExercise } }) {
             try {
-                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
+                //spread the workouts into new temp holding array
+                let updatedWorkouts = [...currentUser.workouts];
+                //Spread exercises as well so they can be edited
+                for (let i = 0; i < updatedWorkouts.length; i++) {
+                    updatedWorkouts[i] = { ...updatedWorkouts[i], exercises: [...updatedWorkouts[i].exercises] }
+                }
+
+                //find indexes to replace
+                let workoutIndexToReplace = selectedWorkoutIndex;
+                let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === data._id);
+
+                //splice exercise out of the workout
+                updatedWorkouts[workoutIndexToReplace].exercises.splice(exerciseIndexToReplace, 1);
+
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
-                    data: {currentUser: {...currentUser, workouts: deleteExercise.workouts}}
+                    data: { currentUser: { ...currentUser, workouts: updatedWorkouts } }
                 });
                 console.log("test")
             }
@@ -150,13 +164,11 @@ const Workouts = () => {
             
             const mutationResponse = await deleteExercise({
                 variables: {
-                    workoutId: workoutId,
                     exerciseId: exerciseId,
                 },
                 optimisticResponse:{
                     deleteExercise: {
-                      username: user.username,
-                      workouts: optimisticWorkouts
+                      _id: exerciseId
                     }
                   }
             });
