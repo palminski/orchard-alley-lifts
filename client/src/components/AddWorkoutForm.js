@@ -40,7 +40,7 @@ const AddWorkoutForm = (props) => {
     });
 
     //===[Queries]=============================================
-    const {loading,data,refetch} = useQuery(QUERY_CURRENT_USER);
+    const {loading,data} = useQuery(QUERY_CURRENT_USER);
     const user = (data?.currentUser)
 
     //===[Functions]=============================================
