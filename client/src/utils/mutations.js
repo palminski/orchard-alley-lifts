@@ -41,9 +41,9 @@ mutation ResetPassword($username: String!, $email: String!) {
 export const ADD_WORKOUT = gql`
 mutation AddWorkout($name: String!) {
   addWorkout(name: $name) {
-    userId
+    id
+    __typename
     name
-    _id
   }
 }
 `
