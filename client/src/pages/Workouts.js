@@ -184,7 +184,7 @@ const Workouts = () => {
                                                 //form to change workout name
                                                 :
                                                 <>
-                                                    <form onSubmit={handleWorkoutFormSubmit}>
+                                                    <form className="first-workout-form" onSubmit={handleWorkoutFormSubmit}>
                                                         <label htmlFor="workoutName">Workout Name: </label>
                                                         <br></br>
                                                         <input autoFocus="true" className="title-edit" name="workoutName" type="text" id="workoutName" onFocus={(e) => e.target.select()} onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
@@ -275,7 +275,7 @@ const Workouts = () => {
                             //A form will be displayed along with a prompt to create a workout
                             <>
                                 <div className="first-workout-container">
-                                    <h2>Add your first workout!</h2>
+                                    <h2 className="workout-title">Add your first workout!</h2>
                                     <AddWorkoutForm setMode={setMode} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddWorkoutForm>
                                 </div>
                             </>

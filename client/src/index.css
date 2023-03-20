@@ -217,10 +217,29 @@ nav ul li{
   margin: 0 15px;
 }
 
+.workout-container {
+  margin: 30px;
+  height: 400px;
+}
+
 .first-workout-container {
   background-color: var(--darkMainColor);
   padding: 20px;
   border-radius: 25px;
+  height: 200px;
+  border-bottom: var(--accentColor) solid 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title-edit {
+  width: 700px;
+  height: 100px;
+}
+
+.workout-title {
+  margin: 10px;
+  text-align: center
 }
 
 .edit-exercise-form {
