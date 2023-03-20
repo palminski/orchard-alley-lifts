@@ -67,7 +67,7 @@ function App() {
         context,
         variables,
         mutation: query,
-        update: updateFunctions[operationName],
+        // update: updateFunctions[operationName],
         optimisticResponse: context.optimisticResponse,
       }))
 

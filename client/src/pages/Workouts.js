@@ -47,7 +47,7 @@ const Workouts = () => {
 
                 //find indexes to replace
                 let workoutIndexToReplace = selectedWorkoutIndex;
-                let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === data._id);
+                let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === deleteExercise._id);
 
                 //splice exercise out of the workout
                 updatedWorkouts[workoutIndexToReplace].exercises.splice(exerciseIndexToReplace, 1);
@@ -176,7 +176,7 @@ const Workouts = () => {
         }
     }
 
-    async function handleDeleteExercise(workoutId, exerciseId) {
+    async function handleDeleteExercise(exerciseId) {
         try {
             // //spread the workouts into new temp holding array
             // let optimisticWorkouts = [...user.workouts];
@@ -191,7 +191,7 @@ const Workouts = () => {
 
             // //splice exercise out of the workout
             // optimisticWorkouts[workoutIndexToReplace].exercises.splice(exerciseIndexToReplace,1);
-            
+            console.log(exerciseId)
             const mutationResponse = await deleteExercise({
                 variables: {
                     exerciseId: exerciseId,
@@ -386,7 +386,7 @@ const Workouts = () => {
                                                                                 });
                                                                                 setCurrentlyEditing(exercise._id)
                                                                             }} />
-                                                                            <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteExercise(user.workouts[selectedWorkoutIndex]._id, exercise._id) }} />
+                                                                            <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteExercise(exercise._id) }} />
                                                                         </p>
                                                                     </>
                                                                 }
