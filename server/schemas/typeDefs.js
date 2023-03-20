@@ -18,6 +18,7 @@ const typeDefs = gql`
     }
 
     type Exercise {
+        id: ID
         _id: ID
         workoutId: String
         name: String

@@ -72,20 +72,14 @@ mutation EditWorkout($workoutId: ID!, $name: String!) {
 `
 
 export const EDIT_EXERCISE = gql`
-mutation EditExercise($workoutId: ID!, $exerciseId: ID!, $name: String!, $sets: Int!, $reps: Int!, $weight: Float!) {
-  editExercise(workoutId: $workoutId, exerciseId: $exerciseId, name: $name, sets: $sets, reps: $reps, weight: $weight) {
-    username
-    workouts{
-      _id
-      name
-      exercises{
-        _id
-        name
-        reps
-        sets
-        weight
-      }
-    }
+mutation EditExercise($exerciseId: ID!, $name: String!, $sets: Int!, $reps: Int!, $weight: Float!) {
+  editExercise(exerciseId: $exerciseId, name: $name, sets: $sets, reps: $reps, weight: $weight) {
+    id
+    __typename
+    name
+    sets
+    reps
+    weight
   }
 }
 `

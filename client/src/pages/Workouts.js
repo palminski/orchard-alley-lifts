@@ -87,10 +87,33 @@ const Workouts = () => {
         update(cache, {data: {editExercise}}) {
             try {
                 const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+
+                //spread the workouts into new temp holding array
+                let updatedWorkouts = [...currentUser.workouts];
+                //Spread exercises as well so they can be edited
+                for (let i = 0; i < updatedWorkouts.length; i++) {
+                    updatedWorkouts[i] = { ...updatedWorkouts[i], exercises: [...updatedWorkouts[i].exercises] }
+                }
+
+                //find indexes to replace
+                let workoutIndexToReplace = selectedWorkoutIndex;
+                let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === editExercise.id);
+
+                //splice exercise out of the workout
+                updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace] = {
+                    ...updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace],
+                    name:editExercise.name,
+                    reps:editExercise.reps,
+                    sets:editExercise.sets,
+                    weight:editExercise.weight,
+                };
+
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
-                    data: {currentUser: {...currentUser, workouts: editExercise.workouts}}
+                    data: {currentUser: {...currentUser, workouts: updatedWorkouts}}
                 });
+                console.log("<><><><><><><>")
+                console.log(currentUser.workouts[selectedWorkoutIndex].exercises[exerciseIndexToReplace].name);
             }
             catch (error) {
                 console.log(error);
@@ -102,14 +125,14 @@ const Workouts = () => {
             try {
                 const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
 
-                // let updatedWorkouts = [...currentUser.workouts]
-                // updatedWorkouts[selectedWorkoutIndex]= {...updatedWorkouts[selectedWorkoutIndex], name: editWorkout.name};
-                // console.log(updatedWorkouts[selectedWorkoutIndex]);
+                let updatedWorkouts = [...currentUser.workouts]
+                updatedWorkouts[selectedWorkoutIndex]= {...updatedWorkouts[selectedWorkoutIndex], name: editWorkout.name};
+                
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
-                    data: { currentUser: { ...currentUser} }
+                    data: { currentUser: { ...currentUser, workouts:updatedWorkouts} }
                 });
-                console.log(currentUser.workouts[selectedWorkoutIndex])
+                console.log(currentUser.workouts[selectedWorkoutIndex].name)
             }
             catch (error) {
                 console.log(error);
@@ -233,36 +256,13 @@ const Workouts = () => {
         event.preventDefault();
         console.log(exerciseEditState);
 
-        //spread the workouts into new temp holding array
-        let optimisticWorkouts = [...user.workouts];
-        //Spread exercises as well so they can be edited
-        for (let i = 0; i < optimisticWorkouts.length; i++) {
-            optimisticWorkouts[i] = {...optimisticWorkouts[i],exercises:[...optimisticWorkouts[i].exercises]}
-        }
         
-        //find indexes to replace
-        let workoutIndexToReplace = optimisticWorkouts.findIndex(workout => workout._id.toString() === user.workouts[selectedWorkoutIndex]._id);
-        let exerciseIndexToReplace = optimisticWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === currentlyEditing);
 
-        //edit the selected exercise
-        console.log(optimisticWorkouts)
-        console.log("======================================")
-        console.log(optimisticWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace])
-
-        optimisticWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace] = {
-            ...optimisticWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace],
-            name: exerciseEditState.exerciseName,
-            sets: parseInt(exerciseEditState.sets),
-            reps: parseInt(exerciseEditState.reps),
-            weight: parseFloat(exerciseEditState.weight),
-        }
-
-        console.log(optimisticWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace])
+        
 
         try {
-            const mutationResponse = await editExercise({
+            const mutationResponse = editExercise({
                 variables: {
-                    workoutId: user.workouts[selectedWorkoutIndex]._id,
                     exerciseId: currentlyEditing,
                     name: exerciseEditState.exerciseName,
                     sets: parseInt(exerciseEditState.sets),
@@ -271,8 +271,12 @@ const Workouts = () => {
                 },
                 optimisticResponse:{
                     editExercise: {
-                      username: user.username,
-                      workouts: optimisticWorkouts
+                        id: currentlyEditing,
+                        __typename: "Exercise",
+                        name: exerciseEditState.exerciseName,
+                        sets: parseInt(exerciseEditState.sets),
+                        reps: parseInt(exerciseEditState.reps),
+                        weight: parseFloat(exerciseEditState.weight),
                     }
                   }
             });

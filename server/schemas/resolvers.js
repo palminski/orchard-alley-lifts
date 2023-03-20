@@ -50,6 +50,7 @@ const resolvers = {
                         new:true
                     }
                 );
+                console.log(updatedWorkout)
                 return updatedWorkout
             }
             throw new AuthenticationError('Must be logged in to perform this action');
@@ -81,6 +82,7 @@ const resolvers = {
                         new:true
                     }
                 );
+                console.log(updatedExercise)
                 return updatedExercise
 
             }
