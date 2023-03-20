@@ -82,11 +82,17 @@ const getApolloClient = async () => {
     })
     const thirdLink = new ApolloLink((operation,forward) => {
         const context = operation.getContext();
-        console.log(`This is a link in the chain designed for testing
-        Hopefull I should be able to see both the optimistic response while the data is being sent to the server, and the actual response when it returns`);
+        console.log(`
+=======================================================================
+        This is a link in the chain designed for testing
+Hopefull I should be able to see both the optimistic response while the data is being sent to the server, and the actual response when it returns`);
+        console.log("Outgoing")
         console.log(context);
+        console.log("variables")
+        // operation.variables = {exerciseId: "TEST ID"}
+        console.log(operation.variables);
         return forward(operation).map((data)=> {
-            
+            console.log("Incoming")
             console.log(data);
             return(data);
         })
