@@ -40,12 +40,11 @@ const getApolloClient = async () => {
     const serializingLink = new SerializingLink();
 
     const trackerLink = new ApolloLink((operation, forward) => {
-        console.log(`Tracker Link ===> ${operation.getContext()}`);
         
         if (forward === undefined) return null;
 
         const context = operation.getContext();
-        console.log(context)
+        
         const trackedQueries = JSON.parse(window.localStorage.getItem('trackedQueries') || null) || [];
 
         if (context.tracked) {
@@ -68,31 +67,54 @@ const getApolloClient = async () => {
         })
     })
 
-    const firstLink = new ApolloLink((operation,forward) => {
-        const context = operation.getContext();
-        console.log("1=========================");
-        console.log(context);
-        return forward(operation)
-    })
-    const secondLink = new ApolloLink((operation,forward) => {
-        const context = operation.getContext();
-        console.log("2=======================");
-        console.log(context);
-        return forward(operation)
-    })
+    
     const thirdLink = new ApolloLink((operation,forward) => {
         const context = operation.getContext();
         console.log(`
 =======================================================================
-        This is a link in the chain designed for testing
+        This is a link in the chain designed for swapping the ID variable of mutations
+
 Hopefull I should be able to see both the optimistic response while the data is being sent to the server, and the actual response when it returns`);
         console.log("Outgoing")
-        console.log(context);
-        console.log("variables")
+        
+        let outgoingTempId;
+
+        if (context.optimisticResponse?.addExercise !== undefined) {
+            console.log("Adding exercise!")
+            console.log(context.optimisticResponse.addExercise.id);
+            outgoingTempId = context.optimisticResponse.addExercise.id
+        }
+        if (context.optimisticResponse?.addWorkout !== undefined) {
+            console.log("Adding Workout!")
+            console.log(context.optimisticResponse.addWorkout.id);
+            outgoingTempId = context.optimisticResponse.addWorkout.id
+        }
+        //Swap Variables here if neccecary!
+        console.log("variables");
         // operation.variables = {exerciseId: "TEST ID"}
         console.log(operation.variables);
+        
+        
         return forward(operation).map((data)=> {
             console.log("Incoming")
+            const returningData = data.data
+            //Sets item in local storage if sent with an outgoing temporary ID
+            if (outgoingTempId) {
+                //get tracked temp IDs
+                const trackedTempIds = JSON.parse(window.localStorage.getItem('trackedTempIds') || null) || {};
+
+                if (returningData.addExercise) {
+                    const newTrackedTempIds = {...trackedTempIds, [outgoingTempId] : returningData.addExercise.id}
+                    window.localStorage.setItem("trackedTempIds", JSON.stringify(newTrackedTempIds));
+                }
+                if (returningData.addWorkout) {
+                    console.log(`Real Id => ${returningData.addWorkout.id}`);
+                    const newTrackedTempIds = {...trackedTempIds, [outgoingTempId] : returningData.addWorkout.id}
+                    window.localStorage.setItem("trackedTempIds", JSON.stringify(newTrackedTempIds));
+                }
+                console.log(JSON.parse(window.localStorage.getItem('trackedTempIds')))
+            }
+            
             console.log(data);
             return(data);
         })

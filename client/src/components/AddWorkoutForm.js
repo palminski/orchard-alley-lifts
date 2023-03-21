@@ -24,14 +24,14 @@ const AddWorkoutForm = (props) => {
                 let newWorkout = {
                     _id:addWorkout.id,
                     name: addWorkout.name,
-                    exercises: [],
+                    exercises: []
                 } 
                 const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
                     data: { currentUser: {...currentUser, workouts: [...currentUser.workouts, newWorkout]}}
                 });
-                console.log(currentUser)
+                
             }
             catch (error) {
                 console.log(error);
@@ -54,7 +54,7 @@ const AddWorkoutForm = (props) => {
 
     async function handleFormSubmit(event) {
         event.preventDefault();
-        console.log(formState);
+        
         try {
             const mutationResponse = addWorkout({
                 variables: {
