@@ -117,6 +117,13 @@ const getApolloClient = async () => {
             console.log("Updated Exercise ID in variables!")
             console.log("<><><><><><><><><><><><><><>")
         }
+        if (trackedTempIds[operation.variables?.workoutId] !== undefined) {
+            console.log("<><><><><><><><><><><><><><>")
+            console.log("temp id in tracked IDs!")
+            operation.variables.workoutId = trackedTempIds[operation.variables?.workoutId]
+            console.log("Updated Workout ID in variables!")
+            console.log("<><><><><><><><><><><><><><>")
+        }
         
         
         return forward(operation).map((data)=> {
