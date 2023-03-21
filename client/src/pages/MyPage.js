@@ -57,11 +57,11 @@ const MyPage = () => {
                     <div className="mypage-form-container">
                     <form className="mypage-container" onSubmit={handleFormSubmit}>
                         <h3 className="mypage-form-title">Change Password</h3>
-                        <div>
+                        <div className="mypage-inputs">
                         <label htmlFor="currentPassword">Current Password: </label>
                         <input name="currentPassword" type="password" id="currentPassword" onChange={handleFormChange} value={formState.currentPassword} />
                         </div>
-                        <div>
+                        <div className="mypage-inputs">
                         <label htmlFor="newPassword">New Password: </label>
                         <input name="newPassword" type="password" id="newPassword" onChange={handleFormChange} value={formState.newPassword} />
                         {errorMessage && <p>{errorMessage}</p>}

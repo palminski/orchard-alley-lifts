@@ -290,7 +290,7 @@ nav ul li{
 /* Temporary while building app */
 /* =============================================================== */
 .formCon {
-  padding: 40px;
+  padding: 100px;
   
 }
 
@@ -377,15 +377,20 @@ nav ul li{
 
 .mypage-form-container {
   width: 400px;
-  height: 450px;
-  background-color: var(--darkMainColor);
-  margin: 30px auto;
-  border-bottom: var(--accentColor) solid 5px;
-  border-radius: 25px;
+    height: 250px;
+    background-color: var(--darkMainColor);
+    margin: 30px auto;
+    border-bottom: var(--accentColor) solid 5px;
+    border-radius: 25px;
+    padding: 20px;
 }
 
 .mypage-form-title, .mypage-title {
   margin: 25px;
+}
+
+.mypage-inputs {
+
 }
 
 /* Todays Page */
