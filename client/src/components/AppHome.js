@@ -3,7 +3,7 @@ import Auth from "../utils/auth";
 import { ApolloProvider } from '@apollo/client';
 //------[Components]------------------
 import Nav from './Nav';
-
+import Footer from './Footer';
 //------[Pages]-----------------------
 import Home from '../pages/Home';
 import Workouts from '../pages/Workouts';
@@ -36,6 +36,8 @@ const AppHome = ({client}) => {
                     {pageSelected === 'MyPage' && <MyPage/>}
                 </>
             }
+            <br></br>
+            <Footer />
         </div>
     </ApolloProvider>
 }

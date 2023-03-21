@@ -42,8 +42,10 @@ const Today = () => {
     }
 
     return (
+        <div className="today-container">
+            <div className="today-exercise-container">
         <>
-        <h1>{today}'s Workout</h1>
+        <h1 className="today-h1">{today}'s Workout</h1>
 
         {
             todaysWorkout ? 
@@ -69,9 +71,9 @@ const Today = () => {
                 <h2>No Workout Scheduled for today!</h2>
             </>
         }
-        
-
         </>
+        </div>
+        </div>
     );
 }
 
