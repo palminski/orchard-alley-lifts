@@ -62,7 +62,7 @@ const AddWorkoutForm = (props) => {
                 },
                 optimisticResponse: {
                     addWorkout: {
-                        id: "temp_ID",
+                        id: `temp_id-${formState.workoutName}-Workout-${Date.now()}`,
                         __typename: "Workout",
                         name: formState.workoutName
                     }
