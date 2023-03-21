@@ -1,4 +1,4 @@
-import { InMemoryCache, ApolloClient, createHttpLink, ApolloLink} from '@apollo/client';
+import { InMemoryCache, ApolloClient, createHttpLink, ApolloLink, NextLink} from '@apollo/client';
 import { CachePersistor } from 'apollo3-cache-persist';
 import {RetryLink} from 'apollo-link-retry';
 import QueueLink from 'apollo-link-queue';
@@ -6,9 +6,15 @@ import {onError} from 'apollo-link-error';
 import SerializingLink from 'apollo-link-serialize';
 
 import { setContext } from '@apollo/client/link/context'
+
+import WaitHereLink from './WaitHereLink.ts';
+
+
 const API_HOST = 'http://localhost:3001/graphql';
 const SCHEMA_VERSION = '1';
 const SCHEMA_VERSION_KEY = 'apollo-schema-version';
+
+
 
 
 
@@ -67,15 +73,13 @@ const getApolloClient = async () => {
         })
     })
 
-    
-    const thirdLink = new ApolloLink((operation,forward) => {
-        const context = operation.getContext();
-        console.log(`
-=======================================================================
-        This is a link in the chain designed for swapping the ID variable of mutations
+    const pauseLink = new WaitHereLink();
 
-Hopefull I should be able to see both the optimistic response while the data is being sent to the server, and the actual response when it returns`);
-        console.log("Outgoing")
+    const thirdLink = new ApolloLink((operation,forward) => {
+        queueLink.close();
+        const context = operation.getContext();
+        console.log(forward);
+        
         
         let outgoingTempId;
 
@@ -89,22 +93,45 @@ Hopefull I should be able to see both the optimistic response while the data is 
             console.log(context.optimisticResponse.addWorkout.id);
             outgoingTempId = context.optimisticResponse.addWorkout.id
         }
+        
         //Swap Variables here if neccecary!
-        console.log("variables");
+
+        
+        
         // operation.variables = {exerciseId: "TEST ID"}
-        console.log(operation.variables);
+        
+        console.log("<><><>")
+        console.log("}}}}}}}}}}}}}START OF MUTATION}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}")
+        const trackedTempIds = JSON.parse(window.localStorage.getItem('trackedTempIds') || null) || {};
+        console.log("Tracked temp IDs")
+        console.log(trackedTempIds)
+        console.log("Exercise ID for this mutation")
+        console.log(operation.variables?.exerciseId)
+        console.log("Value at that key")
+        console.log(trackedTempIds[operation.variables?.exerciseId])
+        
+        if (trackedTempIds[operation.variables?.exerciseId] !== undefined) {
+            console.log("<><><><><><><><><><><><><><>")
+            console.log("temp id in tracked IDs!")
+            // operation.variables.exerciseId = trackedTempIds[operation.variables?.exerciseId]
+            // console.log("Updated Exercise ID in variables!")
+            console.log("<><><><><><><><><><><><><><>")
+        }
         
         
         return forward(operation).map((data)=> {
-            console.log("Incoming")
+            
             const returningData = data.data
             //Sets item in local storage if sent with an outgoing temporary ID
             if (outgoingTempId) {
                 //get tracked temp IDs
-                const trackedTempIds = JSON.parse(window.localStorage.getItem('trackedTempIds') || null) || {};
+                
 
+                //Update Temp Tracked IDs
                 if (returningData.addExercise) {
                     const newTrackedTempIds = {...trackedTempIds, [outgoingTempId] : returningData.addExercise.id}
+                    window.localStorage.setItem("trackedTempIds", JSON.stringify(newTrackedTempIds));
+                    console.log("UPDATED LOCAL STORAGE VALUES!")
                     window.localStorage.setItem("trackedTempIds", JSON.stringify(newTrackedTempIds));
                 }
                 if (returningData.addWorkout) {
@@ -112,10 +139,13 @@ Hopefull I should be able to see both the optimistic response while the data is 
                     const newTrackedTempIds = {...trackedTempIds, [outgoingTempId] : returningData.addWorkout.id}
                     window.localStorage.setItem("trackedTempIds", JSON.stringify(newTrackedTempIds));
                 }
-                console.log(JSON.parse(window.localStorage.getItem('trackedTempIds')))
+                
             }
-            
-            console.log(data);
+            console.log("UPDATED TRACKED TEMP IDS")
+            console.log(JSON.parse(window.localStorage.getItem('trackedTempIds')))
+            console.log("{{{{{{{{{END OF MUTATION{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{")
+            console.log("<><><>")
+            queueLink.open();
             return(data);
         })
     })
@@ -126,10 +156,12 @@ Hopefull I should be able to see both the optimistic response while the data is 
         trackerLink,
         queueLink,
         serializingLink,
+        pauseLink,
         thirdLink,
         retryLink,
         errorLink,
         authLink,
+        
         httpLink
     ])
 
