@@ -113,8 +113,8 @@ const getApolloClient = async () => {
         if (trackedTempIds[operation.variables?.exerciseId] !== undefined) {
             console.log("<><><><><><><><><><><><><><>")
             console.log("temp id in tracked IDs!")
-            // operation.variables.exerciseId = trackedTempIds[operation.variables?.exerciseId]
-            // console.log("Updated Exercise ID in variables!")
+            operation.variables.exerciseId = trackedTempIds[operation.variables?.exerciseId]
+            console.log("Updated Exercise ID in variables!")
             console.log("<><><><><><><><><><><><><><>")
         }
         

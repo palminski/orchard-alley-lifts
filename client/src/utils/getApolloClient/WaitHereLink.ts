@@ -25,7 +25,7 @@ export default class WaitHereLink extends ApolloLink {
         if (this.isOpen) {
             this.isOpen =false;
             return forward(operation).map((data) => {
-                this.isOpen =true;
+                this.open();
                 return data;
             });
         }
@@ -37,10 +37,22 @@ export default class WaitHereLink extends ApolloLink {
     }
 
     private cancelOperation(entry: OperationQueueEntry) {
+        console.log(`
+        
+        OPERATION CANCEL
+        
+        `)
+        
         this.opQueue = this.opQueue.filter(e => e !== entry);
     }
 
     private enqueue(entry: OperationQueueEntry) {
+        console.log(`
+        
+        OPERATION ADDED TO QUEUE
+        
+        `)
+        console.log(this.opQueue);
         this.opQueue.push(entry);
     }
 
