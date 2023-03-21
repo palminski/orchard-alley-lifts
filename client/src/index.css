@@ -377,6 +377,7 @@ nav ul li{
 
 .mypage-form-container {
   width: 400px;
+  height: 450px;
   background-color: var(--darkMainColor);
   margin: 30px auto;
   border-bottom: var(--accentColor) solid 5px;
