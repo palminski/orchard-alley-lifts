@@ -45,7 +45,6 @@ input {
   border-radius: 5px;
   border-style: solid;
   padding: 5px;
-  width: fit-content;
 }
 
 option {
@@ -374,16 +373,12 @@ nav ul li{
 
 .mypage-container, .mypage-form-title {
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .mypage-form-container {
-  height: 275px;
   width: 400px;
   background-color: var(--darkMainColor);
-  margin: auto;
+  margin: 30px auto;
   border-bottom: var(--accentColor) solid 5px;
   border-radius: 25px;
 }
