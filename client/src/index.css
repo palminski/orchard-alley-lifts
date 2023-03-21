@@ -45,6 +45,7 @@ input {
   border-radius: 5px;
   border-style: solid;
   padding: 5px;
+  width: fit-content;
 }
 
 option {
@@ -178,6 +179,9 @@ nav ul li{
   background-color: var(--darkMainColor);
   padding: 20px;
   border-radius: 0 0 25px 25px;
+  border-bottom: var(--accentColor) solid 5px;
+  display: flex;
+  flex-direction: column;
 }
 
 .selected-workout {
@@ -186,12 +190,14 @@ nav ul li{
   min-width: 50%;
   font-size: x-large;
   color: aliceblue;
+  background-color: var(--clickableColor);
 }
 
 .title-edit {
   background-color: var(--clickableColor);
   padding: 10px;
   min-width: 49%;
+  width: 700px;
   font-size: x-large;
   color: aliceblue;
 }
@@ -219,54 +225,67 @@ nav ul li{
 
 .workout-container {
   margin: 30px;
-  height: 400px;
+  height: 500px;
 }
 
 .first-workout-container {
   background-color: var(--darkMainColor);
-  padding: 20px;
-  border-radius: 25px;
-  height: 200px;
-  border-bottom: var(--accentColor) solid 5px;
-  display: flex;
-  flex-direction: column;
-}
-
-.title-edit {
-  width: 700px;
-  height: 100px;
+    padding: 20px;
+    border-radius: 25px;
+    height: 200px;
+    border: var(--accentColor) solid 5px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
 }
 
 .workout-title {
-  margin: 10px;
-  text-align: center
+  margin: 10px 0 30px;
 }
 
 .edit-exercise-form {
   margin: 0 15px;
+  display: flex;
+  flex-direction: column;
 }
 
 .add-workout-form-container {
   padding: 20px;
   background-color: var(--darkMainColor);
   border-radius: 0 25px 25px 25px;
+  border-bottom: var(--accentColor) solid 5px;
 }
+
 
 /* Calendar Page */
 /* =============================================================== */
+
+.calendar-cont {
+  display: flex;
+  flex-wrap: wrap;
+  height: 480px;
+  margin: 25px;
+}
+
 .calendar-h1 {
   margin: 20px;
 }
 
 .calendar-dates {
-  background-color: rgb(224, 225, 221);
+  background-color: var(--darkMainColor);
   padding: 10px;
   height: 10vh;
   width: 22vh;
-  margin: 10px;
-  border: var(--accentColor) solid 5px;
-  border-radius: 20px;
+  border-bottom: var(--accentColor) solid 5px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  border-radius: 25px;
   margin: auto;
+}
+
+.date-input {
+  background-color: var(--clickableColor);
 }
 
 /* Temporary while building app */
@@ -291,6 +310,7 @@ nav ul li{
   flex-direction: column;
   padding: 10px;
   color: white;
+  text-align: center;
 }
 
 .buttonCon {
@@ -335,4 +355,60 @@ nav ul li{
   justify-content: center;
   align-items: center;
   object-fit: fill;
+}
+
+
+.footer-container {
+  background-color: var(--darkMainColor);
+  height: 115px;
+  border-top: var(--accentColor) solid 5px;
+}
+
+
+/* My Page */
+/* =============================================================== */
+
+.mypage-container {
+  height: 550px;
+}
+
+.mypage-container, .mypage-form-title {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mypage-form-container {
+  height: 275px;
+  width: 400px;
+  background-color: var(--darkMainColor);
+  margin: auto;
+  border-bottom: var(--accentColor) solid 5px;
+  border-radius: 25px;
+}
+
+.mypage-form-title, .mypage-title {
+  margin: 25px;
+}
+
+/* Todays Page */
+/* =============================================================== */
+
+.today-container {
+  height: 550px;
+  text-align: center;
+}
+
+.today-exercise-container {
+  height: 475px;
+  width: 400px;
+  background-color: var(--darkMainColor);
+  margin: 30px auto;
+  border-bottom: var(--accentColor) solid 5px;
+  border-radius: 25px;
+}
+
+.today-h1 {
+  margin: 25px auto;
 }

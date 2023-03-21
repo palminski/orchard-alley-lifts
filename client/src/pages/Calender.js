@@ -71,6 +71,7 @@ const Calender = () => {
                 <div className="calendar-dates">
               <label htmlFor="monday">Monday: </label>
               <select
+                className="date-input"
                 name="monday"
                 value={calenderState.monday}
                 onChange={handleFormChange}
@@ -88,6 +89,7 @@ const Calender = () => {
               <div className="calendar-dates">
               <label htmlFor="tuesday">Tuesday: </label>
               <select
+              className="date-input"
                 name="tuesday"
                 value={calenderState.tuesday}
                 onChange={handleFormChange}
@@ -105,6 +107,7 @@ const Calender = () => {
               <div className="calendar-dates">
               <label htmlFor="wednesday">Wednesday: </label>
               <select
+              className="date-input"
                 name="wednesday"
                 value={calenderState.wednesday}
                 onChange={handleFormChange}
@@ -122,6 +125,7 @@ const Calender = () => {
               <div className="calendar-dates">
               <label htmlFor="thursday">Thursday: </label>
               <select
+              className="date-input"
                 name="thursday"
                 value={calenderState.thursday}
                 onChange={handleFormChange}
@@ -139,6 +143,7 @@ const Calender = () => {
               <div className="calendar-dates">
               <label htmlFor="friday">Friday: </label>
               <select
+              className="date-input"
                 name="friday"
                 value={calenderState.friday}
                 onChange={handleFormChange}
@@ -156,6 +161,7 @@ const Calender = () => {
               <div className="calendar-dates">
               <label htmlFor="saturday">Saturday: </label>
               <select
+              className="date-input"
                 name="saturday"
                 value={calenderState.saturday}
                 onChange={handleFormChange}
@@ -173,6 +179,7 @@ const Calender = () => {
               <div className="calendar-dates">
               <label htmlFor="sunday">Sunday: </label>
               <select
+              className="date-input"
                 name="sunday"
                 value={calenderState.sunday}
                 onChange={handleFormChange}
