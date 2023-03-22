@@ -118,7 +118,7 @@ const AddExerciseForm = (props) => {
     return (
        <form onSubmit={handleFormSubmit}>
             <label htmlFor="exerciseName">Exercise Name: </label>
-            <input name="exerciseName" type="text" id="exerciseName" onChange={handleFormChange} value={formState.exerciseName}/>
+            <input required name="exerciseName" type="text" id="exerciseName" onChange={handleFormChange} value={formState.exerciseName}/>
 
             <label htmlFor="reps">Reps: </label>
             <input className="small-number-input" name="reps" type="number" step={1}  id="reps" onChange={handleFormChange} value={formState.reps}/>

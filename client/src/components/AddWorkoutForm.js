@@ -88,7 +88,7 @@ const AddWorkoutForm = (props) => {
        <form onSubmit={handleFormSubmit}>
             <label htmlFor="workoutName">New Workout Name: </label>
             <br></br>
-            <input className="title-edit" name="workoutName" type="workoutName" id="workoutName" onChange={handleFormChange} value={formState.workoutName}/>
+            <input required className="title-edit" name="workoutName" type="workoutName" id="workoutName" onChange={handleFormChange} value={formState.workoutName}/>
             <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk}/></button>
        </form> 
     )
