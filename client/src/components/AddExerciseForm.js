@@ -82,7 +82,7 @@ const AddExerciseForm = (props) => {
         event.preventDefault();
         console.log(formState);
         try {
-            const mutationResponse = await addExercise({
+            const mutationResponse = addExercise({
                 variables: {
                     workoutId: workoutId,
                     name: formState.exerciseName,
