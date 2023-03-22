@@ -56,7 +56,7 @@ const Workouts = () => {
                     query: QUERY_CURRENT_USER,
                     data: { currentUser: { ...currentUser, workouts: updatedWorkouts } }
                 });
-                console.log("test")
+                
             }
             catch (error) {
                 console.log(error);
@@ -202,7 +202,7 @@ const Workouts = () => {
                     }
                   }
             });
-            console.log(mutationResponse)
+            
         }
         catch (error) {
             console.log(error);

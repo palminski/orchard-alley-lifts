@@ -10,19 +10,18 @@ export default class WaitHereLink extends ApolloLink {
     private opQueue : OperationQueueEntry[] = [];
     private isOpen = true;
 
-    public updateWorkoutIds(tempId, actualId) {
-        console.log(`
-        
-==========UPDATING WORKOUT IDS=======================
-        
-        `)
-        this.opQueue.forEach(({ operation}) => {
-            if (operation.variables?.workoutId === tempId) {
-                operation.variables.workoutId = actualId
-            }
+    public open() {
+        this.isOpen = true;
+        this.opQueue.forEach(({ operation, forward, observer}) => {
+            console.log("Start")
+            forward(operation).subscribe(observer);
+            console.log("Stop")
         });
+        this.opQueue = [];
     }
-
+    public close() {
+        this.isOpen = false
+    }
     public next() {
         console.log("{{{{{{{{{{{{{{{{{{{{{{{{{{{")
         console.log("Next Called");

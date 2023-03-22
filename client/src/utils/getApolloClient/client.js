@@ -75,12 +75,33 @@ const getApolloClient = async () => {
 
     const pauseLink = new WaitHereLink();
 
+    const nextInLineLink = new ApolloLink((operation, forward) => {
+        
+        
+        return forward(operation).map((data) => {
+            
+            let context = operation.getContext()
+            console.log(context);
+            let returningData = data.data;
+            console.log(returningData);
+
+            if (context.optimisticResponse?.addWorkout?.id !== undefined) {
+                pauseLink.updateWorkoutIds(context.optimisticResponse.addWorkout.id, returningData.addWorkout.id)
+            }
+
+            pauseLink.next();
+            return data;
+        })
+    })
+
+
     const thirdLink = new ApolloLink((operation,forward) => {
         queueLink.close();
         const context = operation.getContext();
         // console.log(forward);
         
         
+
         let outgoingTempId;
 
         if (context.optimisticResponse?.addExercise !== undefined) {
@@ -162,6 +183,7 @@ const getApolloClient = async () => {
     const link = ApolloLink.from([
         // trackerLink,
         queueLink,
+        nextInLineLink,
         pauseLink,
         serializingLink,
         
