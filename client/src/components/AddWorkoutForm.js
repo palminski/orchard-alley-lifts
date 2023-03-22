@@ -31,6 +31,7 @@ const AddWorkoutForm = (props) => {
                     query: QUERY_CURRENT_USER,
                     data: { currentUser: {...currentUser, workouts: [...currentUser.workouts, newWorkout]}}
                 });
+                setSelectedWorkoutIndex(currentUser.workouts.length);
                 
             }
             catch (error) {
