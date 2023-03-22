@@ -60,6 +60,7 @@ export default class WaitHereLink extends ApolloLink {
             if (optimisticResponse?.addExercise) {
                 //adds optimistic responses id to the tracker
                 let tempId = optimisticResponse.addExercise.id;
+                let newTrackedPair = {[tempId] : newId};
                 this.open(tempId, newId)
             }
             
