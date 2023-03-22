@@ -88,6 +88,9 @@ const getApolloClient = async () => {
             if (context.optimisticResponse?.addWorkout?.id !== undefined) {
                 pauseLink.updateWorkoutIds(context.optimisticResponse.addWorkout.id, returningData.addWorkout.id)
             }
+            if (context.optimisticResponse?.addExercise?.id !== undefined) {
+                pauseLink.updateExerciseIds(context.optimisticResponse.addExercise.id, returningData.addExercise.id)
+            }
 
             pauseLink.next();
             return data;

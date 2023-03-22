@@ -22,6 +22,18 @@ export default class WaitHereLink extends ApolloLink {
             }
         });
     }
+    public updateExerciseIds(tempId, actualId) {
+        console.log(`
+        
+==========UPDATING Exercise IDS=======================
+        
+        `)
+        this.opQueue.forEach(({ operation}) => {
+            if (operation.variables?.exerciseId === tempId) {
+                operation.variables.exerciseId = actualId
+            }
+        });
+    }
 
     public next() {
         console.log("{{{{{{{{{{{{{{{{{{{{{{{{{{{")
