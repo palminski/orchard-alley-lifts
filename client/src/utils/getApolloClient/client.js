@@ -78,19 +78,19 @@ const getApolloClient = async () => {
     const thirdLink = new ApolloLink((operation,forward) => {
         queueLink.close();
         const context = operation.getContext();
-        console.log(forward);
+        // console.log(forward);
         
         
         let outgoingTempId;
 
         if (context.optimisticResponse?.addExercise !== undefined) {
-            console.log("Adding exercise!")
-            console.log(context.optimisticResponse.addExercise.id);
+            // console.log("Adding exercise!")
+            // console.log(context.optimisticResponse.addExercise.id);
             outgoingTempId = context.optimisticResponse.addExercise.id
         }
         if (context.optimisticResponse?.addWorkout !== undefined) {
-            console.log("Adding Workout!")
-            console.log(context.optimisticResponse.addWorkout.id);
+            // console.log("Adding Workout!")
+            // console.log(context.optimisticResponse.addWorkout.id);
             outgoingTempId = context.optimisticResponse.addWorkout.id
         }
         
@@ -100,29 +100,29 @@ const getApolloClient = async () => {
         
         // operation.variables = {exerciseId: "TEST ID"}
         
-        console.log("<><><>")
-        console.log("}}}}}}}}}}}}}START OF MUTATION}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}")
+        // console.log("<><><>")
+        // console.log("}}}}}}}}}}}}}START OF MUTATION}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}")
         const trackedTempIds = JSON.parse(window.localStorage.getItem('trackedTempIds') || null) || {};
-        console.log("Tracked temp IDs")
-        console.log(trackedTempIds)
-        console.log("Exercise ID for this mutation")
-        console.log(operation.variables?.exerciseId)
-        console.log("Value at that key")
-        console.log(trackedTempIds[operation.variables?.exerciseId])
+        // console.log("Tracked temp IDs")
+        // console.log(trackedTempIds)
+        // console.log("Exercise ID for this mutation")
+        // console.log(operation.variables?.exerciseId)
+        // console.log("Value at that key")
+        // console.log(trackedTempIds[operation.variables?.exerciseId])
         
         if (trackedTempIds[operation.variables?.exerciseId] !== undefined) {
-            console.log("<><><><><><><><><><><><><><>")
-            console.log("temp id in tracked IDs!")
+            // console.log("<><><><><><><><><><><><><><>")
+            // console.log("temp id in tracked IDs!")
             operation.variables.exerciseId = trackedTempIds[operation.variables?.exerciseId]
-            console.log("Updated Exercise ID in variables!")
-            console.log("<><><><><><><><><><><><><><>")
+            // console.log("Updated Exercise ID in variables!")
+            // console.log("<><><><><><><><><><><><><><>")
         }
         if (trackedTempIds[operation.variables?.workoutId] !== undefined) {
-            console.log("<><><><><><><><><><><><><><>")
-            console.log("temp id in tracked IDs!")
+            // console.log("<><><><><><><><><><><><><><>")
+            // console.log("temp id in tracked IDs!")
             operation.variables.workoutId = trackedTempIds[operation.variables?.workoutId]
-            console.log("Updated Workout ID in variables!")
-            console.log("<><><><><><><><><><><><><><>")
+            // console.log("Updated Workout ID in variables!")
+            // console.log("<><><><><><><><><><><><><><>")
         }
         
         
@@ -138,20 +138,20 @@ const getApolloClient = async () => {
                 if (returningData.addExercise) {
                     const newTrackedTempIds = {...trackedTempIds, [outgoingTempId] : returningData.addExercise.id}
                     window.localStorage.setItem("trackedTempIds", JSON.stringify(newTrackedTempIds));
-                    console.log("UPDATED LOCAL STORAGE VALUES!")
+                    // console.log("UPDATED LOCAL STORAGE VALUES!")
                     window.localStorage.setItem("trackedTempIds", JSON.stringify(newTrackedTempIds));
                 }
                 if (returningData.addWorkout) {
-                    console.log(`Real Id => ${returningData.addWorkout.id}`);
+                    // console.log(`Real Id => ${returningData.addWorkout.id}`);
                     const newTrackedTempIds = {...trackedTempIds, [outgoingTempId] : returningData.addWorkout.id}
                     window.localStorage.setItem("trackedTempIds", JSON.stringify(newTrackedTempIds));
                 }
                 
             }
-            console.log("UPDATED TRACKED TEMP IDS")
-            console.log(JSON.parse(window.localStorage.getItem('trackedTempIds')))
-            console.log("{{{{{{{{{END OF MUTATION{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{")
-            console.log("<><><>")
+            // console.log("UPDATED TRACKED TEMP IDS")
+            // console.log(JSON.parse(window.localStorage.getItem('trackedTempIds')))
+            // console.log("{{{{{{{{{END OF MUTATION{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{")
+            // console.log("<><><>")
             queueLink.open();
             return(data);
         })
@@ -160,11 +160,12 @@ const getApolloClient = async () => {
 
 
     const link = ApolloLink.from([
-        trackerLink,
+        // trackerLink,
         queueLink,
-        serializingLink,
         pauseLink,
-        thirdLink,
+        serializingLink,
+        
+        // thirdLink,
         retryLink,
         errorLink,
         authLink,

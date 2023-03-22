@@ -59,7 +59,7 @@ function App() {
 
   useEffect(() => {
     if (!client) return
-
+    console.log("hello world")
     const execute = async () => {
       const trackedQueries = JSON.parse(window.localStorage.getItem('trackedQueries') || null) || []
 
@@ -76,7 +76,9 @@ function App() {
       }
       catch (error) {
         //Test
-        console.log("test")
+        console.log("=========================")
+        console.log(error)
+        console.log("=========================")
       }
 
       window.localStorage.setItem('trackedQueries', [])
