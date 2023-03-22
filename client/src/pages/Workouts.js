@@ -339,7 +339,7 @@ const Workouts = () => {
                                                     <form className="first-workout-form" onSubmit={handleWorkoutFormSubmit}>
                                                         <label htmlFor="workoutName">Workout Name: </label>
                                                         <br></br>
-                                                        <input autoFocus="true" className="title-edit" name="workoutName" type="text" id="workoutName" onFocus={(e) => e.target.select()} onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
+                                                        <input required autoFocus="true" className="title-edit" name="workoutName" type="text" id="workoutName" onFocus={(e) => e.target.select()} onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
                                                         <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk} /></button>
 
                                                     </form>
@@ -359,19 +359,19 @@ const Workouts = () => {
                                                                     <form className="handle-exercise-form" onSubmit={handleExerciseFormSubmit}>
                                                                         <div className="exercise-name">
                                                                         <label htmlFor="exerciseName"><span className="exercise-name">Exercise Name: </span></label>
-                                                                        <input name="exerciseName" type="text" id="exerciseName" onChange={handleExerciseFormChange} value={exerciseEditState.exerciseName} />
+                                                                        <input required name="exerciseName" type="text" id="exerciseName" onChange={handleExerciseFormChange} value={exerciseEditState.exerciseName} />
                                                                         </div>
                                                                         <div className="exercise-name">
                                                                         <label htmlFor="reps">Reps: </label>
-                                                                        <input className="small-number-input" name="reps" type="number" step={1} id="reps" onChange={handleExerciseFormChange} value={exerciseEditState.reps} />
+                                                                        <input required className="small-number-input" name="reps" type="number" step={1} id="reps" onChange={handleExerciseFormChange} value={exerciseEditState.reps} />
                                                                         </div>
                                                                         <div className="exercise-name">
                                                                         <label htmlFor="sets">Sets: </label>
-                                                                        <input className="small-number-input" name="sets" type="number" step={1} id="sets" onChange={handleExerciseFormChange} value={exerciseEditState.sets} />
+                                                                        <input required className="small-number-input" name="sets" type="number" step={1} id="sets" onChange={handleExerciseFormChange} value={exerciseEditState.sets} />
                                                                         </div>
                                                                         <div className="exercise-name">
                                                                         <label htmlFor="weight">Weight: </label>
-                                                                        <input className="large-number-input" name="weight" type="number" step={2.5} id="weight" onChange={handleExerciseFormChange} value={exerciseEditState.weight} />
+                                                                        <input required className="large-number-input" name="weight" type="number" step={2.5} id="weight" onChange={handleExerciseFormChange} value={exerciseEditState.weight} />
                                                                         </div>
                                                                         <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk} /></button>
                                                                     </form>
