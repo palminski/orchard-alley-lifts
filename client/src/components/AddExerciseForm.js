@@ -43,8 +43,13 @@ const AddExerciseForm = (props) => {
                     sets:addExercise.sets,
                     weight:addExercise.weight,
                 }
-
-
+                console.log("<><><><><><>")
+                // console.log(updatedWorkouts);
+                // console.log(workoutIndexToReplace);
+                if (workoutIndexToReplace <0 ) {
+                    workoutIndexToReplace = updatedWorkouts.length-1
+                }
+                console.log("<><><><><><>")
                 updatedWorkouts[workoutIndexToReplace].exercises.push(newExercise)
 
 
@@ -87,7 +92,7 @@ const AddExerciseForm = (props) => {
                 },
                 optimisticResponse: {
                     addExercise: {
-                        id: -1,
+                        id: `temp_id-${formState.exerciseName}-Exercise-${Date.now()}`,
                         __typename: "Exercise",
                         workoutId: workoutId,
                         name: formState.exerciseName,
