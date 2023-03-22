@@ -1,7 +1,12 @@
-const {Schema} = require('mongoose');
+const {Schema, model} = require('mongoose');
 
 const exerciseSchema = new Schema(
     {
+        workoutId:{
+            type: String,
+            required: true,
+            trim: true
+        },
         name:{
             type: String,
             required: true,
@@ -21,4 +26,5 @@ const exerciseSchema = new Schema(
         }
     }
 )
-module.exports = exerciseSchema;
+const Exercise = model('Exercise', exerciseSchema);
+module.exports = Exercise;

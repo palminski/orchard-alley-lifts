@@ -20,10 +20,54 @@ const AddExerciseForm = (props) => {
     });
 
     //===[Mutations]=============================================
-    const [addExercise] = useMutation(ADD_EXERCISE);
+    const [addExercise] = useMutation(ADD_EXERCISE, {
+        update(cache, {data: {addExercise}}) {
+            try {
+                
+                
+                const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
+
+                //spread the workouts into new temp holding array
+                let updatedWorkouts = [...currentUser.workouts];
+                //Spread exercises as well so they can be edited
+                for (let i = 0; i < updatedWorkouts.length; i++) {
+                    updatedWorkouts[i] = { ...updatedWorkouts[i], exercises: [...updatedWorkouts[i].exercises] }
+                }
+
+                //find indexes to replace
+                let workoutIndexToReplace = updatedWorkouts.findIndex(workout => workout._id === workoutId);
+                const newExercise = {
+                    _id: addExercise.id,
+                    name:addExercise.name,
+                    reps:addExercise.reps,
+                    sets:addExercise.sets,
+                    weight:addExercise.weight,
+                }
+                console.log("<><><><><><>")
+                // console.log(updatedWorkouts);
+                // console.log(workoutIndexToReplace);
+                if (workoutIndexToReplace <0 ) {
+                    workoutIndexToReplace = updatedWorkouts.length-1
+                }
+                console.log("<><><><><><>")
+                updatedWorkouts[workoutIndexToReplace].exercises.push(newExercise)
+
+
+
+                cache.writeQuery({
+                    query: QUERY_CURRENT_USER,
+                    data: { currentUser: {...currentUser, workouts: updatedWorkouts}}
+                });
+                console.log(currentUser)
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    });
 
     //===[Queries]=============================================
-    const {refetch} = useQuery(QUERY_CURRENT_USER);
+    const {loading,data, refetch} = useQuery(QUERY_CURRENT_USER);
 
     //===[Functions]=============================================
     const handleFormChange = (event) => {
@@ -45,9 +89,19 @@ const AddExerciseForm = (props) => {
                     reps: parseInt(formState.reps),
                     sets: parseInt(formState.sets),
                     weight: parseFloat(formState.weight)
+                },
+                optimisticResponse: {
+                    addExercise: {
+                        id: `temp_id-${formState.exerciseName}-Exercise-${Date.now()}`,
+                        __typename: "Exercise",
+                        workoutId: workoutId,
+                        name: formState.exerciseName,
+                        reps: parseInt(formState.reps),
+                        sets: parseInt(formState.sets),
+                        weight: parseFloat(formState.weight)
+                    }
                 }
             });
-            refetch();
         }
         catch (error) {
             console.log(error);

@@ -49,20 +49,26 @@ const MyPage = () => {
 
     //===[Return]=========================================
     return (
-       <div>
+       <div className="mypage-container">
         {
                 user &&
                 <>
-                    <h1>{user.username}</h1>
-                    <form onSubmit={handleFormSubmit}>
-                        <h3>Change Password</h3>
+                    <h1 className="mypage-title">{user.username}</h1>
+                    <div className="mypage-form-container">
+                    <form className="mypage-container" onSubmit={handleFormSubmit}>
+                        <h3 className="mypage-form-title">Change Password</h3>
+                        <div className="mypage-inputs">
                         <label htmlFor="currentPassword">Current Password: </label>
                         <input name="currentPassword" type="password" id="currentPassword" onChange={handleFormChange} value={formState.currentPassword} />
+                        </div>
+                        <div className="mypage-inputs">
                         <label htmlFor="newPassword">New Password: </label>
                         <input name="newPassword" type="password" id="newPassword" onChange={handleFormChange} value={formState.newPassword} />
                         {errorMessage && <p>{errorMessage}</p>}
+                        </div>
                         <button>Submit</button>
                     </form>
+                    </div>
                 </>
             }
 

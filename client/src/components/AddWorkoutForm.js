@@ -17,10 +17,30 @@ const AddWorkoutForm = (props) => {
     const [formState,setFormState] = useState({workoutName: ""});
 
     //===[Mutations]=============================================
-    const [addWorkout] = useMutation(ADD_WORKOUT);
+    const [addWorkout] = useMutation(ADD_WORKOUT,{
+        update(cache, {data: {addWorkout}}) {
+            try {
+                
+                let newWorkout = {
+                    _id:addWorkout.id,
+                    name: addWorkout.name,
+                    exercises: []
+                } 
+                const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
+                cache.writeQuery({
+                    query: QUERY_CURRENT_USER,
+                    data: { currentUser: {...currentUser, workouts: [...currentUser.workouts, newWorkout]}}
+                });
+                
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    });
 
     //===[Queries]=============================================
-    const {loading,data,refetch} = useQuery(QUERY_CURRENT_USER);
+    const {loading,data} = useQuery(QUERY_CURRENT_USER);
     const user = (data?.currentUser)
 
     //===[Functions]=============================================
@@ -34,26 +54,31 @@ const AddWorkoutForm = (props) => {
 
     async function handleFormSubmit(event) {
         event.preventDefault();
-        console.log(formState);
+        
         try {
-            const mutationResponse = await addWorkout({
+            const mutationResponse = addWorkout({
                 variables: {
                     name: formState.workoutName
+                },
+                optimisticResponse: {
+                    addWorkout: {
+                        id: `temp_id-${formState.workoutName}-Workout-${Date.now()}`,
+                        __typename: "Workout",
+                        name: formState.workoutName
+                    }
                 }
             });
             
-            await refetch();
-            console.log(mutationResponse.data.addWorkout.workouts.length-1);
-            let workoutIndex = mutationResponse.data.addWorkout.workouts.length-1;
             
-            setSelectedWorkoutIndex(workoutIndex);
+            // console.log(mutationResponse.data.addWorkout.workouts.length-1);
+            // let workoutIndex = mutationResponse.data.addWorkout.workouts.length-1;
+            
+            // setSelectedWorkoutIndex(workoutIndex);
         }
         catch (error) {
             console.log(error);
         }
         setFormState({workoutName: ""});
-        
-         
         setMode("select");
     }
 

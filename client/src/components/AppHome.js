@@ -3,7 +3,7 @@ import Auth from "../utils/auth";
 import { ApolloProvider } from '@apollo/client';
 //------[Components]------------------
 import Nav from './Nav';
-
+import Footer from './Footer';
 //------[Pages]-----------------------
 import Home from '../pages/Home';
 import Workouts from '../pages/Workouts';
@@ -12,6 +12,7 @@ import Today from '../pages/Today';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import MyPage from '../pages/MyPage';
+import ForgotPassword from '../pages/ForgotPassword'
 
 const AppHome = ({client}) => {
 
@@ -24,6 +25,7 @@ const AppHome = ({client}) => {
             {pageSelected === 'Home' && <Home />}
             {pageSelected === 'Login' && <Login setPageSelected={setPageSelected} />}
             {pageSelected === 'Signup' && <Signup setPageSelected={setPageSelected} />}
+            {pageSelected === 'ForgotPassword' && <ForgotPassword/>}
             
 
             {Auth.loggedIn() &&
@@ -34,6 +36,8 @@ const AppHome = ({client}) => {
                     {pageSelected === 'MyPage' && <MyPage/>}
                 </>
             }
+            <br></br>
+            <Footer />
         </div>
     </ApolloProvider>
 }
