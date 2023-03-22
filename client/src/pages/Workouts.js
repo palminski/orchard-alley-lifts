@@ -86,6 +86,7 @@ const Workouts = () => {
     const [editExercise] = useMutation(EDIT_EXERCISE, {
         update(cache, {data: {editExercise}}) {
             try {
+                console.log(editExercise);
                 const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
 
                 //spread the workouts into new temp holding array
@@ -107,7 +108,7 @@ const Workouts = () => {
                     sets:editExercise.sets,
                     weight:editExercise.weight,
                 };
-
+                console.log(editExercise);
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
                     data: {currentUser: {...currentUser, workouts: updatedWorkouts}}
@@ -255,11 +256,6 @@ const Workouts = () => {
     async function handleExerciseFormSubmit(event) {
         event.preventDefault();
         console.log(exerciseEditState);
-
-        
-
-        
-
         try {
             const mutationResponse = editExercise({
                 variables: {
