@@ -9,7 +9,7 @@ import {faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 const AddExerciseForm = (props) => {
     //===[Props]=============================================
-    const {workoutId} = props;
+    const {workoutId, setSelectedWorkoutIndex} = props;
 
     //===[States]=============================================
     const [formState,setFormState] = useState({
@@ -34,8 +34,13 @@ const AddExerciseForm = (props) => {
                     updatedWorkouts[i] = { ...updatedWorkouts[i], exercises: [...updatedWorkouts[i].exercises] }
                 }
 
+                console.log("<><><><><><>")
+                console.log('these are the workouts of the current user')
+                console.log(updatedWorkouts);
+                console.log(`workout Id to search for: ${workoutId}`)
                 //find indexes to replace
                 let workoutIndexToReplace = updatedWorkouts.findIndex(workout => workout._id === workoutId);
+                console.log(`Workout index to replace: ${workoutIndexToReplace}`);
                 const newExercise = {
                     _id: addExercise.id,
                     name:addExercise.name,
@@ -43,10 +48,12 @@ const AddExerciseForm = (props) => {
                     sets:addExercise.sets,
                     weight:addExercise.weight,
                 }
-                console.log("<><><><><><>")
+                
 
-                console.log(workoutIndexToReplace);
-                console.log(updatedWorkouts);
+                
+
+                
+                
                 updatedWorkouts[workoutIndexToReplace].exercises.push(newExercise)
                 console.log(updatedWorkouts);
                 console.log("<><><><><><>")
@@ -61,8 +68,8 @@ const AddExerciseForm = (props) => {
                 console.log(currentUser)
             }
             catch (error) {
+                setSelectedWorkoutIndex("none");
                 refetch();
-                
                 console.log(error);
             }
         }
