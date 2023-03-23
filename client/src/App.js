@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import {setContext} from '@apollo/client/link/context'
-import { ApolloProvider, InMemoryCache, ApolloClient, createHttpLink, } from '@apollo/client';
+import { ApolloProvider, InMemoryCache, ApolloClient, createHttpLink, gql } from '@apollo/client';
 import Auth from "./utils/auth";
 
 
@@ -57,35 +57,52 @@ function App() {
     })
   }, []);
 
-  useEffect(() => {
-    if (!client) return
-    console.log("hello world")
-    const execute = async () => {
-      const trackedQueries = JSON.parse(window.localStorage.getItem('trackedQueries') || null) || []
+  // useEffect(() => {
+  //   if (!client) return
+  //   console.log(`
+    
+    
+  //   RUNNING TRACKED MUTATIONS
 
-      const promises = trackedQueries.map(({variables, query, context, operationName}) => client.mutate({
-        context,
-        variables,
-        mutation: query,
-        // update: updateFunctions[operationName],
-        optimisticResponse: context.optimisticResponse,
-      }))
+    
+  //   `)
+  //   const execute = async () => {
+  //     const trackedQueries = [JSON.parse(window.localStorage.getItem('trackedQueries') || null) || []]
 
-      try{
-        await Promise.all(promises)
-      }
-      catch (error) {
-        //Test
-        console.log("=========================")
-        console.log(error)
-        console.log("=========================")
-      }
+  //     const promises = trackedQueries.map((operation) => client.mutate({
+        
+  //       variables: operation.variables,
+  //       mutation: gql`
+  //       mutation AddExercise($workoutId: ID!, $name: String!, $sets: Int!, $reps: Int!, $weight: Float!) {
+  //         addExercise(workoutId: $workoutId, name: $name, sets: $sets, reps: $reps, weight: $weight) {
+  //           id
+  //           workoutId
+  //           __typename
+  //           name
+  //           reps
+  //           sets
+  //           weight  
+  //         }
+  //       }
+  //       `
+        
+  //     }))
 
-      window.localStorage.setItem('trackedQueries', [])
-    }
-    execute()
+  //     try{
+  //       await Promise.all(promises)
+  //     }
+  //     catch (error) {
+  //       //Test
+  //       console.log("=========================")
+  //       console.log(error)
+  //       console.log("=========================")
+  //     }
 
-  }, [client])
+  //     window.localStorage.setItem('trackedQueries', [])
+  //   }
+  //   execute()
+
+  // }, [client])
 
   return (
     <>

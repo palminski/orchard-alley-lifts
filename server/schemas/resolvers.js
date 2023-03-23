@@ -12,6 +12,12 @@ const resolvers = {
         users: async() => {
             return User.find()
         },
+        exercises: async() => {
+            return Exercise.find()
+        },
+        workouts: async() => {
+            return Workout.find()
+        },
         currentUser: async(parent,args, context) => {
             console.log('Searching for current user');
             if(context.user){
@@ -36,6 +42,7 @@ const resolvers = {
         },
         deleteWorkout:async(parent, {workoutId}, context) => {
             if (context.user) {
+                await Exercise.deleteMany({workoutId: workoutId});
                 const deletedWorkout = await Workout.findOneAndDelete({_id: workoutId});
                 return deletedWorkout;
             }
