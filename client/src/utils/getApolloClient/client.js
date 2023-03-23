@@ -45,12 +45,32 @@ const getApolloClient = async () => {
 
     const serializingLink = new SerializingLink();
 
-
     const pauseLink = new WaitHereLink();
 
+    const trackerLink = new ApolloLink((operation, forward) => {
+        if (forward === undefined) return null
+        const context = operation.getContext();
+
+        const trackedOperations = JSON.parse(window.localStorage.getItem('trackedOperations') || null) || []
+
+        console.log(trackedOperations);
+        console.log(operation)
+
+        
+
+        window.localStorage.setItem("trackedOperations", JSON.stringify([...trackedOperations, operation]))
+        console.log(JSON.parse(window.localStorage.getItem('trackedOperations')))
+        
+
+        return forward(operation).map((data) => {
+            
+                window.localStorage.setItem('trackedOperations', JSON.stringify(trackedOperations))
+                return data;
+            
+        });
+    })
+
     const nextInLineLink = new ApolloLink((operation, forward) => {
-        
-        
         return forward(operation).map((data) => {
             
             let context = operation.getContext()
@@ -71,7 +91,7 @@ const getApolloClient = async () => {
     }) 
 
     const link = ApolloLink.from([
-        
+        // trackerLink,
         queueLink,
         nextInLineLink,
         pauseLink,
