@@ -199,7 +199,7 @@ nav ul li {
   background-color: var(--clickableColor);
   padding: 10px;
   min-width: 49%;
-  width: 700px;
+  width: auto;
   font-size: x-large;
   color: aliceblue;
 }
