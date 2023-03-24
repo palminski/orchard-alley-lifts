@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import {setContext} from '@apollo/client/link/context'
-import { ApolloProvider, InMemoryCache, ApolloClient, createHttpLink, gql } from '@apollo/client';
+import { ApolloProvider, InMemoryCache, ApolloClient, createHttpLink, useQuery} from '@apollo/client';
+import { QUERY_CURRENT_USER } from './utils/queries';
+
 import Auth from "./utils/auth";
 
 
@@ -18,6 +20,9 @@ import Signup from './pages/Signup';
 import getApolloClient from "./utils/getApolloClient/client";
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import AppHome from './components/AppHome';
+
+
+
 
 //------[Set Up Apollo]---------------
 const httpLink = createHttpLink({
@@ -40,14 +45,14 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-
-
-
-
 function App() {
 
+  
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
+  
+  
+
 
   useEffect(() => {
     getApolloClient().then((client) => {
@@ -67,29 +72,21 @@ function App() {
     
   //   `)
   //   const execute = async () => {
-  //     const trackedQueries = [JSON.parse(window.localStorage.getItem('trackedQueries') || null) || []]
+  //     const trackedOperations = JSON.parse(window.localStorage.getItem('trackedOperations') || null) || []
 
-  //     const promises = trackedQueries.map((operation) => client.mutate({
-        
-  //       variables: operation.variables,
-  //       mutation: gql`
-  //       mutation AddExercise($workoutId: ID!, $name: String!, $sets: Int!, $reps: Int!, $weight: Float!) {
-  //         addExercise(workoutId: $workoutId, name: $name, sets: $sets, reps: $reps, weight: $weight) {
-  //           id
-  //           workoutId
-  //           __typename
-  //           name
-  //           reps
-  //           sets
-  //           weight  
-  //         }
-  //       }
-  //       `
-        
+  //     console.log(trackedOperations)
+
+  //     const promises = trackedOperations.map(({variables, mutation, optimisticResponse}) => client.mutate({
+  //       variables,
+  //       mutation,
+  //       optimisticResponse
   //     }))
 
   //     try{
   //       await Promise.all(promises)
+  //       await client.refetchQueries({
+  //         include: "active"
+  //       })
   //     }
   //     catch (error) {
   //       //Test
@@ -98,7 +95,7 @@ function App() {
   //       console.log("=========================")
   //     }
 
-  //     window.localStorage.setItem('trackedQueries', [])
+  //     window.localStorage.setItem('trackedOperations', [])
   //   }
   //   execute()
 
