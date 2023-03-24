@@ -3,12 +3,12 @@
 :root {
   --darkMainColor: rgb(65, 90, 119);
   --lightMainColor: rgb(119, 141, 169);
-  --accentColor:rgb(255, 183, 3);
+  --accentColor: rgb(255, 183, 3);
   --listItemAColor: rgb(136, 161, 196);
   --listItemBColor: rgb(104, 121, 143);
   --clickableColor: rgb(75, 75, 75);
-  --transparent: rgb(0,0,0,0);
-  --backgroundColor: #393D3F;
+  --transparent: rgb(0, 0, 0, 0);
+  --backgroundColor: #393d3f;
 }
 
 /* Utility Classes and General Styling */
@@ -16,8 +16,8 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -52,7 +52,7 @@ option {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -94,11 +94,14 @@ code {
 /* Nav Bar */
 /* =============================================================== */
 .nav-container {
-  position: relative;
   background-color: var(--darkMainColor);
   height: auto;
   border-bottom: var(--accentColor) solid 5px;
   padding: 25px 0;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  top: 0;
 }
 
 .hrefCon {
@@ -124,8 +127,8 @@ nav ul {
   align-self: flex-end;
   padding-right: 20px;
 }
-nav ul li{
-  float:left;
+nav ul li {
+  float: left;
   padding: 10px;
   transition-duration: 0.5s;
   text-decoration: none;
@@ -153,7 +156,6 @@ nav ul li{
 }
 .swap-tab:hover {
   background-color: var(--darkMainColor);
-
 }
 .current-tab {
   background-color: var(--darkMainColor);
@@ -164,8 +166,9 @@ nav ul li{
   color: aliceblue;
 }
 
-.workout-container{
+.workout-container {
   margin: 0 60px 0 20px;
+  padding: 100px;
 }
 
 .select-workout-form {
@@ -196,7 +199,7 @@ nav ul li{
   background-color: var(--clickableColor);
   padding: 10px;
   min-width: 49%;
-  width: 700px;
+  width: auto;
   font-size: x-large;
   color: aliceblue;
 }
@@ -213,8 +216,8 @@ nav ul li{
   padding: 10px;
 }
 
-.exercise-name{
-  font-size: x-large !important; 
+.exercise-name {
+  font-size: x-large !important;
 }
 
 .exercise-info {
@@ -229,13 +232,13 @@ nav ul li{
 
 .first-workout-container {
   background-color: var(--darkMainColor);
-    padding: 20px;
-    border-radius: 25px;
-    height: 200px;
-    border: var(--accentColor) solid 5px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+  padding: 20px;
+  border-radius: 25px;
+  height: 200px;
+  border: var(--accentColor) solid 5px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 
 .workout-title {
@@ -254,7 +257,6 @@ nav ul li{
   border-radius: 0 25px 25px 25px;
   border-bottom: var(--accentColor) solid 5px;
 }
-
 
 /* Calendar Page */
 /* =============================================================== */
@@ -291,7 +293,6 @@ nav ul li{
 /* =============================================================== */
 .formCon {
   padding: 100px;
-  
 }
 
 .loginForm {
@@ -318,7 +319,6 @@ nav ul li{
 }
 
 .loginBtn {
-  
   border-radius: 10px;
   padding: 10px;
   width: 150px;
@@ -326,7 +326,7 @@ nav ul li{
   color: white;
 }
 
-.clickableP{
+.clickableP {
   color: rgb(58, 134, 255);
   text-shadow: 0px 0px;
   padding: 10px;
@@ -334,15 +334,14 @@ nav ul li{
   cursor: pointer;
   transition-duration: 0.3s;
 }
-.clickableP:hover{
+.clickableP:hover {
   color: rgb(0, 98, 255);
-  
 }
 
-.bgImg{
+.bgImg {
   width: auto;
   max-width: 100%;
-  object-fit:cover;
+  object-fit: cover;
 }
 
 .container {
@@ -356,57 +355,59 @@ nav ul li{
   object-fit: fill;
 }
 
-
 .footer-container {
   background-color: var(--darkMainColor);
   height: 115px;
   border-top: var(--accentColor) solid 5px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
-
 
 /* My Page */
 /* =============================================================== */
 
-.mypage-container {
-  height: 550px;
-}
-
-.mypage-container, .mypage-form-title {
+.mypage-container,
+.mypage-form-title {
   text-align: center;
 }
 
+
+
 .mypage-form-container {
   width: 400px;
-    height: 250px;
-    background-color: var(--darkMainColor);
-    margin: 30px auto;
-    border-bottom: var(--accentColor) solid 5px;
-    border-radius: 25px;
-    padding: 20px;
+  background-color: var(--darkMainColor);
+  margin: 80px auto;
+  border-bottom: var(--accentColor) solid 5px;
+  border-radius: 25px;
+  padding: 20px;
 }
 
-.mypage-form-title, .mypage-title {
+.mypage-form-title,
+.mypage-title {
   margin: 25px;
 }
 
 .mypage-inputs {
-
 }
 
 /* Todays Page */
 /* =============================================================== */
 
 .today-container {
-  height: 550px;
+  height: 750px;
   text-align: center;
+  margin-top: 140px;
 }
 
 .today-exercise-container {
-  height: 475px;
+  height: 575px;
   width: 400px;
   background-color: var(--darkMainColor);
   margin: 30px auto;
   border-bottom: var(--accentColor) solid 5px;
+  border-right: var(--accentColor) solid 5px;
   border-radius: 25px;
 }
 

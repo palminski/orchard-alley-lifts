@@ -47,6 +47,8 @@ const typeDefs = gql`
 
     type Query {
         users: [User]
+        workouts: [Workout]
+        exercises: [Exercise]
         currentUser: User
     }
 

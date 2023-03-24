@@ -4,7 +4,7 @@ import {RetryLink} from 'apollo-link-retry';
 import QueueLink from 'apollo-link-queue';
 import {onError} from 'apollo-link-error';
 import SerializingLink from 'apollo-link-serialize';
-
+import { ADD_EXERCISE,ADD_WORKOUT,DELETE_EXERCISE,DELETE_WORKOUT,EDIT_EXERCISE,EDIT_WORKOUT,EDIT_CALENDER } from '../mutations';
 import { setContext } from '@apollo/client/link/context'
 
 import WaitHereLink from './WaitHereLink.ts';
@@ -13,8 +13,6 @@ import WaitHereLink from './WaitHereLink.ts';
 const API_HOST = 'http://localhost:3001/graphql';
 const SCHEMA_VERSION = '1';
 const SCHEMA_VERSION_KEY = 'apollo-schema-version';
-
-
 
 
 
@@ -45,12 +43,87 @@ const getApolloClient = async () => {
 
     const serializingLink = new SerializingLink();
 
-
     const pauseLink = new WaitHereLink();
 
+    // const trackerLink = new ApolloLink((operation, forward) => {
+    //     if (forward === undefined) return null
+    //     const context = operation.getContext();
+
+    //     const trackedOperations = JSON.parse(window.localStorage.getItem('trackedOperations') || null) || []
+
+    //     console.log(context);
+    //     console.log(operation)
+
+    //     //check if it is a mutation that needs to be tracked
+    //     if (context.optimisticResponse) {
+
+            
+    //         console.log(context.optimisticResponse)
+    //         const opVariables = operation.variables
+    //         let opMutation = "none";
+    //         if (context.optimisticResponse.editCalender) 
+    //         {
+    //             console.log("Editing Calender")
+    //             opMutation = EDIT_CALENDER;
+    //         }
+    //         else if (context.optimisticResponse.addWorkout) 
+    //         {
+    //             console.log("Adding Workout")
+    //             opMutation = ADD_WORKOUT;
+    //         }
+    //         else if (context.optimisticResponse.addExercise) 
+    //         {
+    //             console.log("Adding Exercise")
+    //             opMutation = ADD_EXERCISE;
+    //         }
+    //         else if (context.optimisticResponse.editWorkout) 
+    //         {
+    //             console.log("Editing workout")
+    //             opMutation = EDIT_WORKOUT;
+    //         }
+    //         else if (context.optimisticResponse.editExercise) 
+    //         {
+    //             console.log("EditingExercise")
+    //             opMutation = EDIT_EXERCISE
+    //         }
+    //         else if (context.optimisticResponse.deleteWorkout) 
+    //         {
+    //             console.log("Deleting Workout")
+    //             opMutation = DELETE_WORKOUT
+    //         }
+    //         else if (context.optimisticResponse.deleteExercise) 
+    //         {
+    //             console.log("Deleting Exercise")
+    //             opMutation = DELETE_EXERCISE
+    //         }
+    //         const newTrackedOperation = {
+    //             variables: opVariables,
+    //             mutation: opMutation,
+    //             optimisticResponse: context.optimisticResponse
+    //         }
+    //         console.log("{{{{{{{{{{{{{{{{{{")
+    //         window.localStorage.setItem('trackedOperations', JSON.stringify([...trackedOperations,newTrackedOperation]));
+    //         console.log(JSON.parse(window.localStorage.getItem('trackedOperations')))
+    //         console.log("{{{{{{{{{{{{{{{{{{")
+    //     }
+
+    //     console.log(operation.variables)
+    //     console.log(context.optimisticResponse)
+
+    //     // window.localStorage.setItem("trackedOperations", JSON.stringify([...trackedOperations, newTrackedOperation]))
+    //     // console.log(JSON.parse(window.localStorage.getItem('trackedOperations')))
+        
+
+    //     return forward(operation).map((data) => {
+            
+    //             window.localStorage.setItem('trackedOperations', [])
+                
+    //             return data;
+            
+    //     });
+    // })
+
     const nextInLineLink = new ApolloLink((operation, forward) => {
-        
-        
         return forward(operation).map((data) => {
             
             let context = operation.getContext()
@@ -71,7 +144,7 @@ const getApolloClient = async () => {
     }) 
 
     const link = ApolloLink.from([
-        
+        // trackerLink,
         queueLink,
         nextInLineLink,
         pauseLink,

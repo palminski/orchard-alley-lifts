@@ -31,6 +31,7 @@ const AddWorkoutForm = (props) => {
                     query: QUERY_CURRENT_USER,
                     data: { currentUser: {...currentUser, workouts: [...currentUser.workouts, newWorkout]}}
                 });
+                setSelectedWorkoutIndex(currentUser.workouts.length);
                 
             }
             catch (error) {
@@ -87,7 +88,7 @@ const AddWorkoutForm = (props) => {
        <form onSubmit={handleFormSubmit}>
             <label htmlFor="workoutName">New Workout Name: </label>
             <br></br>
-            <input className="title-edit" name="workoutName" type="workoutName" id="workoutName" onChange={handleFormChange} value={formState.workoutName}/>
+            <input required className="title-edit" name="workoutName" type="workoutName" id="workoutName" onChange={handleFormChange} value={formState.workoutName}/>
             <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk}/></button>
        </form> 
     )

@@ -9,7 +9,7 @@ import {faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 const AddExerciseForm = (props) => {
     //===[Props]=============================================
-    const {workoutId} = props;
+    const {workoutId, setSelectedWorkoutIndex} = props;
 
     //===[States]=============================================
     const [formState,setFormState] = useState({
@@ -34,8 +34,13 @@ const AddExerciseForm = (props) => {
                     updatedWorkouts[i] = { ...updatedWorkouts[i], exercises: [...updatedWorkouts[i].exercises] }
                 }
 
+                console.log("<><><><><><>")
+                console.log('these are the workouts of the current user')
+                console.log(updatedWorkouts);
+                console.log(`workout Id to search for: ${workoutId}`)
                 //find indexes to replace
                 let workoutIndexToReplace = updatedWorkouts.findIndex(workout => workout._id === workoutId);
+                console.log(`Workout index to replace: ${workoutIndexToReplace}`);
                 const newExercise = {
                     _id: addExercise.id,
                     name:addExercise.name,
@@ -43,14 +48,16 @@ const AddExerciseForm = (props) => {
                     sets:addExercise.sets,
                     weight:addExercise.weight,
                 }
-                console.log("<><><><><><>")
-                // console.log(updatedWorkouts);
-                // console.log(workoutIndexToReplace);
-                if (workoutIndexToReplace <0 ) {
-                    workoutIndexToReplace = updatedWorkouts.length-1
-                }
-                console.log("<><><><><><>")
+                
+
+                
+
+                
+                
                 updatedWorkouts[workoutIndexToReplace].exercises.push(newExercise)
+                console.log(updatedWorkouts);
+                console.log("<><><><><><>")
+                
 
 
 
@@ -61,6 +68,8 @@ const AddExerciseForm = (props) => {
                 console.log(currentUser)
             }
             catch (error) {
+                setSelectedWorkoutIndex("none");
+                refetch();
                 console.log(error);
             }
         }
@@ -82,7 +91,7 @@ const AddExerciseForm = (props) => {
         event.preventDefault();
         console.log(formState);
         try {
-            const mutationResponse = await addExercise({
+            const mutationResponse = addExercise({
                 variables: {
                     workoutId: workoutId,
                     name: formState.exerciseName,
@@ -118,16 +127,16 @@ const AddExerciseForm = (props) => {
     return (
        <form onSubmit={handleFormSubmit}>
             <label htmlFor="exerciseName">Exercise Name: </label>
-            <input name="exerciseName" type="text" id="exerciseName" onChange={handleFormChange} value={formState.exerciseName}/>
+            <input required name="exerciseName" type="text" id="exerciseName" onChange={handleFormChange} value={formState.exerciseName}/>
 
             <label htmlFor="reps">Reps: </label>
-            <input className="small-number-input" name="reps" type="number" step={1}  id="reps" onChange={handleFormChange} value={formState.reps}/>
+            <input required className="small-number-input" name="reps" type="number" step={1}  id="reps" onChange={handleFormChange} value={formState.reps}/>
 
             <label htmlFor="sets">Sets: </label>
-            <input className="small-number-input" name="sets" type="number" step={1}  id="sets" onChange={handleFormChange} value={formState.sets}/>
+            <input required className="small-number-input" name="sets" type="number" step={1}  id="sets" onChange={handleFormChange} value={formState.sets}/>
 
             <label htmlFor="weight">Weight: </label>
-            <input className="large-number-input" name="weight" type="number" step={2.5} id="weight" onChange={handleFormChange} value={formState.weight}/>
+            <input required className="large-number-input" name="weight" type="number" step={2.5} id="weight" onChange={handleFormChange} value={formState.weight}/>
 
             <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faCircleCheck}/></button>
        </form> 

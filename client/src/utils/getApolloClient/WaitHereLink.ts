@@ -11,11 +11,7 @@ export default class WaitHereLink extends ApolloLink {
     private isOpen = true;
 
     public updateWorkoutIds(tempId, actualId) {
-        console.log(`
         
-==========UPDATING WORKOUT IDS=======================
-        
-        `)
         this.opQueue.forEach(({ operation}) => {
             if (operation.variables?.workoutId === tempId) {
                 operation.variables.workoutId = actualId
@@ -23,11 +19,7 @@ export default class WaitHereLink extends ApolloLink {
         });
     }
     public updateExerciseIds(tempId, actualId) {
-        console.log(`
         
-==========UPDATING Exercise IDS=======================
-        
-        `)
         this.opQueue.forEach(({ operation}) => {
             if (operation.variables?.exerciseId === tempId) {
                 operation.variables.exerciseId = actualId
@@ -36,12 +28,12 @@ export default class WaitHereLink extends ApolloLink {
     }
 
     public next() {
-        console.log("{{{{{{{{{{{{{{{{{{{{{{{{{{{")
-        console.log("Next Called");
-        console.log("OpQue at begining")
-        console.log(this.opQueue);
+        // console.log("{{{{{{{{{{{{{{{{{{{{{{{{{{{")
+        // console.log("Next Called");
+        // console.log("OpQue at begining")
+        // console.log(this.opQueue);
         if (this.opQueue.length <= 0) {
-            console.log("set to open");
+            // console.log("set to open");
             this.isOpen = true;
         }
         else
@@ -49,15 +41,15 @@ export default class WaitHereLink extends ApolloLink {
             const entry = this.opQueue.shift()
             entry?.forward(entry?.operation).subscribe(entry?.observer);
         }
-        console.log("new OpQue");
-        console.log(this.opQueue);
-        console.log("}}}}}}}}}}}}}}}}}}}}}}}}}}}}}")
+        // console.log("new OpQue");
+        // console.log(this.opQueue);
+        // console.log("}}}}}}}}}}}}}}}}}}}}}}}}}}}}}")
         
     }
     public request(operation: Operation, forward: NextLink) {
         if (this.isOpen) {
             this.isOpen =false;
-            console.log("setting this to closed");
+            // console.log("setting this to closed");
             return forward(operation);
         }
         return new Observable<FetchResult>((observer: Observer<FetchResult>) => {
@@ -72,7 +64,7 @@ export default class WaitHereLink extends ApolloLink {
     }
 
     private enqueue(entry: OperationQueueEntry) {
-        console.log(this.opQueue);
+        // console.log(this.opQueue);
         this.opQueue.push(entry);
     }
 
