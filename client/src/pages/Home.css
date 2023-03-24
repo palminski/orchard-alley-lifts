@@ -34,7 +34,7 @@
 
 .about-section {
     height: 350px;
-    background-color: var(--listItemBColor);
+    background-color: var(--darkMainColor);
     border-radius: 25px;
     width: 85%;
     display: flex;
