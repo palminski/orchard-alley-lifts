@@ -227,7 +227,7 @@ nav ul li {
 
 .workout-container {
   margin: 30px;
-  height: 300px;
+  height: auto;
 }
 
 .first-workout-container {
@@ -276,7 +276,6 @@ nav ul li {
   background-color: var(--darkMainColor);
   padding: 10px;
   height: 10vh;
-  width: 22vh;
   border-bottom: var(--accentColor) solid 5px;
   border-right: var(--accentColor) solid 5px;
   text-align: center;
@@ -410,15 +409,20 @@ nav ul li {
 }
 
 .today-exercise-container {
-  height: 575px;
+  height: auto;
   width: 400px;
   background-color: var(--darkMainColor);
   margin: 30px auto;
   border-bottom: var(--accentColor) solid 5px;
   border-right: var(--accentColor) solid 5px;
   border-radius: 25px;
+  padding: 10px 0 30px;
 }
 
 .today-h1 {
   margin: 25px auto;
+}
+
+ul {
+  list-style-type: none;
 }
