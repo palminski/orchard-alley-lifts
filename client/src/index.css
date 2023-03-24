@@ -104,6 +104,11 @@ code {
   top: 0;
 }
 
+.gains-icon {
+  height: 100px;
+  width: 100px;
+}
+
 .hrefCon {
   display: flex;
   justify-content: space-between;
