@@ -173,6 +173,7 @@ nav ul li {
 
 .select-workout-form {
   background-color: var(--darkMainColor);
+  border-right: var(--accentColor) solid 5px;
   padding: 20px;
   border-radius: 0 25px 0 0;
 }
@@ -182,6 +183,7 @@ nav ul li {
   padding: 20px;
   border-radius: 0 0 25px 25px;
   border-bottom: var(--accentColor) solid 5px;
+  border-right: var(--accentColor) solid 5px;
   display: flex;
   flex-direction: column;
 }
@@ -227,7 +229,7 @@ nav ul li {
 
 .workout-container {
   margin: 30px;
-  height: 300px;
+  height: auto;
 }
 
 .first-workout-container {
@@ -276,7 +278,6 @@ nav ul li {
   background-color: var(--darkMainColor);
   padding: 10px;
   height: 10vh;
-  width: 22vh;
   border-bottom: var(--accentColor) solid 5px;
   border-right: var(--accentColor) solid 5px;
   text-align: center;
@@ -284,10 +285,6 @@ nav ul li {
   align-items: center;
   border-radius: 25px;
   margin: auto;
-}
-
-.date-input {
-  background-color: var(--clickableColor);
 }
 
 /* Temporary while building app */
@@ -410,15 +407,28 @@ nav ul li {
 }
 
 .today-exercise-container {
-  height: 575px;
+  height: auto;
   width: 400px;
   background-color: var(--darkMainColor);
   margin: 30px auto;
   border-bottom: var(--accentColor) solid 5px;
   border-right: var(--accentColor) solid 5px;
   border-radius: 25px;
+  padding: 10px 0 30px;
 }
 
 .today-h1 {
   margin: 25px auto;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.increment-button {
+  border-radius: 10px;
+    padding: 10px;
+    width: 150px;
+    background-color: rgb(58, 134, 255);
+    color: white;
 }
