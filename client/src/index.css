@@ -173,6 +173,7 @@ nav ul li {
 
 .select-workout-form {
   background-color: var(--darkMainColor);
+  border-right: var(--accentColor) solid 5px;
   padding: 20px;
   border-radius: 0 25px 0 0;
 }
@@ -182,6 +183,7 @@ nav ul li {
   padding: 20px;
   border-radius: 0 0 25px 25px;
   border-bottom: var(--accentColor) solid 5px;
+  border-right: var(--accentColor) solid 5px;
   display: flex;
   flex-direction: column;
 }
@@ -425,4 +427,12 @@ nav ul li {
 
 ul {
   list-style-type: none;
+}
+
+.increment-button {
+  border-radius: 10px;
+    padding: 10px;
+    width: 150px;
+    background-color: rgb(58, 134, 255);
+    color: white;
 }

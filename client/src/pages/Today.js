@@ -56,7 +56,7 @@ const Today = () => {
                 <ul>
                     {todaysWorkout.exercises.map( exercise => (
                         <li key={exercise._id}>
-                            {exercise.name} - {exercise.reps} -{exercise.sets} - {exercise.weight}lbs - <button onClick={() => incrementWeight(exercise._id,exercise.name,exercise.sets,exercise.reps,exercise.weight)}>Increment</button>
+                            {exercise.name} - {exercise.reps} -{exercise.sets} - {exercise.weight}lbs - <button className="increment-button" onClick={() => incrementWeight(exercise._id,exercise.name,exercise.sets,exercise.reps,exercise.weight)}>Increment</button>
                         </li>
                     ))}
                 </ul>
