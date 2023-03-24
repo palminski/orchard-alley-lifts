@@ -227,7 +227,7 @@ nav ul li {
 
 .workout-container {
   margin: 30px;
-  height: 500px;
+  height: 300px;
 }
 
 .first-workout-container {
@@ -264,7 +264,7 @@ nav ul li {
 .calendar-cont {
   display: flex;
   flex-wrap: wrap;
-  height: 480px;
+  height: 550px;
   margin: 25px;
 }
 
@@ -278,6 +278,7 @@ nav ul li {
   height: 10vh;
   width: 22vh;
   border-bottom: var(--accentColor) solid 5px;
+  border-right: var(--accentColor) solid 5px;
   text-align: center;
   display: flex;
   align-items: center;
@@ -359,10 +360,17 @@ nav ul li {
   background-color: var(--darkMainColor);
   height: 115px;
   border-top: var(--accentColor) solid 5px;
-  position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.github-links {
+  text-decoration: none;
+  color: white;
 }
 
 /* My Page */
@@ -378,7 +386,7 @@ nav ul li {
 .mypage-form-container {
   width: 400px;
   background-color: var(--darkMainColor);
-  margin: 80px auto;
+  margin: 120px auto 300px;
   border-bottom: var(--accentColor) solid 5px;
   border-radius: 25px;
   padding: 20px;
