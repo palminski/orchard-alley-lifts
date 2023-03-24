@@ -287,10 +287,6 @@ nav ul li {
   margin: auto;
 }
 
-.date-input {
-  background-color: var(--clickableColor);
-}
-
 /* Temporary while building app */
 /* =============================================================== */
 .formCon {
