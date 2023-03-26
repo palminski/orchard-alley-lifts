@@ -104,6 +104,11 @@ code {
   top: 0;
 }
 
+.gains-icon {
+  height: 100px;
+  width: 100px;
+}
+
 .hrefCon {
   display: flex;
   justify-content: space-between;
@@ -291,6 +296,7 @@ nav ul li {
 /* =============================================================== */
 .formCon {
   padding: 100px;
+  margin-top: 100px;
 }
 
 .loginForm {
@@ -403,7 +409,7 @@ nav ul li {
 .today-container {
   height: 750px;
   text-align: center;
-  margin-top: 140px;
+  margin-top: 185px;
 }
 
 .today-exercise-container {
