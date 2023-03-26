@@ -3,6 +3,9 @@ import {QUERY_CURRENT_USER} from '../utils/queries';
 import {EDIT_EXERCISE} from "../utils/mutations";
 import {useState} from 'react';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSquarePlus} from '@fortawesome/free-solid-svg-icons'
+
 const Today = () => {
 
     //===[Queries]=======================================
@@ -73,7 +76,7 @@ const Today = () => {
                     name: name,
                     sets: parseInt(sets),
                     reps: parseInt(reps),
-                    weight: (parseFloat(weight) + 2.5),
+                    weight: (parseFloat(weight) + 5),
                 },
                 optimisticResponse:{
                     editExercise: {
@@ -82,7 +85,7 @@ const Today = () => {
                         name: name,
                         sets: parseInt(sets),
                         reps: parseInt(reps),
-                        weight: parseFloat(weight + 2.5),
+                        weight: parseFloat(weight + 5),
                     }
                   }
             });
@@ -109,7 +112,8 @@ const Today = () => {
                 <ul>
                     {todaysWorkout.exercises.map( exercise => (
                         <li key={exercise._id}>
-                            {exercise.name} - {exercise.reps} -{exercise.sets} - {exercise.weight}lbs - <button className="increment-button" onClick={() => incrementWeight(exercise._id,exercise.name,exercise.sets,exercise.reps,exercise.weight)}>Increment</button>
+                            {exercise.name} - {exercise.reps} reps - {exercise.sets} sets - {exercise.weight}lbs - <button className="hidden-button" onClick={() => incrementWeight(exercise._id,exercise.name,exercise.sets,exercise.reps,exercise.weight)}><FontAwesomeIcon className="icon-button" icon={faSquarePlus} /></button>
+                            
                         </li>
                     ))}
                 </ul>
