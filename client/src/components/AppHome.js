@@ -12,6 +12,7 @@ import Today from '../pages/Today';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import MyPage from '../pages/MyPage';
+import ForgotPassword from '../pages/ForgotPassword'
 
 const AppHome = ({client}) => {
 
@@ -24,6 +25,7 @@ const AppHome = ({client}) => {
             {pageSelected === 'Home' && <Home />}
             {pageSelected === 'Login' && <Login setPageSelected={setPageSelected} />}
             {pageSelected === 'Signup' && <Signup setPageSelected={setPageSelected} />}
+            {pageSelected === 'ForgotPassword' && <ForgotPassword/>}
             
 
             {Auth.loggedIn() &&

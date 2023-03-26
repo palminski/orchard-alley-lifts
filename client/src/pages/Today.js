@@ -14,7 +14,50 @@ const Today = () => {
     const todaysWorkout = data?.currentUser.workouts.find(workout => workout._id === todayWorkoutId);
 
     //===[Mutations]=======================================  
-    const [editExercise] = useMutation(EDIT_EXERCISE);
+    const [editExercise] = useMutation(EDIT_EXERCISE,
+        {
+            update(cache, {data: {editExercise}}) {
+                try {
+                    const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                    console.log(`
+                    
+                    EDITING EXERCISE FROM TODAY PAGE
+                    
+                    `)
+                    //spread the workouts into new temp holding array
+                    let updatedWorkouts = [...currentUser.workouts];
+                    //Spread exercises as well so they can be edited
+                    for (let i = 0; i < updatedWorkouts.length; i++) {
+                        updatedWorkouts[i] = { ...updatedWorkouts[i], exercises: [...updatedWorkouts[i].exercises] }
+                    }
+    
+                    //find indexes to replace
+                    let workoutIndexToReplace = updatedWorkouts.findIndex(workout => workout._id.toString() === todayWorkoutId.toString());
+                    console.log(editExercise)
+                    let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === editExercise.id);
+                    console.log(exerciseIndexToReplace)
+                    //splice exercise out of the workout
+                    updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace] = {
+                        ...updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace],
+                        name:editExercise.name,
+                        reps:editExercise.reps,
+                        sets:editExercise.sets,
+                        weight:editExercise.weight,
+                    };
+                    console.log(updatedWorkouts)
+    
+                    cache.writeQuery({
+                        query: QUERY_CURRENT_USER,
+                        data: {currentUser: {...currentUser, workouts: updatedWorkouts}}
+                    });
+                    console.log("<><><><><><><>")
+                    
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            }
+        });
     
 
 
@@ -31,9 +74,19 @@ const Today = () => {
                     sets: parseInt(sets),
                     reps: parseInt(reps),
                     weight: (parseFloat(weight) + 2.5),
-                }
+                },
+                optimisticResponse:{
+                    editExercise: {
+                        id: exerciseId,
+                        __typename: "Exercise",
+                        name: name,
+                        sets: parseInt(sets),
+                        reps: parseInt(reps),
+                        weight: parseFloat(weight + 2.5),
+                    }
+                  }
             });
-            refetch();
+            
         }
         catch (error) {
             console.log(error);

@@ -24,6 +24,7 @@ const ForgotPassword = (props) => {
       const response = await resetPassword({
         variables: formState
       });
+      setErrorMessage("A temporary password has been sent to your email!")
     } catch (error) {
       console.log(formState);
       console.log(error);
