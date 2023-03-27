@@ -4,6 +4,7 @@ import Auth from "../utils/auth";
 import { LOGIN_USER } from "../utils/mutations";
 
 import ErrorModal from "../components/ErrorModal";
+import gainsIcon from "../images/icons/Will_Design.svg";
 
 const Login = (props) => {
   const [login, { error }] = useMutation(LOGIN_USER);
@@ -41,6 +42,7 @@ const Login = (props) => {
 
   return (
     <>
+    <>
       <div className="formCon">
       <form onSubmit={handleFormSubmit} className="loginForm">
       <h1>Login</h1>
@@ -72,6 +74,10 @@ const Login = (props) => {
         
       </form>
       </div>
+    </>
+    <div className="icon-containter">
+    <img src= {gainsIcon} className="gains-icon" alt="Master Gains icon" />
+    </div>
     </>
   );
 };

@@ -101,9 +101,7 @@ const Today = () => {
 
     return (
         <>
-        <div className="icon-containter">
-        <img src= {gainsIcon} className="gains-icon" alt="Master Gains icon" />
-        </div>
+        <>
         <div className="today-container">
             <div className="today-exercise-container">
         <>
@@ -136,6 +134,10 @@ const Today = () => {
         }
         </>
         </div>
+        </div>
+        </>
+        <div className="icon-containter">
+        <img src= {gainsIcon} className="gains-icon" alt="Master Gains icon" />
         </div>
         </>
     );
