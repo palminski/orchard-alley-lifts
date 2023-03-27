@@ -225,7 +225,7 @@ const Workouts = () => {
             let optimisticWorkouts = [...user.workouts];
             optimisticWorkouts[selectedWorkoutIndex] = {...optimisticWorkouts[selectedWorkoutIndex], name:"test"}
             
-            const mutationResponse = editWorkout({
+            editWorkout({
                 variables: {
                     workoutId: user.workouts[selectedWorkoutIndex]._id,
                     name: workoutEditState.workoutName,
