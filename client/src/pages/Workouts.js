@@ -287,9 +287,6 @@ const Workouts = () => {
     //===[Return]=============================================
     return (
         <>
-        <div className="icon-containter">
-        <img src= {gainsIcon} className="gains-icon" alt="Master Gains icon" />
-        </div>
             <h1 className="workouts-h1">Workouts</h1>
             {
                 loading ?
@@ -438,7 +435,9 @@ const Workouts = () => {
                         }
                     </div>   
             }
-         
+         <div className="icon-containter">
+        <img src= {gainsIcon} className="gains-icon" alt="Master Gains icon" />
+        </div>
         </>
     );
 }

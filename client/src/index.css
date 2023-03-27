@@ -105,9 +105,7 @@ code {
 }
 
 .icon-containter {
-  margin-top: 100px;
   text-align: center;
-
 }
 
 .gains-icon {
@@ -178,7 +176,7 @@ nav ul li {
 }
 
 .workout-container {
-  margin: 0 60px 0 20px;
+  margin: 120px 60px 0 20px;
   height: auto;
 }
 
@@ -273,12 +271,12 @@ nav ul li {
 .calendar-cont {
   display: flex;
   flex-wrap: wrap;
-  height: 550px;
-  margin: 25px;
+  height: auto;
+  margin-top: 50px;
 }
 
 .calendar-h1 {
-  margin: 20px;
+  margin-top: 150px;
 }
 
 .calendar-dates {
@@ -291,19 +289,18 @@ nav ul li {
   display: flex;
   align-items: center;
   border-radius: 25px;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 
 .date-input {
   color: aliceblue;
-  background-color: var(--clickableColor)
+  background-color: var(--clickableColor);
 }
 
 /* Temporary while building app */
 /* =============================================================== */
 .formCon {
-  padding: 100px;
-  margin-top: 100px;
+  margin-top: 150px;
 }
 
 .loginForm {
@@ -391,10 +388,14 @@ nav ul li {
   text-align: center;
 }
 
+.mypage-div-container {
+  margin-top: 130px;
+}
+
 .mypage-form-container {
   width: 400px;
   background-color: var(--darkMainColor);
-  margin: 20px auto 300px;
+  margin: 20px auto 20px;
   border-bottom: var(--accentColor) solid 5px;
   border-right: var(--accentColor) solid 5px;
   border-radius: 25px;
@@ -412,21 +413,26 @@ nav ul li {
   justify-content: space-between;
 }
 
+.submit-button-container {
+  text-align: center;
+}
+
 .submit-button {
   border-radius: 10px;
-    padding: 10px;
-    width: 150px;
-    background-color: rgb(58, 134, 255);
-    color: white;
-    margin-top: 10px;
+  padding: 10px;
+  width: 150px;
+  background-color: rgb(58, 134, 255);
+  color: white;
+  margin-top: 10px;
 }
 
 /* Todays Page */
 /* =============================================================== */
 
 .today-container {
-  height: 750px;
+  height: auto;
   text-align: center;
+  margin-top: 150px;
 }
 
 .today-exercise-container {
@@ -462,8 +468,8 @@ ul {
 
 .increment-button {
   border-radius: 10px;
-    padding: 10px;
-    width: 150px;
-    background-color: rgb(58, 134, 255);
-    color: white;
+  padding: 10px;
+  width: 150px;
+  background-color: rgb(58, 134, 255);
+  color: white;
 }

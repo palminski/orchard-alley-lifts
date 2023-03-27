@@ -50,10 +50,7 @@ const MyPage = () => {
   //===[Return]=========================================
   return (
     <>
-      <div className="icon-containter">
-        <img src={gainsIcon} className="gains-icon" alt="Master Gains icon" />
-      </div>
-      <div className="mypage-container">
+      <div className="mypage-div-container">
         {user && (
           <>
             <h1 className="mypage-title">{user.username}</h1>
@@ -82,11 +79,16 @@ const MyPage = () => {
                   />
                   {errorMessage && <p>{errorMessage}</p>}
                 </div>
-                <button className="submit-button">Submit</button>
+                <div className="submit-button-container">
+                  <button className="submit-button">Submit</button>
+                </div>
               </form>
             </div>
           </>
         )}
+      </div>
+      <div className="icon-containter">
+        <img src={gainsIcon} className="gains-icon" alt="Master Gains icon" />
       </div>
     </>
   );
