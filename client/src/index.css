@@ -216,6 +216,7 @@ nav ul li {
   background-color: var(--listItemAColor);
   list-style-type: none;
   transition-duration: 0.5s;
+  border-right: var(--accentColor) solid 5px;
 }
 
 .exercise-li:nth-child(even) {
@@ -231,6 +232,8 @@ nav ul li {
   font-size: large;
   margin: 0 15px;
 }
+
+
 
 .workout-container {
   margin: 30px;
@@ -429,6 +432,18 @@ nav ul li {
 
 ul {
   list-style-type: none;
+}
+
+.today-li {
+  padding: 10px;
+  background-color: var(--listItemAColor);
+  list-style-type: none;
+  transition-duration: 0.5s;
+}
+
+.today-li:nth-child(even) {
+  background-color: var(--listItemBColor);
+  padding: 10px;
 }
 
 .increment-button {
