@@ -12,6 +12,7 @@ import AddExerciseForm from "../components/AddExerciseForm";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrashCan, faFloppyDisk, } from '@fortawesome/free-solid-svg-icons'
 
+import gainsIcon from "../images/icons/Will_Design.svg";
 
 const Workouts = () => {
 
@@ -286,7 +287,10 @@ const Workouts = () => {
     //===[Return]=============================================
     return (
         <>
-            <h1>Workouts</h1>
+        <div className="icon-containter">
+        <img src= {gainsIcon} className="gains-icon" alt="Master Gains icon" />
+        </div>
+            <h1 className="workouts-h1">Workouts</h1>
             {
                 loading ?
                     <>
@@ -432,8 +436,9 @@ const Workouts = () => {
                                 </div>
                             </>
                         }
-                    </div>
+                    </div>   
             }
+         
         </>
     );
 }
