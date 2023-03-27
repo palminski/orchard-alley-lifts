@@ -2,6 +2,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_CURRENT_USER } from "../utils/queries";
 import { EDIT_CALENDER } from "../utils/mutations";
 import { useState } from "react";
+import gainsIcon from "../images/icons/Will_Design.svg";
 
 const Calender = () => {
   //===[States]=============================================
@@ -94,6 +95,9 @@ const Calender = () => {
 
   return (
     <>
+    <div className="icon-containter">
+        <img src= {gainsIcon} className="gains-icon" alt="Master Gains icon" />
+        </div>
       {loading ? (
         <>
           <h1>Loading...</h1>

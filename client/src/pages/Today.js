@@ -6,6 +6,8 @@ import {useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquarePlus} from '@fortawesome/free-solid-svg-icons'
 
+import gainsIcon from "../images/icons/Will_Design.svg";
+
 const Today = () => {
 
     //===[Queries]=======================================
@@ -98,6 +100,10 @@ const Today = () => {
     }
 
     return (
+        <>
+        <div className="icon-containter">
+        <img src= {gainsIcon} className="gains-icon" alt="Master Gains icon" />
+        </div>
         <div className="today-container">
             <div className="today-exercise-container">
         <>
@@ -131,6 +137,7 @@ const Today = () => {
         </>
         </div>
         </div>
+        </>
     );
 }
 

@@ -2,6 +2,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_CURRENT_USER } from "../utils/queries";
 import { UPDATE_PASSWORD } from "../utils/mutations";
 import { useState } from "react";
+import gainsIcon from "../images/icons/Will_Design.svg";
 
 const MyPage = () => {
   //===[States]=============================================
@@ -48,40 +49,46 @@ const MyPage = () => {
 
   //===[Return]=========================================
   return (
-    <div className="mypage-container">
-      {user && (
-        <>
-          <h1 className="mypage-title">{user.username}</h1>
-          <div className="mypage-form-container">
-            <form className="mypage-container" onSubmit={handleFormSubmit}>
-              <h3 className="mypage-form-title">Change Password</h3>
-              <div className="mypage-inputs">
-                <label htmlFor="currentPassword">Current Password: </label>
-                <input
-                  name="currentPassword"
-                  type="password"
-                  id="currentPassword"
-                  onChange={handleFormChange}
-                  value={formState.currentPassword}
-                />
-              </div>
-              <div className="mypage-inputs">
-                <label htmlFor="newPassword">New Password: </label>
-                <input
-                  name="newPassword"
-                  type="password"
-                  id="newPassword"
-                  onChange={handleFormChange}
-                  value={formState.newPassword}
-                />
-                {errorMessage && <p>{errorMessage}</p>}
-              </div>
-              <button>Submit</button>
-            </form>
-          </div>
-        </>
-      )}
-    </div>
+    <>
+      <div className="icon-containter">
+        <img src={gainsIcon} className="gains-icon" alt="Master Gains icon" />
+      </div>
+      <div className="mypage-container">
+        {user && (
+          <>
+            <h1 className="mypage-title">{user.username}</h1>
+            <div className="mypage-form-container">
+              <form className="mypage-container" onSubmit={handleFormSubmit}>
+                <h3 className="mypage-form-title">Change Password</h3>
+                <div className="mypage-inputs">
+                  <label htmlFor="currentPassword">Current Password: </label>
+                  <input
+                    className="today-input"
+                    name="currentPassword"
+                    type="password"
+                    id="currentPassword"
+                    onChange={handleFormChange}
+                    value={formState.currentPassword}
+                  />
+                </div>
+                <div className="mypage-inputs">
+                  <label htmlFor="newPassword">New Password: </label>
+                  <input
+                    name="newPassword"
+                    type="password"
+                    id="newPassword"
+                    onChange={handleFormChange}
+                    value={formState.newPassword}
+                  />
+                  {errorMessage && <p>{errorMessage}</p>}
+                </div>
+                <button className="submit-button">Submit</button>
+              </form>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

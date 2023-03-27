@@ -104,6 +104,12 @@ code {
   top: 0;
 }
 
+.icon-containter {
+  margin-top: 100px;
+  text-align: center;
+
+}
+
 .gains-icon {
   height: 100px;
   width: 100px;
@@ -173,7 +179,7 @@ nav ul li {
 
 .workout-container {
   margin: 0 60px 0 20px;
-  padding: 100px;
+  height: auto;
 }
 
 .select-workout-form {
@@ -233,13 +239,6 @@ nav ul li {
   margin: 0 15px;
 }
 
-
-
-.workout-container {
-  margin: 30px;
-  height: auto;
-}
-
 .first-workout-container {
   background-color: var(--darkMainColor);
   padding: 20px;
@@ -292,7 +291,12 @@ nav ul li {
   display: flex;
   align-items: center;
   border-radius: 25px;
-  margin: auto;
+  margin: 0 auto;
+}
+
+.date-input {
+  color: aliceblue;
+  background-color: var(--clickableColor)
 }
 
 /* Temporary while building app */
@@ -372,6 +376,7 @@ nav ul li {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: absolute;
 }
 
 .github-links {
@@ -382,28 +387,38 @@ nav ul li {
 /* My Page */
 /* =============================================================== */
 
-.mypage-container,
 .mypage-form-title {
   text-align: center;
 }
 
-
-
 .mypage-form-container {
   width: 400px;
   background-color: var(--darkMainColor);
-  margin: 120px auto 300px;
+  margin: 20px auto 300px;
   border-bottom: var(--accentColor) solid 5px;
+  border-right: var(--accentColor) solid 5px;
   border-radius: 25px;
   padding: 20px;
 }
 
 .mypage-form-title,
 .mypage-title {
-  margin: 25px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .mypage-inputs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.submit-button {
+  border-radius: 10px;
+    padding: 10px;
+    width: 150px;
+    background-color: rgb(58, 134, 255);
+    color: white;
+    margin-top: 10px;
 }
 
 /* Todays Page */
@@ -412,7 +427,6 @@ nav ul li {
 .today-container {
   height: 750px;
   text-align: center;
-  margin-top: 185px;
 }
 
 .today-exercise-container {

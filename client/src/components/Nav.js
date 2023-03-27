@@ -1,6 +1,6 @@
 import Auth from "../utils/auth";
 import { useApolloClient } from "@apollo/client";
-import gainsIcon from "../images/icons/Will_Design.svg";
+
 
 
 const Nav = (props) => {
@@ -12,8 +12,6 @@ const Nav = (props) => {
         <div className="hrefCon">
             
       <h1>RepMaster</h1>
-
-      <img src= {gainsIcon} className="gains-icon" alt="Master Gains icon" />
 
           <ul>
             {!Auth.loggedIn() && (
