@@ -176,7 +176,7 @@ nav ul li {
 }
 
 .workout-container {
-  margin: 120px 60px 0 20px;
+  margin: 120px 60px 0 60px;
   height: auto;
 }
 
@@ -437,9 +437,9 @@ nav ul li {
 
 .today-exercise-container {
   height: auto;
-  width: 400px;
+  width: auto;
   background-color: var(--darkMainColor);
-  margin: 30px auto;
+  margin: 30px 60px;
   border-bottom: var(--accentColor) solid 5px;
   border-right: var(--accentColor) solid 5px;
   border-radius: 25px;
