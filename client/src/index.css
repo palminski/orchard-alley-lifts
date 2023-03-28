@@ -23,6 +23,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+
 body {
   background-color: var(--lightMainColor) !important;
   color: rgb(224, 225, 221) !important;
