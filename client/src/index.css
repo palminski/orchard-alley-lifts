@@ -473,3 +473,32 @@ ul {
   background-color: rgb(58, 134, 255);
   color: white;
 }
+
+@media only screen and (max-width: 620px) {
+  .jumbotron {
+    margin-top: 160px;
+  }
+  .workout-container {
+    margin: 230px 15px 0 15px;
+  }
+
+  .today-container {
+    margin-top: 300px;
+  }
+
+  .today-exercise-container {
+    margin: 30px 15px;
+  }
+
+  .calendar-cont {
+    margin-top: 0;
+  }
+
+  .calendar-h1 {
+    margin-top: 300px;
+  }
+
+  .mypage-div-container {
+    margin-top: 200px;
+  }
+}
