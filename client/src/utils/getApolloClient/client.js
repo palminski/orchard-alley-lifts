@@ -10,7 +10,7 @@ import { setContext } from '@apollo/client/link/context'
 import WaitHereLink from './WaitHereLink.ts';
 
 
-const API_HOST = 'http://localhost:3001/graphql';
+const API_HOST = '/graphql';
 const SCHEMA_VERSION = '1';
 const SCHEMA_VERSION_KEY = 'apollo-schema-version';
 
@@ -127,9 +127,9 @@ const getApolloClient = async () => {
         return forward(operation).map((data) => {
             
             let context = operation.getContext()
-            console.log(context);
+            
             let returningData = data.data;
-            console.log(returningData);
+            
 
             if (context.optimisticResponse?.addWorkout?.id !== undefined) {
                 pauseLink.updateWorkoutIds(context.optimisticResponse.addWorkout.id, returningData.addWorkout.id)
