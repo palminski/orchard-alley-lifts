@@ -17,7 +17,7 @@ const SCHEMA_VERSION_KEY = 'apollo-schema-version';
 
 
 const getApolloClient = async () => {
-    const httpLink = new createHttpLink({ uri: API_HOST })
+    const httpLink = new createHttpLink({ uri: '/graphql'})
     const retryLink = new RetryLink({attempts: {max:Infinity}})
 
     const authLink = setContext((_, { headers }) => {
