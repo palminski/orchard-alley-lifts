@@ -54,9 +54,8 @@ The My Page tab is used if you need to update your password. If you ever forget 
 
 
   ## Deployment
-
-Coming Soon
-  <!-- [Heroku](https://globogains.herokuapp.com/) -->
+  
+  [Heroku](https://repmaster.herokuapp.com/)
 
   ## Github
 
