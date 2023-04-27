@@ -1,35 +1,34 @@
+/* Variables */
+/* =============================================================== */
+:root {
+  --darkMainColor: rgb(65, 90, 119);
+  --lightMainColor: rgb(119, 141, 169);
+  --accentColor: rgb(255, 183, 3);
+  --listItemAColor: rgb(136, 161, 196);
+  --listItemBColor: rgb(104, 121, 143);
+  --clickableColor: rgb(75, 75, 75);
+  --transparent: rgb(0, 0, 0, 0);
+  --backgroundColor: #393d3f;
+}
+
+/* Utility Classes and General Styling */
+/* =============================================================== */
 * {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+
 body {
-  background-color: rgb(119, 141, 169) !important;
+  background-color: var(--lightMainColor) !important;
   color: rgb(224, 225, 221) !important;
   text-shadow: 1px 1px 2px black;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-/* Nav Bar */
-.nav-container {
-  position: relative;
-  background-color: rgb(65, 90, 119);
-  height: 95px;
-  border-bottom: rgb(255, 183, 3) solid 5px;
-}
-
-.hrefCon {
-  display: flex;
-  justify-content: space-between;
 }
 
 h1 {
@@ -37,9 +36,98 @@ h1 {
   color: white;
 }
 
-h2 {
+label {
+  color: white;
+  text-shadow: 2px 2px black;
+}
+
+input {
+  color: aliceblue;
+  background-color: var(--clickableColor);
+  border-radius: 5px;
+  border-style: solid;
+  padding: 5px;
+}
+
+option {
+  color: black;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.small-number-input {
+  width: 32px;
+  color: aliceblue;
+}
+.large-number-input {
+  width: 64px;
+  color: aliceblue;
+}
+
+.icon-button {
+  transition-duration: 0.5s;
+  cursor: pointer;
+  font-size: large;
+  margin: 0 5px;
+}
+.icon-button:hover {
+  color: white;
+  transform: scale(1.2);
+}
+.icon-button-danger:hover {
+  color: rgb(255, 32, 32) !important;
+}
+.hidden-button {
+  background-color: var(--transparent);
+  border: none;
+  color: aliceblue;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Nav Bar */
+/* =============================================================== */
+.nav-container {
+  background-color: var(--darkMainColor);
+  height: auto;
+  border-bottom: var(--accentColor) solid 5px;
+  padding: 25px 0;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  top: 0;
+}
+
+.icon-containter {
+  text-align: center;
+}
+
+.gains-icon {
+  height: 100px;
+  width: 100px;
+}
+
+.hrefCon {
+  display: flex;
+  justify-content: space-between;
+}
+
+nav h2 {
   align-self: flex-end;
   padding-left: 20px;
+}
+
+nav h1 {
+  padding-left: 20px;
+  font-size: 50px;
 }
 
 nav ul {
@@ -50,8 +138,8 @@ nav ul {
   align-self: flex-end;
   padding-right: 20px;
 }
-nav ul li{
-  float:left;
+nav ul li {
+  float: left;
   padding: 10px;
   transition-duration: 0.5s;
   text-decoration: none;
@@ -65,19 +153,165 @@ nav ul li{
   justify-content: space-between;
 }
 
-/* Temporary while building app */
+/* Workouts Page */
+/* =============================================================== */
+.swap-tab {
+  background-color: var(--clickableColor);
+  border: none;
+  padding: 15px 15px 10px 15px;
+  border-radius: 25px 25px 0 0;
+  margin: 0;
+  color: aliceblue;
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+.swap-tab:hover {
+  background-color: var(--darkMainColor);
+}
+.current-tab {
+  background-color: var(--darkMainColor);
+  border: none;
+  padding: 15px 15px 10px 15px;
+  border-radius: 25px 25px 0 0;
+  margin: 0;
+  color: aliceblue;
+}
 
+.workout-container {
+  margin: 120px 60px 0 60px;
+  height: auto;
+}
+
+.select-workout-form {
+  background-color: var(--darkMainColor);
+  border-right: var(--accentColor) solid 5px;
+  padding: 20px;
+  border-radius: 0 25px 0 0;
+}
+
+.add-exercise-section {
+  background-color: var(--darkMainColor);
+  padding: 20px;
+  border-radius: 0 0 25px 25px;
+  border-bottom: var(--accentColor) solid 5px;
+  border-right: var(--accentColor) solid 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.selected-workout {
+  background-color: var(--transparent);
+  padding: 10px;
+  min-width: 50%;
+  font-size: x-large;
+  color: aliceblue;
+  background-color: var(--clickableColor);
+}
+
+.title-edit {
+  background-color: var(--clickableColor);
+  padding: 10px;
+  min-width: 49%;
+  width: auto;
+  font-size: x-large;
+  color: aliceblue;
+}
+
+.exercise-li {
+  padding: 10px;
+  background-color: var(--listItemAColor);
+  list-style-type: none;
+  transition-duration: 0.5s;
+  border-right: var(--accentColor) solid 5px;
+}
+
+.exercise-li:nth-child(even) {
+  background-color: var(--listItemBColor);
+  padding: 10px;
+}
+
+.exercise-name {
+  font-size: x-large !important;
+}
+
+.exercise-info {
+  font-size: large;
+  margin: 0 15px;
+}
+
+.first-workout-container {
+  background-color: var(--darkMainColor);
+  padding: 20px;
+  border-radius: 25px;
+  height: 200px;
+  border: var(--accentColor) solid 5px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.workout-title {
+  margin: 10px 0 30px;
+}
+
+.edit-exercise-form {
+  margin: 0 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-workout-form-container {
+  padding: 20px;
+  background-color: var(--darkMainColor);
+  border-radius: 0 25px 25px 25px;
+  border-bottom: var(--accentColor) solid 5px;
+}
+
+/* Calendar Page */
+/* =============================================================== */
+
+.calendar-cont {
+  display: flex;
+  flex-wrap: wrap;
+  height: auto;
+  margin-top: 50px;
+}
+
+.calendar-h1 {
+  margin-top: 150px;
+}
+
+.calendar-dates {
+  background-color: var(--darkMainColor);
+  padding: 10px;
+  height: 10vh;
+  border-bottom: var(--accentColor) solid 5px;
+  border-right: var(--accentColor) solid 5px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  border-radius: 25px;
+  margin: 20px auto;
+}
+
+.date-input {
+  color: aliceblue;
+  background-color: var(--clickableColor);
+}
+
+/* Temporary while building app */
+/* =============================================================== */
 .formCon {
-  padding: 40px;
+  margin-top: 150px;
 }
 
 .loginForm {
   background-color: rgb(224, 225, 221);
   padding: 10px;
-  height: 55vh;
+  height: auto;
   width: 45vh;
   margin: 0 auto;
-  border: rgb(255, 183, 3) solid 5px;
+  border: var(--accentColor) solid 5px;
   border-radius: 25px;
 }
 
@@ -86,6 +320,7 @@ nav ul li{
   flex-direction: column;
   padding: 10px;
   color: white;
+  text-align: center;
 }
 
 .buttonCon {
@@ -94,7 +329,6 @@ nav ul li{
 }
 
 .loginBtn {
-  
   border-radius: 10px;
   padding: 10px;
   width: 150px;
@@ -102,17 +336,22 @@ nav ul li{
   color: white;
 }
 
-.forgotPw, .createAccount{
+.clickableP {
   color: rgb(58, 134, 255);
   text-shadow: 0px 0px;
   padding: 10px;
   text-align: center;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+.clickableP:hover {
+  color: rgb(0, 98, 255);
 }
 
-.bgImg{
+.bgImg {
   width: auto;
   max-width: 100%;
-  object-fit:cover;
+  object-fit: cover;
 }
 
 .container {
@@ -126,10 +365,142 @@ nav ul li{
   object-fit: fill;
 }
 
-/* Centered text */
-.centered {
+.footer-container {
+  background-color: var(--darkMainColor);
+  height: 115px;
+  border-top: var(--accentColor) solid 5px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+}
+
+.github-links {
+  text-decoration: none;
+  color: white;
+}
+
+/* My Page */
+/* =============================================================== */
+
+.mypage-form-title {
+  text-align: center;
+}
+
+.mypage-div-container {
+  margin-top: 130px;
+}
+
+.mypage-form-container {
+  width: 400px;
+  background-color: var(--darkMainColor);
+  margin: 20px auto 20px;
+  border-bottom: var(--accentColor) solid 5px;
+  border-right: var(--accentColor) solid 5px;
+  border-radius: 25px;
+  padding: 20px;
+}
+
+.mypage-form-title,
+.mypage-title {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.mypage-inputs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.submit-button-container {
+  text-align: center;
+}
+
+.submit-button {
+  border-radius: 10px;
+  padding: 10px;
+  width: 150px;
+  background-color: rgb(58, 134, 255);
+  color: white;
+  margin-top: 10px;
+}
+
+/* Todays Page */
+/* =============================================================== */
+
+.today-container {
+  height: auto;
+  text-align: center;
+  margin-top: 150px;
+}
+
+.today-exercise-container {
+  height: auto;
+  width: auto;
+  background-color: var(--darkMainColor);
+  margin: 30px 60px;
+  border-bottom: var(--accentColor) solid 5px;
+  border-right: var(--accentColor) solid 5px;
+  border-radius: 25px;
+  padding: 10px 0 30px;
+}
+
+.today-h1 {
+  margin: 25px auto;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.today-li {
+  padding: 10px;
+  background-color: var(--listItemAColor);
+  list-style-type: none;
+  transition-duration: 0.5s;
+}
+
+.today-li:nth-child(even) {
+  background-color: var(--listItemBColor);
+  padding: 10px;
+}
+
+.increment-button {
+  border-radius: 10px;
+  padding: 10px;
+  width: 150px;
+  background-color: rgb(58, 134, 255);
+  color: white;
+}
+
+@media only screen and (max-width: 620px) {
+  .jumbotron {
+    margin-top: 160px;
+  }
+  .workout-container {
+    margin: 230px 15px 0 15px;
+  }
+
+  .today-container {
+    margin-top: 300px;
+  }
+
+  .today-exercise-container {
+    margin: 30px 15px;
+  }
+
+  .calendar-cont {
+    margin-top: 0;
+  }
+
+  .calendar-h1 {
+    margin-top: 300px;
+  }
+
+  .mypage-div-container {
+    margin-top: 200px;
+  }
 }

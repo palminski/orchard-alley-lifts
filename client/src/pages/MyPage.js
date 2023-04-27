@@ -1,69 +1,97 @@
 import { useQuery, useMutation } from "@apollo/client";
-import {QUERY_CURRENT_USER} from '../utils/queries';
+import { QUERY_CURRENT_USER } from "../utils/queries";
 import { UPDATE_PASSWORD } from "../utils/mutations";
-import {useState} from 'react';
+import { useState } from "react";
+import gainsIcon from "../images/icons/Will_Design.svg";
 
 const MyPage = () => {
-    //===[States]=============================================
-    const [formState, setFormState] = useState({
-        currentPassword: "",
-        newPassword: "",
+  //===[States]=============================================
+  const [formState, setFormState] = useState({
+    currentPassword: "",
+    newPassword: "",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+
+  //===[Queries]=============================================
+  const { loading, data, refetch } = useQuery(QUERY_CURRENT_USER);
+  const user = data?.currentUser;
+
+  //===[Mutations]=============================================
+  const [updatePassword] = useMutation(UPDATE_PASSWORD);
+
+  //===[Functions]=============================================
+  const handleFormChange = (event) => {
+    const { name, value } = event.target;
+    setErrorMessage("");
+    setFormState({
+      ...formState,
+      [name]: value,
     });
+  };
 
-    //===[Queries]=============================================
-    const {loading,data,refetch} = useQuery(QUERY_CURRENT_USER);
-    const user = (data?.currentUser);
-    
-    //===[Mutations]=============================================
-    const [updatePassword] = useMutation(UPDATE_PASSWORD);
+  async function handleFormSubmit(event) {
+    event.preventDefault();
+    // console.log(formState);
 
-    //===[Functions]=============================================
-    const handleFormChange = (event) => {
-        const {name,value} = event.target;
-        setFormState({
-            ...formState,
-            [name]:value   
-        });
+    try {
+      const mutationResponse = await updatePassword({
+        variables: {
+          password: formState.currentPassword,
+          newPassword: formState.newPassword,
+        },
+      });
+      setErrorMessage("Password Changed Succesfully!");
+    } catch (error) {
+      setErrorMessage("Password Incorrect");
+      console.log(error);
     }
+  }
 
-    async function handleFormSubmit(event) {
-        // event.preventDefault();
-        // console.log(formState);
-
-        try {
-            const mutationResponse = await updatePassword({
-                variables: {
-                    password: formState.currentPassword,
-                    newPassword: formState.newPassword,
-                }
-            });
-            
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-
-    //===[Return]=========================================
-    return (
-       <div>
-        {
-                user &&
-                <>
-                    <h1>{user.username}</h1>
-                    <form onSubmit={handleFormSubmit}>
-                        <h3>Change Password</h3>
-                        <label htmlFor="currentPassword">Current Password: </label>
-                        <input name="currentPassword" type="password" id="currentPassword" onChange={handleFormChange} value={formState.currentPassword} />
-                        <label htmlFor="newPassword">New Password: </label>
-                        <input name="newPassword" type="password" id="newPassword" onChange={handleFormChange} value={formState.newPassword} />
-                        <button>Submit</button>
-                    </form>
-                </>
-            }
-
-        </div>
-    )
-}
+  //===[Return]=========================================
+  return (
+    <>
+      <div className="mypage-div-container">
+        {user && (
+          <>
+            <h1 className="mypage-title">{user.username}</h1>
+            <div className="mypage-form-container">
+              <form className="mypage-container" onSubmit={handleFormSubmit}>
+                <h3 className="mypage-form-title">Change Password</h3>
+                <div className="mypage-inputs">
+                  <label htmlFor="currentPassword">Current Password: </label>
+                  <input
+                    className="today-input"
+                    name="currentPassword"
+                    type="password"
+                    id="currentPassword"
+                    onChange={handleFormChange}
+                    value={formState.currentPassword}
+                  />
+                </div>
+                <div className="mypage-inputs">
+                  <label htmlFor="newPassword">New Password: </label>
+                  <input
+                    name="newPassword"
+                    type="password"
+                    id="newPassword"
+                    onChange={handleFormChange}
+                    value={formState.newPassword}
+                  />
+                  {errorMessage && <p>{errorMessage}</p>}
+                </div>
+                <div className="submit-button-container">
+                  <button className="submit-button">Submit</button>
+                </div>
+              </form>
+            </div>
+          </>
+        )}
+      </div>
+      <div className="icon-containter">
+        <img src={gainsIcon} className="gains-icon" alt="Master Gains icon" />
+      </div>
+    </>
+  );
+};
 
 export default MyPage;

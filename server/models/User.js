@@ -14,8 +14,8 @@ const UserSchema = new Schema(
         },
         email: {
             type: String,
-            unique: true,
             required: true,
+            unique: true,
             trim:true,
             match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/, 'You must enter a valid email adress']
         },
@@ -25,7 +25,7 @@ const UserSchema = new Schema(
             minlength:8,
             trim: true
         },
-        workouts:[workoutSchema],
+        // workouts:[workoutSchema],
         calender: {
             type: calenderSchema,
             default: {

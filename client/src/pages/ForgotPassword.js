@@ -6,9 +6,11 @@ import { RESET_PASSWORD } from "../utils/mutations";
 const ForgotPassword = (props) => {
   const [formState, setFormState] = useState({ username: "", email: ""});
   const [resetPassword, { error }] = useMutation(RESET_PASSWORD);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
+    setErrorMessage("");
     setFormState({
       ...formState,
       [name]: value,
@@ -22,9 +24,11 @@ const ForgotPassword = (props) => {
       const response = await resetPassword({
         variables: formState
       });
+      setErrorMessage("A temporary password has been sent to your email!")
     } catch (error) {
       console.log(formState);
       console.log(error);
+      setErrorMessage("A user with this email could not be found!")
     }
   };
 
@@ -51,6 +55,7 @@ const ForgotPassword = (props) => {
             onChange={handleFormChange}
           />
         </div>
+        {errorMessage && <p>{errorMessage}</p>}
         <div className="buttonCon">
         <button className="loginBtn" type="submit">Submit</button>
         </div>

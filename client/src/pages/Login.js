@@ -3,13 +3,17 @@ import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import { LOGIN_USER } from "../utils/mutations";
 
+import ErrorModal from "../components/ErrorModal";
+import gainsIcon from "../images/icons/Will_Design.svg";
+
 const Login = (props) => {
   const [login, { error }] = useMutation(LOGIN_USER);
   const [formState, setFormState] = useState({ username: "", password: "" });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
-
+    setErrorMessage("");
     setFormState({
       ...formState,
       [name]: value,
@@ -32,10 +36,12 @@ const Login = (props) => {
     } catch (error) {
       console.log(formState);
       console.log(error);
+      setErrorMessage("Password Incorrect")
     }
   };
 
   return (
+    <>
     <>
       <div className="formCon">
       <form onSubmit={handleFormSubmit} className="loginForm">
@@ -58,13 +64,20 @@ const Login = (props) => {
             onChange={handleFormChange}
           />
         </div>
+        {errorMessage && <p>{errorMessage}</p>}
         <div className="buttonCon">
         <button className="loginBtn" type="submit">Submit</button>
         </div>
-        <div className="forgotPw" onClick={() => {props.setPageSelected("ForgotPassword");}}>Forgot Password</div>
-        <div className="createAccount"> Create a new account</div>
+        <br></br>
+        <p className="clickableP" onClick={() => {props.setPageSelected("Signup");}}>Don't have an account? Create a new account here!</p>
+        <p className="clickableP" onClick={() => {props.setPageSelected("ForgotPassword");}}>Forgot Password?</p>
+        
       </form>
       </div>
+    </>
+    <div className="icon-containter">
+    <img src= {gainsIcon} className="gains-icon" alt="Master Gains icon" />
+    </div>
     </>
   );
 };

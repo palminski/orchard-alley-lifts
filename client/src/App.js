@@ -1,6 +1,9 @@
-import {useState} from 'react';
+import { useEffect, useState } from 'react';
+
 import {setContext} from '@apollo/client/link/context'
-import { ApolloProvider, InMemoryCache, ApolloClient, createHttpLink } from '@apollo/client';
+import { ApolloProvider, InMemoryCache, ApolloClient, createHttpLink, useQuery} from '@apollo/client';
+import { QUERY_CURRENT_USER } from './utils/queries';
+
 import Auth from "./utils/auth";
 
 
@@ -12,10 +15,14 @@ import Home from './pages/Home';
 import Workouts from './pages/Workouts';
 import Calender from './pages/Calender';
 import Today from './pages/Today';
-import MyPage from './pages/MyPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import ForgotPassword from './pages/ForgotPassword';
+import getApolloClient from "./utils/getApolloClient/client";
+//import 'bootstrap/dist/css/bootstrap.min.css';
+import AppHome from './components/AppHome';
+
+
+
 
 //------[Set Up Apollo]---------------
 const httpLink = createHttpLink({
@@ -40,31 +47,64 @@ const client = new ApolloClient({
 
 function App() {
 
-  const [pageSelected, setPageSelected] = useState('Home')
+  
+  const [client, setClient] = useState(null);
+  const [loading, setLoading] = useState(true);
+  
+  
+
+
+  useEffect(() => {
+    getApolloClient().then((client) => {
+      setClient(client)
+      console.log("Client ==>", client);
+      setLoading(false)
+    })
+  }, []);
+
+  // useEffect(() => {
+  //   if (!client) return
+  //   console.log(`
+    
+    
+  //   RUNNING TRACKED MUTATIONS
+
+    
+  //   `)
+  //   const execute = async () => {
+  //     const trackedOperations = JSON.parse(window.localStorage.getItem('trackedOperations') || null) || []
+
+  //     console.log(trackedOperations)
+
+  //     const promises = trackedOperations.map(({variables, mutation, optimisticResponse}) => client.mutate({
+  //       variables,
+  //       mutation,
+  //       optimisticResponse
+  //     }))
+
+  //     try{
+  //       await Promise.all(promises)
+  //       await client.refetchQueries({
+  //         include: "active"
+  //       })
+  //     }
+  //     catch (error) {
+  //       //Test
+  //       console.log("=========================")
+  //       console.log(error)
+  //       console.log("=========================")
+  //     }
+
+  //     window.localStorage.setItem('trackedOperations', [])
+  //   }
+  //   execute()
+
+  // }, [client])
 
   return (
-    <ApolloProvider client={client}>
-    <div className="App">
-      <Nav pageSelected={pageSelected} setPageSelected={setPageSelected}/>
-
-      {pageSelected === 'Home' && <Home/>}
-      {pageSelected === 'ForgotPassword' && <ForgotPassword/>}
-      {pageSelected === 'Login' && <Login setPageSelected={setPageSelected}/>}
-      {pageSelected === 'Signup' && <Signup setPageSelected={setPageSelected}/>}
-
-      {Auth.loggedIn() && 
-        <>
-        {pageSelected === 'Workouts' && <Workouts/>}
-        {pageSelected === 'Today' && <Today/>}
-        {pageSelected === 'Calender' && <Calender/>}
-        {pageSelected === 'MyPage' && <MyPage/>}
-        </>
-      }
-
-      
-
-    </div>
-    </ApolloProvider>
+    <>
+      {!loading && <AppHome client={client}/>}
+    </>
   );
 }
 

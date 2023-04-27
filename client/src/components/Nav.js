@@ -1,15 +1,18 @@
 import Auth from "../utils/auth";
 import { useApolloClient } from "@apollo/client";
 
+
+
 const Nav = (props) => {
   const { pageSelected, setPageSelected } = props;
   const client = useApolloClient();
   return (
     <>
       <nav className="nav-container">
-        <h1>Example Title</h1>
         <div className="hrefCon">
-            <h2>Logo</h2>
+            
+      <h1>RepMaster</h1>
+
           <ul>
             {!Auth.loggedIn() && (
               <a>
