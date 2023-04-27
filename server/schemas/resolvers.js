@@ -4,6 +4,7 @@ const {signToken} = require('../utils/auth.js');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 const db = require('../config/connection');
+const {nanoid} = require('nanoid');
 
 
 
@@ -156,12 +157,12 @@ const resolvers = {
             }
             //Create new temp password
             //Note- This is temporary and not super secure. Replace in final version.
-            let tempPassword = "TempPass_";
-            const alp = "NoOpPqQrRsStTuUvVwWxXyYzZaAbBcCdDeEfFgGhHiIjJkKlLmMn1234567890"
-            for (i = 0; i < 10; i++) {
-                tempPassword += alp[Math.floor(Math.random() * alp.length)]
+            let tempPassword = "TempPass_"+ nanoid();
+            // const alp = "NoOpPqQrRsStTuUvVwWxXyYzZaAbBcCdDeEfFgGhHiIjJkKlLmMn1234567890"
+            // for (i = 0; i < 10; i++) {
+            //     tempPassword += alp[Math.floor(Math.random() * alp.length)]
 
-            }
+            // }
 
             user.password = tempPassword;
             await user.save();
