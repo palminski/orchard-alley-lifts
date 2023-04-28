@@ -49,10 +49,10 @@ const resolvers = {
             }
             throw new AuthenticationError('Must be logged in to perform this action');
         },
-        editWorkout:async(parent, {refId, name}, context) => {
+        editWorkout:async(parent, {workoutId, name}, context) => {
             if (context.user) {
                 const updatedWorkout = await Workout.findOneAndUpdate(
-                    {refId: refId},
+                    {refId: workoutId},
                     {name: name},
                     {
                         new:true

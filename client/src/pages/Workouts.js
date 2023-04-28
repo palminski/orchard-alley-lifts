@@ -126,7 +126,7 @@ const Workouts = () => {
         update(cache, { data: { editWorkout } }) {
             try {
                 const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
-
+                console.log(data);
                 let updatedWorkouts = [...currentUser.workouts]
                 updatedWorkouts[selectedWorkoutIndex]= {...updatedWorkouts[selectedWorkoutIndex], name: editWorkout.name};
                 
@@ -159,7 +159,9 @@ const Workouts = () => {
         setSelectedWorkoutIndex("none");
         try {
 
-
+            // let optimisticWorkouts = [...user.workouts];
+            // let workoutIndexToReplace = optimisticWorkouts.findIndex(workout => workout._id.toString() === workoutId);
+            // optimisticWorkouts.splice(workoutIndexToReplace,1);
 
             const mutationResponse = await deleteWorkout({
                 variables: {
@@ -206,22 +208,23 @@ const Workouts = () => {
         });
     };
 
+    //====[EDITING]=============================================================================================
     async function handleWorkoutFormSubmit(event) {
         event.preventDefault();
         try {
-            let optimisticWorkouts = [...user.workouts];
-            optimisticWorkouts[selectedWorkoutIndex] = {...optimisticWorkouts[selectedWorkoutIndex], name:"test"}
+            // let optimisticWorkouts = [...user.workouts];
+            // optimisticWorkouts[selectedWorkoutIndex] = {...optimisticWorkouts[selectedWorkoutIndex], name:"test"}
             
             editWorkout({
                 variables: {
-                    workoutId: user.workouts[selectedWorkoutIndex]._id,
+                    workoutId: user.workouts[selectedWorkoutIndex].refId,
                     name: workoutEditState.workoutName,
                 },
                 optimisticResponse: {
                     editWorkout: {
-                        id: user.workouts[selectedWorkoutIndex]._id,
-                        __typename: 'Workout',
-                        name: workoutEditState.workoutName
+                        refId: user.workouts[selectedWorkoutIndex].refId,
+                        name: workoutEditState.workoutName,
+                        __typename: 'Workout'
                     }
                 }
             });
@@ -323,7 +326,7 @@ const Workouts = () => {
                                                     <form className="first-workout-form" onSubmit={handleWorkoutFormSubmit}>
                                                         <label htmlFor="workoutName">Workout Name: </label>
                                                         <br></br>
-                                                        <input required autoFocus="true" className="title-edit" name="workoutName" type="text" id="workoutName" onFocus={(e) => e.target.select()} onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
+                                                        <input required autoFocus={true} className="title-edit" name="workoutName" type="text" id="workoutName" onFocus={(e) => e.target.select()} onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
                                                         <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk} /></button>
 
                                                     </form>

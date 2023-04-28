@@ -67,8 +67,8 @@ export const EDIT_WORKOUT = gql`
 mutation EditWorkout($workoutId: ID!, $name: String!) {
   editWorkout(workoutId: $workoutId, name: $name) {
     refId
-    __typename
     name
+    __typename
   }
 }
 `
