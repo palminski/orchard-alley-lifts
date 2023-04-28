@@ -107,7 +107,7 @@ mutation EditCalender($monday: String!, $tuesday: String!, $wednesday: String!, 
 export const DELETE_EXERCISE = gql`
 mutation DeleteExercise($exerciseId: ID!) {
   deleteExercise(exerciseId: $exerciseId) {
-    _id
+    refId
   }
 }
 `

@@ -74,7 +74,7 @@ const resolvers = {
         },
         deleteExercise:async(parent, {exerciseId}, context) => {
             if (context.user) {
-                const deletedExercise = await Exercise.findOneAndDelete({_id: exerciseId});
+                const deletedExercise = await Exercise.findOneAndDelete({refId: exerciseId});
                 return deletedExercise;
             }
             throw new AuthenticationError('Must be logged in to perform this action');
