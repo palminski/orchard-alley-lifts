@@ -101,7 +101,7 @@ const Workouts = () => {
 
                 //find indexes to replace
                 let workoutIndexToReplace = selectedWorkoutIndex;
-                let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === editExercise.id);
+                let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise.refId.toString() === editExercise.refId);
 
                 //splice exercise out of the workout
                 updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace] = {
@@ -260,7 +260,7 @@ const Workouts = () => {
                 },
                 optimisticResponse:{
                     editExercise: {
-                        id: currentlyEditing,
+                        refId: currentlyEditing,
                         __typename: "Exercise",
                         name: exerciseEditState.exerciseName,
                         sets: parseInt(exerciseEditState.sets),
@@ -342,7 +342,7 @@ const Workouts = () => {
                                                     <ul>
                                                         {user.workouts[selectedWorkoutIndex].exercises.map(exercise => (
                                                             <li className="exercise-li" key={exercise.refId}>
-                                                                {currentlyEditing === exercise._id ?
+                                                                {currentlyEditing === exercise.refId ?
                                                                     // If currently editing this exercise
                                                                     //li becomes a form where values can be changed
                                                                     <form className="handle-exercise-form" onSubmit={handleExerciseFormSubmit}>
@@ -377,7 +377,7 @@ const Workouts = () => {
                                                                                     reps: exercise.reps,
                                                                                     weight: exercise.weight
                                                                                 });
-                                                                                setCurrentlyEditing(exercise._id)
+                                                                                setCurrentlyEditing(exercise.refId)
                                                                             }} />
                                                                             <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteExercise(exercise.refId) }} />
                                                                         </p>

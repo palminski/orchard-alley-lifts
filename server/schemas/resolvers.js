@@ -83,7 +83,7 @@ const resolvers = {
             if (context.user) {
 
                 const updatedExercise = await Exercise.findOneAndUpdate(
-                    {_id: exerciseId},
+                    {refId: exerciseId},
                     {name:name,reps:reps,sets:sets,weight:weight},
                     {
                         new:true
