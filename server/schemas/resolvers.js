@@ -34,25 +34,25 @@ const resolvers = {
     Mutation: {
         //Workout Mutations--------------------------------------------------------------------------------
 
-        addWorkout: async(parent, {name}, context) => {
+        addWorkout: async(parent, {refId, name}, context) => {
             if (context.user) {
-                const workout = await Workout.create({userId: context.user._id, name});
+                const workout = await Workout.create({userId: context.user._id, name, refId});
                 return workout;
             }
             throw new AuthenticationError('Must be logged in to perform this action');
         },
-        deleteWorkout:async(parent, {workoutId}, context) => {
+        deleteWorkout:async(parent, {refId}, context) => {
             if (context.user) {
-                await Exercise.deleteMany({workoutId: workoutId});
-                const deletedWorkout = await Workout.findOneAndDelete({_id: workoutId});
+                await Exercise.deleteMany({workoutId: refId});
+                const deletedWorkout = await Workout.findOneAndDelete({refId});
                 return deletedWorkout;
             }
             throw new AuthenticationError('Must be logged in to perform this action');
         },
-        editWorkout:async(parent, {workoutId, name}, context) => {
+        editWorkout:async(parent, {refId, name}, context) => {
             if (context.user) {
                 const updatedWorkout = await Workout.findOneAndUpdate(
-                    {_id: workoutId},
+                    {refId: refId},
                     {name: name},
                     {
                         new:true

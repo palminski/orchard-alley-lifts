@@ -7,6 +7,9 @@ import { QUERY_CURRENT_USER } from "../utils/queries";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 
+import {nanoid} from 'nanoid'
+
+
 const AddWorkoutForm = (props) => {
     const {setMode, setSelectedWorkoutIndex} = props;
 
@@ -22,7 +25,8 @@ const AddWorkoutForm = (props) => {
             try {
                 
                 let newWorkout = {
-                    _id:addWorkout.id,
+                    _id:addWorkout._id,
+                    refId:addWorkout.refId,
                     name: addWorkout.name,
                     exercises: []
                 } 
@@ -55,15 +59,17 @@ const AddWorkoutForm = (props) => {
 
     async function handleFormSubmit(event) {
         event.preventDefault();
-        
+        const myId = `${nanoid()}`;
         try {
             const mutationResponse = addWorkout({
                 variables: {
+                    refId: myId,
                     name: formState.workoutName
                 },
                 optimisticResponse: {
                     addWorkout: {
-                        id: `temp_id-${formState.workoutName}-Workout-${Date.now()}`,
+                        _id:-1,
+                        refId: myId,
                         __typename: "Workout",
                         name: formState.workoutName
                     }

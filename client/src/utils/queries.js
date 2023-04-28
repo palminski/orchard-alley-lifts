@@ -14,6 +14,7 @@ query CurrentUser {
     currentUser {
       username
       workouts{
+        refId
         _id
         name
         exercises{
