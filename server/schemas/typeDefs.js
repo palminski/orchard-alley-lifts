@@ -12,15 +12,17 @@ const typeDefs = gql`
     type Workout {
         _id: ID
         id: ID
+        refId: String
         userId: String
         name: String
         exercises: [Exercise]
-        refId: String
+        
     }
 
     type Exercise {
         id: ID
         _id: ID
+        refId:String
         workoutId: String
         name: String
         sets: Int
@@ -60,7 +62,7 @@ const typeDefs = gql`
         deleteWorkout(workoutId: ID!): Workout
         editWorkout(workoutId: ID!, name:String!): Workout
 
-        addExercise(workoutId: ID!, name: String!, sets: Int!, reps: Int!, weight: Float!): Exercise
+        addExercise(refId:ID!, workoutId: ID!, name: String!, sets: Int!, reps: Int!, weight: Float!): Exercise
         deleteExercise(exerciseId:ID!): Exercise
         editExercise(exerciseId:ID!, name: String!, sets: Int!, reps: Int!, weight: Float!): Exercise
 

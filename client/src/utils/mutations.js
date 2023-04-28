@@ -50,9 +50,10 @@ mutation AddWorkout($refId: ID!, $name: String!) {
 `
 
 export const ADD_EXERCISE = gql`
-mutation AddExercise($workoutId: ID!, $name: String!, $sets: Int!, $reps: Int!, $weight: Float!) {
-  addExercise(workoutId: $workoutId, name: $name, sets: $sets, reps: $reps, weight: $weight) {
-    id
+mutation AddExercise($refId: ID!, $workoutId: ID!, $name: String!, $sets: Int!, $reps: Int!, $weight: Float!) {
+  addExercise(refId: $refId, workoutId: $workoutId, name: $name, sets: $sets, reps: $reps, weight: $weight) {
+    _id
+    refId
     workoutId
     __typename
     name

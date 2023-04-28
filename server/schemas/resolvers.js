@@ -69,7 +69,6 @@ const resolvers = {
             if (context.user) {
                 const exercise = await Exercise.create(variables);
                 return exercise;
-                
             }
             throw new AuthenticationError('Must be logged in to perform this action');
         },
@@ -221,7 +220,7 @@ const resolvers = {
     Workout: {
         exercises: async (root) => {
             try{
-                return await Exercise.find({workoutId: root._id})
+                return await Exercise.find({workoutId: root.refId})
             }
             catch (error) {
                 throw new Error(error);

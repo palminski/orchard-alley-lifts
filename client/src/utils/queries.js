@@ -19,6 +19,7 @@ query CurrentUser {
         name
         exercises{
           _id
+          refId
           name
           reps
           sets

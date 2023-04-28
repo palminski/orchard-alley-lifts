@@ -390,7 +390,7 @@ const Workouts = () => {
                                                 {/* //Form at bottom where exercises are added */}
                                                 <div className="add-exercise-section">
                                                     <h3>Add {user.workouts[selectedWorkoutIndex]?.exercises.length > 0 ? "more exercises" : "your fisrt exercise"} to this workout here</h3>
-                                                    <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]?._id} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddExerciseForm>
+                                                    <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]?.refId} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddExerciseForm>
                                                 </div>
                                             </>
                                             :
