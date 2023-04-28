@@ -41,10 +41,10 @@ const resolvers = {
             }
             throw new AuthenticationError('Must be logged in to perform this action');
         },
-        deleteWorkout:async(parent, {refId}, context) => {
+        deleteWorkout:async(parent, {workoutId}, context) => {
             if (context.user) {
-                await Exercise.deleteMany({workoutId: refId});
-                const deletedWorkout = await Workout.findOneAndDelete({refId});
+                await Exercise.deleteMany({workoutId: workoutId});
+                const deletedWorkout = await Workout.findOneAndDelete({refId: workoutId});
                 return deletedWorkout;
             }
             throw new AuthenticationError('Must be logged in to perform this action');

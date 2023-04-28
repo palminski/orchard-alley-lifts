@@ -149,7 +149,8 @@ const Workouts = () => {
             setSelectedWorkoutIndex("none");
         }
         else {
-            let workoutIndex = user.workouts.findIndex(workout => workout._id === e.target.value);
+            let workoutIndex = user.workouts.findIndex(workout => workout.refId === e.target.value);
+            console.log(user.workouts[selectedWorkoutIndex])
             setSelectedWorkoutIndex(workoutIndex);
         }
     }
@@ -158,9 +159,7 @@ const Workouts = () => {
         setSelectedWorkoutIndex("none");
         try {
 
-            let optimisticWorkouts = [...user.workouts];
-            let workoutIndexToReplace = optimisticWorkouts.findIndex(workout => workout._id.toString() === workoutId);
-            optimisticWorkouts.splice(workoutIndexToReplace,1);
+
 
             const mutationResponse = await deleteWorkout({
                 variables: {
@@ -168,7 +167,7 @@ const Workouts = () => {
                 },
                 optimisticResponse: {
                     deleteWorkout: {
-                        _id: workoutId
+                        refId: workoutId
                     }
                 }
             });
@@ -180,19 +179,7 @@ const Workouts = () => {
 
     async function handleDeleteExercise(exerciseId) {
         try {
-            // //spread the workouts into new temp holding array
-            // let optimisticWorkouts = [...user.workouts];
-            // //Spread exercises as well so they can be edited
-            // for (let i = 0; i < optimisticWorkouts.length; i++) {
-            //     optimisticWorkouts[i] = {...optimisticWorkouts[i],exercises:[...optimisticWorkouts[i].exercises]}
-            // }
             
-            // //find indexes to replace
-            // let workoutIndexToReplace = optimisticWorkouts.findIndex(workout => workout._id.toString() === workoutId);
-            // let exerciseIndexToReplace = optimisticWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === exerciseId);
-
-            // //splice exercise out of the workout
-            // optimisticWorkouts[workoutIndexToReplace].exercises.splice(exerciseIndexToReplace,1);
             console.log(exerciseId)
             const mutationResponse = await deleteExercise({
                 variables: {
@@ -312,10 +299,10 @@ const Workouts = () => {
                                                 <>
                                                     <label htmlFor="workouts">Selected Workout: </label>
                                                     <br></br>
-                                                    <select className="selected-workout" name="workouts" onChange={handleSelectChange} value={user.workouts[selectedWorkoutIndex]?._id}>
+                                                    <select className="selected-workout" name="workouts" onChange={handleSelectChange} value={user.workouts[selectedWorkoutIndex]?.refId}>
                                                         <option value="none"></option>
                                                         {user.workouts && user.workouts.map(workout => (
-                                                            <option key={workout._id} value={workout._id}>{workout.name}</option>
+                                                            <option key={workout.refId} value={workout.refId}>{workout.name}</option>
                                                         ))}
                                                     </select>
                                                     {selectedWorkoutIndex !== "none" &&
@@ -326,7 +313,7 @@ const Workouts = () => {
                                                                     workoutName: user.workouts[selectedWorkoutIndex].name,
                                                                 })
                                                             }} />
-                                                            <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex]._id) }} />
+                                                            <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex].refId) }} />
                                                         </>}
                                                 </>
                                                 // Currently Editing Title
