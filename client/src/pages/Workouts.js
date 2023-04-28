@@ -16,6 +16,8 @@ import gainsIcon from "../images/icons/Will_Design.svg";
 
 const Workouts = () => {
 
+    
+
     //===[States]=============================================
     const [selectedWorkoutIndex, setSelectedWorkoutIndex] = useState("none")
     const [mode, setMode] = useState("select");
@@ -29,7 +31,7 @@ const Workouts = () => {
     const [workoutEditState, setWorkoutEditState] = useState({
         workoutName: "",
     });
-
+    console.log(selectedWorkoutIndex);
     //===[Queries]=============================================
     const { loading, data, refetch } = useQuery(QUERY_CURRENT_USER);
     const user = (data?.currentUser)
@@ -72,7 +74,7 @@ const Workouts = () => {
                 let updatedWorkouts = [...currentUser.workouts]
                 updatedWorkouts.splice(selectedWorkoutIndex,1);
 
-                
+                setSelectedWorkoutIndex('none');
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
                     data: {currentUser: {...currentUser, workouts: updatedWorkouts}}
@@ -336,7 +338,7 @@ const Workouts = () => {
                                         //If there is a workout that has been selected
                                         //List of exercises contained in that workout
                                             <>
-                                                {user.workouts[selectedWorkoutIndex].exercises.length > 0 &&
+                                                {user.workouts[selectedWorkoutIndex]?.exercises.length > 0 &&
                                                     <ul>
                                                         {user.workouts[selectedWorkoutIndex].exercises.map(exercise => (
                                                             <li className="exercise-li" key={exercise._id}>
@@ -387,8 +389,8 @@ const Workouts = () => {
                                                 }
                                                 {/* //Form at bottom where exercises are added */}
                                                 <div className="add-exercise-section">
-                                                    <h3>Add {user.workouts[selectedWorkoutIndex].exercises.length > 0 ? "more exercises" : "your fisrt exercise"} to this workout here</h3>
-                                                    <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]._id} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddExerciseForm>
+                                                    <h3>Add {user.workouts[selectedWorkoutIndex]?.exercises.length > 0 ? "more exercises" : "your fisrt exercise"} to this workout here</h3>
+                                                    <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]?._id} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddExerciseForm>
                                                 </div>
                                             </>
                                             :

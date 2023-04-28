@@ -146,8 +146,8 @@ const getApolloClient = async () => {
     const link = ApolloLink.from([
         // trackerLink,
         queueLink,
-        nextInLineLink,
-        pauseLink,
+        // nextInLineLink,
+        // pauseLink,
         serializingLink,
         retryLink,
         errorLink,
