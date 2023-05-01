@@ -1,5 +1,5 @@
 import { InMemoryCache, ApolloClient, createHttpLink, ApolloLink, NextLink} from '@apollo/client';
-import { CachePersistor } from 'apollo3-cache-persist';
+import { persistCache, LocalStorageWrapper} from 'apollo3-cache-persist';
 import {RetryLink} from 'apollo-link-retry';
 import QueueLink from 'apollo-link-queue';
 import {onError} from 'apollo-link-error';
@@ -37,11 +37,40 @@ const getApolloClient = async () => {
 
     const serializingLink = new SerializingLink();
 
+    const trackerLink = new ApolloLink((operation, forward) => {
+        if (forward === undefined) return null;
 
+        const context = operation.getContext();
+        const trackedMutations = JSON.parse(window.localStorage.getItem('trackedMutations') || null) || []
+        
+
+        const {operationName,query, variables} = operation;
+
+        const newMutation = {
+            query,
+            optimisticResponse: context.optimisticResponse,
+            variables,
+            operationName
+        }
+        console.log(newMutation);
+
+
+        const mutation = {...context.optimisticResponse};
+        window.localStorage.setItem('trackedMutations', JSON.stringify([...trackedMutations, newMutation]))
+
+    
+        console.log("=============================")
+        return forward(operation).map((data) => {
+            window.localStorage.removeItem('trackedMutations');
+            return data;
+        });
+    })
 
     const link = ApolloLink.from([
+        trackerLink,
         queueLink,
         serializingLink,
+        
         retryLink,
         errorLink,
         authLink,
@@ -50,19 +79,13 @@ const getApolloClient = async () => {
 
     const cache = new InMemoryCache()
 
-    const persistor = new CachePersistor({
+    await persistCache({
         cache,
-        storage: window.localStorage,
-    })
+        storage: new LocalStorageWrapper(window.localStorage),
+    });
 
     const currentVersion = window.localStorage.getItem(SCHEMA_VERSION_KEY)
 
-    if (currentVersion === SCHEMA_VERSION) {
-        await persistor.restore()
-    } else {
-        await persistor.purge()
-        window.localStorage.setItem(SCHEMA_VERSION_KEY, SCHEMA_VERSION)
-    }
 
     const client = new ApolloClient({
         link,

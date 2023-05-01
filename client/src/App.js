@@ -51,9 +51,6 @@ function App() {
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
   
-  
-
-
   useEffect(() => {
     getApolloClient().then((client) => {
       setClient(client)
@@ -62,44 +59,37 @@ function App() {
     })
   }, []);
 
-  // useEffect(() => {
-  //   if (!client) return
-  //   console.log(`
+  useEffect(() => {
+    if (!client) return;
+
+    const execute = async () => {
+      console.log("Checking for stored mutations in local storage...");
     
     
-  //   RUNNING TRACKED MUTATIONS
+      let trackedMutations = JSON.parse(window.localStorage.getItem('trackedMutations') || null) || [];
+      console.log(trackedMutations);
+
+      const promises = trackedMutations.map(({variables, query, optimisticResponse, operationName}) => client.mutate({
+        variables,
+        mutation: query,
+        optimisticResponse
+      }));
+
+      try {
+        await Promise.all(promises)
+      }
+      catch(error) {
+        console.log('error occured')
+      }
+
+      window.localStorage.removeItem('trackedMutations');
+    }
 
     
-  //   `)
-  //   const execute = async () => {
-  //     const trackedOperations = JSON.parse(window.localStorage.getItem('trackedOperations') || null) || []
+    execute();
 
-  //     console.log(trackedOperations)
 
-  //     const promises = trackedOperations.map(({variables, mutation, optimisticResponse}) => client.mutate({
-  //       variables,
-  //       mutation,
-  //       optimisticResponse
-  //     }))
-
-  //     try{
-  //       await Promise.all(promises)
-  //       await client.refetchQueries({
-  //         include: "active"
-  //       })
-  //     }
-  //     catch (error) {
-  //       //Test
-  //       console.log("=========================")
-  //       console.log(error)
-  //       console.log("=========================")
-  //     }
-
-  //     window.localStorage.setItem('trackedOperations', [])
-  //   }
-  //   execute()
-
-  // }, [client])
+  }, [client])
 
   return (
     <>
