@@ -16,8 +16,6 @@ import gainsIcon from "../images/icons/Will_Design.svg";
 
 const Workouts = () => {
 
-    
-
     //===[States]=============================================
     const [selectedWorkoutIndex, setSelectedWorkoutIndex] = useState("none")
     const [mode, setMode] = useState("select");
@@ -59,25 +57,24 @@ const Workouts = () => {
                     query: QUERY_CURRENT_USER,
                     data: { currentUser: { ...currentUser, workouts: updatedWorkouts } }
                 });
-                
             }
             catch (error) {
                 console.log(error);
             }
-        }, 
+        },
     });
 
     const [deleteWorkout] = useMutation(DELETE_WORKOUT, {
-        update(cache, {data: {deleteWorkout}}) {
+        update(cache, { data: { deleteWorkout } }) {
             try {
-                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
                 let updatedWorkouts = [...currentUser.workouts]
-                updatedWorkouts.splice(selectedWorkoutIndex,1);
+                updatedWorkouts.splice(selectedWorkoutIndex, 1);
 
                 setSelectedWorkoutIndex('none');
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
-                    data: {currentUser: {...currentUser, workouts: updatedWorkouts}}
+                    data: { currentUser: { ...currentUser, workouts: updatedWorkouts } }
                 });
             }
             catch (error) {
@@ -87,10 +84,10 @@ const Workouts = () => {
     });
 
     const [editExercise] = useMutation(EDIT_EXERCISE, {
-        update(cache, {data: {editExercise}}) {
+        update(cache, { data: { editExercise } }) {
             try {
                 console.log(editExercise);
-                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
 
                 //spread the workouts into new temp holding array
                 let updatedWorkouts = [...currentUser.workouts];
@@ -106,15 +103,15 @@ const Workouts = () => {
                 //splice exercise out of the workout
                 updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace] = {
                     ...updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace],
-                    name:editExercise.name,
-                    reps:editExercise.reps,
-                    sets:editExercise.sets,
-                    weight:editExercise.weight,
+                    name: editExercise.name,
+                    reps: editExercise.reps,
+                    sets: editExercise.sets,
+                    weight: editExercise.weight,
                 };
                 console.log(editExercise);
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
-                    data: {currentUser: {...currentUser, workouts: updatedWorkouts}}
+                    data: { currentUser: { ...currentUser, workouts: updatedWorkouts } }
                 });
                 console.log("<><><><><><><>")
                 console.log(currentUser.workouts[selectedWorkoutIndex].exercises[exerciseIndexToReplace].name);
@@ -130,11 +127,11 @@ const Workouts = () => {
                 const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
                 console.log(data);
                 let updatedWorkouts = [...currentUser.workouts]
-                updatedWorkouts[selectedWorkoutIndex]= {...updatedWorkouts[selectedWorkoutIndex], name: editWorkout.name};
-                
+                updatedWorkouts[selectedWorkoutIndex] = { ...updatedWorkouts[selectedWorkoutIndex], name: editWorkout.name };
+
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
-                    data: { currentUser: { ...currentUser, workouts:updatedWorkouts} }
+                    data: { currentUser: { ...currentUser, workouts: updatedWorkouts } }
                 });
                 console.log(currentUser.workouts[selectedWorkoutIndex].name)
             }
@@ -156,15 +153,10 @@ const Workouts = () => {
             setSelectedWorkoutIndex(workoutIndex);
         }
     }
-//====[DELETING]================================================================
+    //====[DELETING]================================================================
     async function handleDeleteWorkout(workoutId) {
         setSelectedWorkoutIndex("none");
         try {
-
-            // let optimisticWorkouts = [...user.workouts];
-            // let workoutIndexToReplace = optimisticWorkouts.findIndex(workout => workout._id.toString() === workoutId);
-            // optimisticWorkouts.splice(workoutIndexToReplace,1);
-
             const mutationResponse = await deleteWorkout({
                 variables: {
                     workoutId: workoutId,
@@ -183,19 +175,18 @@ const Workouts = () => {
 
     async function handleDeleteExercise(exerciseId) {
         try {
-            
+
             console.log(exerciseId)
             const mutationResponse = await deleteExercise({
                 variables: {
                     exerciseId: exerciseId,
                 },
-                optimisticResponse:{
+                optimisticResponse: {
                     deleteExercise: {
-                      refId: exerciseId
+                        refId: exerciseId
                     }
-                  }
+                }
             });
-            
         }
         catch (error) {
             console.log(error);
@@ -214,9 +205,6 @@ const Workouts = () => {
     async function handleWorkoutFormSubmit(event) {
         event.preventDefault();
         try {
-            // let optimisticWorkouts = [...user.workouts];
-            // optimisticWorkouts[selectedWorkoutIndex] = {...optimisticWorkouts[selectedWorkoutIndex], name:"test"}
-            
             editWorkout({
                 variables: {
                     workoutId: user.workouts[selectedWorkoutIndex].refId,
@@ -230,7 +218,6 @@ const Workouts = () => {
                     }
                 }
             });
-            
         }
         catch (error) {
             console.log(error);
@@ -258,7 +245,7 @@ const Workouts = () => {
                     reps: parseInt(exerciseEditState.reps),
                     weight: parseFloat(exerciseEditState.weight),
                 },
-                optimisticResponse:{
+                optimisticResponse: {
                     editExercise: {
                         refId: currentlyEditing,
                         __typename: "Exercise",
@@ -267,7 +254,7 @@ const Workouts = () => {
                         reps: parseInt(exerciseEditState.reps),
                         weight: parseFloat(exerciseEditState.weight),
                     }
-                  }
+                }
             });
         }
         catch (error) {
@@ -287,9 +274,9 @@ const Workouts = () => {
                     </>
                     :
                     <div className="workout-container">
-                        
+
                         {user.workouts.length ?
-                        //If the user has some workouts associated witht their account
+                            //If the user has some workouts associated witht their account
                             <>
                                 {mode === "select" ?
                                     //Toggle Tabs at top of form
@@ -335,8 +322,8 @@ const Workouts = () => {
                                                 </>}
                                         </div>
                                         {selectedWorkoutIndex !== "none" ?
-                                        //If there is a workout that has been selected
-                                        //List of exercises contained in that workout
+                                            //If there is a workout that has been selected
+                                            //List of exercises contained in that workout
                                             <>
                                                 {user.workouts[selectedWorkoutIndex]?.exercises.length > 0 &&
                                                     <ul>
@@ -347,20 +334,20 @@ const Workouts = () => {
                                                                     //li becomes a form where values can be changed
                                                                     <form className="handle-exercise-form" onSubmit={handleExerciseFormSubmit}>
                                                                         <div className="exercise-name">
-                                                                        <label htmlFor="exerciseName"><span className="exercise-name">Exercise Name: </span></label>
-                                                                        <input required name="exerciseName" type="text" id="exerciseName" onChange={handleExerciseFormChange} value={exerciseEditState.exerciseName} />
+                                                                            <label htmlFor="exerciseName"><span className="exercise-name">Exercise Name: </span></label>
+                                                                            <input required name="exerciseName" type="text" id="exerciseName" onChange={handleExerciseFormChange} value={exerciseEditState.exerciseName} />
                                                                         </div>
                                                                         <div className="exercise-name">
-                                                                        <label htmlFor="reps">Reps: </label>
-                                                                        <input required className="small-number-input" name="reps" type="number" step={1} id="reps" onChange={handleExerciseFormChange} value={exerciseEditState.reps} />
+                                                                            <label htmlFor="reps">Reps: </label>
+                                                                            <input required className="small-number-input" name="reps" type="number" step={1} id="reps" onChange={handleExerciseFormChange} value={exerciseEditState.reps} />
                                                                         </div>
                                                                         <div className="exercise-name">
-                                                                        <label htmlFor="sets">Sets: </label>
-                                                                        <input required className="small-number-input" name="sets" type="number" step={1} id="sets" onChange={handleExerciseFormChange} value={exerciseEditState.sets} />
+                                                                            <label htmlFor="sets">Sets: </label>
+                                                                            <input required className="small-number-input" name="sets" type="number" step={1} id="sets" onChange={handleExerciseFormChange} value={exerciseEditState.sets} />
                                                                         </div>
                                                                         <div className="exercise-name">
-                                                                        <label htmlFor="weight">Weight: </label>
-                                                                        <input required className="large-number-input" name="weight" type="number" step={2.5} id="weight" onChange={handleExerciseFormChange} value={exerciseEditState.weight} />
+                                                                            <label htmlFor="weight">Weight: </label>
+                                                                            <input required className="large-number-input" name="weight" type="number" step={2.5} id="weight" onChange={handleExerciseFormChange} value={exerciseEditState.weight} />
                                                                         </div>
                                                                         <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk} /></button>
                                                                     </form>
@@ -425,11 +412,11 @@ const Workouts = () => {
                                 </div>
                             </>
                         }
-                    </div>   
+                    </div>
             }
-         <div className="icon-containter">
-        <img src= {gainsIcon} className="gains-icon" alt="Master Gains icon" />
-        </div>
+            <div className="icon-containter">
+                <img src={gainsIcon} className="gains-icon" alt="Master Gains icon" />
+            </div>
         </>
     );
 }
