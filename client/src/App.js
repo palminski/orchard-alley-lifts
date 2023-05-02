@@ -82,8 +82,6 @@ function App() {
       catch(error) {
         console.log('error occured')
       }
-
-      
     }
 
     
