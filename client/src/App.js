@@ -62,14 +62,13 @@ function App() {
 
   useEffect(() => {
     if (!client) return;
+    let trackedMutations = JSON.parse(window.localStorage.getItem('trackedMutations') || null) || [];
+      console.log("HELLO");
+      window.localStorage.removeItem('trackedMutations');
 
     const execute = async () => {
       console.log("Checking for stored mutations in local storage...");
     
-    
-      let trackedMutations = JSON.parse(window.localStorage.getItem('trackedMutations') || null) || [];
-      console.log(trackedMutations);
-
       const promises = trackedMutations.map(({variables, query, optimisticResponse, operationName}) => client.mutate({
         variables,
         mutation: query,
@@ -84,7 +83,7 @@ function App() {
         console.log('error occured')
       }
 
-      window.localStorage.removeItem('trackedMutations');
+      
     }
 
     
