@@ -20,6 +20,7 @@ import Signup from './pages/Signup';
 import getApolloClient from "./utils/getApolloClient/client";
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import AppHome from './components/AppHome';
+import * as updateFunctions from './utils/updateFunctions';
 
 
 
@@ -72,6 +73,7 @@ function App() {
       const promises = trackedMutations.map(({variables, query, optimisticResponse, operationName}) => client.mutate({
         variables,
         mutation: query,
+        update: updateFunctions[operationName],
         optimisticResponse
       }));
 

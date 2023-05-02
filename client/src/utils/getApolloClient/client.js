@@ -70,7 +70,6 @@ const getApolloClient = async () => {
         trackerLink,
         queueLink,
         serializingLink,
-        
         retryLink,
         errorLink,
         authLink,
