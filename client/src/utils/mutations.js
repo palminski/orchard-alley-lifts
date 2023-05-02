@@ -78,6 +78,7 @@ export const EDIT_EXERCISE = gql`
 mutation EditExercise($exerciseId: ID!, $name: String!, $sets: Int!, $reps: Int!, $weight: Float!) {
   editExercise(exerciseId: $exerciseId, name: $name, sets: $sets, reps: $reps, weight: $weight) {
     refId
+    workoutId
     __typename
     name
     sets
@@ -108,6 +109,7 @@ export const DELETE_EXERCISE = gql`
 mutation DeleteExercise($exerciseId: ID!) {
   deleteExercise(exerciseId: $exerciseId) {
     refId
+    workoutId
   }
 }
 `

@@ -7,5 +7,5 @@ export{
     AddExercise,
     AddWorkout,
     DeleteWorkout,
-    EditWorkout
+    EditWorkout,
 };

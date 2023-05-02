@@ -183,7 +183,8 @@ const Workouts = () => {
                 },
                 optimisticResponse: {
                     deleteExercise: {
-                        refId: exerciseId
+                        refId: exerciseId,
+                        workoutId: user.workouts[selectedWorkoutIndex].refId
                     }
                 }
             });
@@ -248,6 +249,7 @@ const Workouts = () => {
                 optimisticResponse: {
                     editExercise: {
                         refId: currentlyEditing,
+                        workoutId: user.workouts[selectedWorkoutIndex].refId,
                         __typename: "Exercise",
                         name: exerciseEditState.exerciseName,
                         sets: parseInt(exerciseEditState.sets),
