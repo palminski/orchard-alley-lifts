@@ -90,7 +90,7 @@ const Calender = () => {
                   <option value="none">none</option>
                   {user.workouts &&
                     user.workouts.map((workout) => (
-                      <option key={workout._id} value={workout._id}>
+                      <option key={workout.refId} value={workout.refId}>
                         {workout.name}
                       </option>
                     ))}
@@ -108,7 +108,7 @@ const Calender = () => {
                   <option value="none">none</option>
                   {user.workouts &&
                     user.workouts.map((workout) => (
-                      <option key={workout._id} value={workout._id}>
+                      <option key={workout.refId} value={workout.refId}>
                         {workout.name}
                       </option>
                     ))}
@@ -126,7 +126,7 @@ const Calender = () => {
                   <option value="none">none</option>
                   {user.workouts &&
                     user.workouts.map((workout) => (
-                      <option key={workout._id} value={workout._id}>
+                      <option key={workout.refId} value={workout.refId}>
                         {workout.name}
                       </option>
                     ))}
@@ -144,7 +144,7 @@ const Calender = () => {
                   <option value="none">none</option>
                   {user.workouts &&
                     user.workouts.map((workout) => (
-                      <option key={workout._id} value={workout._id}>
+                      <option key={workout.refId} value={workout.refId}>
                         {workout.name}
                       </option>
                     ))}
@@ -162,7 +162,7 @@ const Calender = () => {
                   <option value="none">none</option>
                   {user.workouts &&
                     user.workouts.map((workout) => (
-                      <option key={workout._id} value={workout._id}>
+                      <option key={workout.refId} value={workout.refId}>
                         {workout.name}
                       </option>
                     ))}
@@ -180,7 +180,7 @@ const Calender = () => {
                   <option value="none">none</option>
                   {user.workouts &&
                     user.workouts.map((workout) => (
-                      <option key={workout._id} value={workout._id}>
+                      <option key={workout.refId} value={workout.refId}>
                         {workout.name}
                       </option>
                     ))}
@@ -198,7 +198,7 @@ const Calender = () => {
                   <option value="none">none</option>
                   {user.workouts &&
                     user.workouts.map((workout) => (
-                      <option key={workout._id} value={workout._id}>
+                      <option key={workout.refId} value={workout.refId}>
                         {workout.name}
                       </option>
                     ))}

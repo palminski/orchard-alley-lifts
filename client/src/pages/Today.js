@@ -16,13 +16,15 @@ const Today = () => {
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday", "Thursday", "Friday", "Saturday"];
     const today = weekdays[new Date().getDay()];
     const todayWorkoutId = data?.currentUser.calender[today.toLowerCase()];
-    const todaysWorkout = data?.currentUser.workouts.find(workout => workout._id === todayWorkoutId);
+    const todaysWorkout = data?.currentUser.workouts.find(workout => workout.refId === todayWorkoutId);
 
     //===[Mutations]=======================================  
     const [editExercise] = useMutation(EDIT_EXERCISE,
         {
             update(cache, {data: {editExercise}}) {
+                
                 try {
+                    console.log(editExercise)
                     const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
                     //spread the workouts into new temp holding array
                     let updatedWorkouts = [...currentUser.workouts];
@@ -32,9 +34,9 @@ const Today = () => {
                     }
     
                     //find indexes to replace
-                    let workoutIndexToReplace = updatedWorkouts.findIndex(workout => workout._id.toString() === todayWorkoutId.toString());
+                    let workoutIndexToReplace = updatedWorkouts.findIndex(workout => workout.refId.toString() === todayWorkoutId.toString());
 
-                    let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === editExercise.id);
+                    let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise.refId.toString() === editExercise.refId);
 
                     //splice exercise out of the workout
                     updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace] = {
@@ -64,7 +66,7 @@ const Today = () => {
     async function incrementWeight(exerciseId,name,sets,reps,weight) {
 
         try {
-            const mutationResponse = await editExercise({
+            const mutationResponse =editExercise({
                 variables: {
                     workoutId: todayWorkoutId,
                     exerciseId: exerciseId,
@@ -75,7 +77,8 @@ const Today = () => {
                 },
                 optimisticResponse:{
                     editExercise: {
-                        id: exerciseId,
+                        refId: exerciseId,
+                        workoutId:todayWorkoutId,
                         __typename: "Exercise",
                         name: name,
                         sets: parseInt(sets),
@@ -108,8 +111,8 @@ const Today = () => {
                 <>
                 <ul>
                     {todaysWorkout.exercises.map( exercise => (
-                        <li className="today-li" key={exercise._id}>
-                            {exercise.name} - {exercise.reps} reps - {exercise.sets} sets - {exercise.weight}lbs - <button className="hidden-button" onClick={() => incrementWeight(exercise._id,exercise.name,exercise.sets,exercise.reps,exercise.weight)}><FontAwesomeIcon className="icon-button" icon={faSquarePlus} /></button>
+                        <li className="today-li" key={exercise.refId}>
+                            {exercise.name} - {exercise.reps} reps - {exercise.sets} sets - {exercise.weight}lbs - <button className="hidden-button" onClick={() => incrementWeight(exercise.refId,exercise.name,exercise.sets,exercise.reps,exercise.weight)}><FontAwesomeIcon className="icon-button" icon={faSquarePlus} /></button>
                             
                         </li>
                     ))}
