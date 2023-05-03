@@ -24,11 +24,6 @@ const Today = () => {
             update(cache, {data: {editExercise}}) {
                 try {
                     const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
-                    console.log(`
-                    
-                    EDITING EXERCISE FROM TODAY PAGE
-                    
-                    `)
                     //spread the workouts into new temp holding array
                     let updatedWorkouts = [...currentUser.workouts];
                     //Spread exercises as well so they can be edited
@@ -38,9 +33,9 @@ const Today = () => {
     
                     //find indexes to replace
                     let workoutIndexToReplace = updatedWorkouts.findIndex(workout => workout._id.toString() === todayWorkoutId.toString());
-                    console.log(editExercise)
+
                     let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === editExercise.id);
-                    console.log(exerciseIndexToReplace)
+
                     //splice exercise out of the workout
                     updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace] = {
                         ...updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace],
@@ -49,13 +44,12 @@ const Today = () => {
                         sets:editExercise.sets,
                         weight:editExercise.weight,
                     };
-                    console.log(updatedWorkouts)
+
     
                     cache.writeQuery({
                         query: QUERY_CURRENT_USER,
                         data: {currentUser: {...currentUser, workouts: updatedWorkouts}}
                     });
-                    console.log("<><><><><><><>")
                     
                 }
                 catch (error) {
@@ -68,7 +62,6 @@ const Today = () => {
 
     //===[Function]
     async function incrementWeight(exerciseId,name,sets,reps,weight) {
-        console.log("Hello World");
 
         try {
             const mutationResponse = await editExercise({

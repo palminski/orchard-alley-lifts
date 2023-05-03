@@ -36,13 +36,8 @@ const AddExerciseForm = (props) => {
                     updatedWorkouts[i] = { ...updatedWorkouts[i], exercises: [...updatedWorkouts[i].exercises] }
                 }
 
-                console.log("<><><><><><>")
-                console.log('these are the workouts of the current user')
-                console.log(updatedWorkouts);
-                console.log(`workout Id to search for: ${workoutId}`)
                 //find indexes to replace
                 let workoutIndexToReplace = updatedWorkouts.findIndex(workout => workout.refId === workoutId);
-                console.log(`Workout index to replace: ${workoutIndexToReplace}`);
                 const newExercise = {
                     _id: addExercise._id,
                     refId:addExercise.refId,
@@ -58,8 +53,6 @@ const AddExerciseForm = (props) => {
                 
                 
                 updatedWorkouts[workoutIndexToReplace].exercises.push(newExercise)
-                console.log(updatedWorkouts);
-                console.log("<><><><><><>")
                 
 
 
@@ -68,7 +61,6 @@ const AddExerciseForm = (props) => {
                     query: QUERY_CURRENT_USER,
                     data: { currentUser: {...currentUser, workouts: updatedWorkouts}}
                 });
-                console.log(currentUser)
             }
             catch (error) {
                 setSelectedWorkoutIndex("none");

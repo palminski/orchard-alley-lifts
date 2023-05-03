@@ -4,6 +4,7 @@ import EditExercise from "./EditExercise";
 import AddWorkout from "./AddWorkout";
 import DeleteWorkout from "./DeleteWorkout";
 import EditWorkout from "./EditWorkout";
+import EditCalender from "./EditCalender";
 
 
 export{
@@ -13,4 +14,5 @@ export{
     AddWorkout,
     DeleteWorkout,
     EditWorkout,
+    EditCalender
 };

@@ -29,7 +29,6 @@ const Workouts = () => {
     const [workoutEditState, setWorkoutEditState] = useState({
         workoutName: "",
     });
-    console.log(selectedWorkoutIndex);
     //===[Queries]=============================================
     const { loading, data, refetch } = useQuery(QUERY_CURRENT_USER);
     const user = (data?.currentUser)
@@ -86,7 +85,6 @@ const Workouts = () => {
     const [editExercise] = useMutation(EDIT_EXERCISE, {
         update(cache, { data: { editExercise } }) {
             try {
-                console.log(editExercise);
                 const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
 
                 //spread the workouts into new temp holding array
@@ -108,13 +106,10 @@ const Workouts = () => {
                     sets: editExercise.sets,
                     weight: editExercise.weight,
                 };
-                console.log(editExercise);
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
                     data: { currentUser: { ...currentUser, workouts: updatedWorkouts } }
                 });
-                console.log("<><><><><><><>")
-                console.log(currentUser.workouts[selectedWorkoutIndex].exercises[exerciseIndexToReplace].name);
             }
             catch (error) {
                 console.log(error);
@@ -125,7 +120,6 @@ const Workouts = () => {
         update(cache, { data: { editWorkout } }) {
             try {
                 const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
-                console.log(data);
                 let updatedWorkouts = [...currentUser.workouts]
                 updatedWorkouts[selectedWorkoutIndex] = { ...updatedWorkouts[selectedWorkoutIndex], name: editWorkout.name };
 
@@ -133,7 +127,6 @@ const Workouts = () => {
                     query: QUERY_CURRENT_USER,
                     data: { currentUser: { ...currentUser, workouts: updatedWorkouts } }
                 });
-                console.log(currentUser.workouts[selectedWorkoutIndex].name)
             }
             catch (error) {
                 console.log(error);
@@ -143,13 +136,11 @@ const Workouts = () => {
 
     //===[Functions]=============================================
     const handleSelectChange = (e) => {
-        console.log(e.target.value);
         if (e.target.value === "none") {
             setSelectedWorkoutIndex("none");
         }
         else {
             let workoutIndex = user.workouts.findIndex(workout => workout.refId === e.target.value);
-            console.log(user.workouts[selectedWorkoutIndex])
             setSelectedWorkoutIndex(workoutIndex);
         }
     }
@@ -175,8 +166,6 @@ const Workouts = () => {
 
     async function handleDeleteExercise(exerciseId) {
         try {
-
-            console.log(exerciseId)
             const mutationResponse = await deleteExercise({
                 variables: {
                     exerciseId: exerciseId,
@@ -236,7 +225,6 @@ const Workouts = () => {
 
     async function handleExerciseFormSubmit(event) {
         event.preventDefault();
-        console.log(exerciseEditState);
         try {
             const mutationResponse = editExercise({
                 variables: {

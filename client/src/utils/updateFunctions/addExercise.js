@@ -1,7 +1,7 @@
 import { QUERY_CURRENT_USER } from "../queries";
 
 const AddExercise = (cache, { data: { addExercise } }) => {
-    console.log("ADDED EXERCISE===================================");
+
     const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
 
     // spread the workouts into new temp holding array
@@ -24,16 +24,12 @@ const AddExercise = (cache, { data: { addExercise } }) => {
     //push to updated workouts
     updatedWorkouts[workoutIndexToReplace].exercises.push(newExercise)
 
-    console.log(updatedWorkouts);
 
     //write to cache
     cache.writeQuery({
         query: QUERY_CURRENT_USER,
         data: { currentUser: { ...currentUser, workouts: updatedWorkouts } }
     });
-    console.log(cache.readQuery({ query: QUERY_CURRENT_USER }));
-
-    console.log("ADDED EXERCISE===================================");
 }
 
 export default AddExercise

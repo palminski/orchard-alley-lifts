@@ -75,12 +75,6 @@ const AddWorkoutForm = (props) => {
                     }
                 }
             });
-            
-            
-            // console.log(mutationResponse.data.addWorkout.workouts.length-1);
-            // let workoutIndex = mutationResponse.data.addWorkout.workouts.length-1;
-            
-            // setSelectedWorkoutIndex(workoutIndex);
         }
         catch (error) {
             console.log(error);

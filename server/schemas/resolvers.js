@@ -22,9 +22,7 @@ const resolvers = {
         currentUser: async(parent,args, context) => {
             console.log('Searching for current user');
             if(context.user){
-                console.log(`current user ID ${context.user._id}`)
                 const userData = await User.findOne({_id: context.user._id});
-                console.log(`user data ${userData}`)
                 return userData;
             }
             throw new AuthenticationError('Not Logged In');
@@ -58,7 +56,6 @@ const resolvers = {
                         new:true
                     }
                 );
-                console.log(updatedWorkout)
                 return updatedWorkout
             }
             throw new AuthenticationError('Must be logged in to perform this action');
@@ -89,7 +86,6 @@ const resolvers = {
                         new:true
                     }
                 );
-                console.log(updatedExercise)
                 return updatedExercise
 
             }
@@ -100,11 +96,7 @@ const resolvers = {
          editCalender: async(parent, {monday, tuesday,wednesday,thursday,friday,saturday,sunday }, context) => {
             if (context.user) {
                 const user = await User.findById(context.user._id);
-                console.log(user.calender);
-                console.log(monday);
                 user.calender = {_id:user.calender._id,monday:monday,tuesday:tuesday,wednesday:wednesday,thursday:thursday,friday:friday,saturday:saturday,sunday:sunday};
-                // console.log(args);
-                console.log(user.calender);
                 await user.save();
                 return user;
             }
@@ -118,7 +110,6 @@ const resolvers = {
             return { token, user };
         },
         loginUser: async (parent, {username, password}) => {
-            console.log("In login user")
             const user = await User.findOne({username});
             if (!user) {
                 throw new AuthenticationError('User not found');

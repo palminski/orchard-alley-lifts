@@ -52,14 +52,10 @@ const getApolloClient = async () => {
             variables,
             operationName
         }
-        console.log(newMutation);
 
 
         const mutation = {...context.optimisticResponse};
         window.localStorage.setItem('trackedMutations', JSON.stringify([...trackedMutations, newMutation]))
-
-    
-        console.log("=============================")
         return forward(operation).map((data) => {
             window.localStorage.removeItem('trackedMutations');
             return data;

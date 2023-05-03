@@ -55,7 +55,6 @@ function App() {
   useEffect(() => {
     getApolloClient().then((client) => {
       setClient(client)
-      console.log("Client ==>", client);
       setLoading(false)
     })
   }, []);
@@ -63,11 +62,9 @@ function App() {
   useEffect(() => {
     if (!client) return;
     let trackedMutations = JSON.parse(window.localStorage.getItem('trackedMutations') || null) || [];
-      console.log("HELLO");
       window.localStorage.removeItem('trackedMutations');
 
     const execute = async () => {
-      console.log("Checking for stored mutations in local storage...");
     
       const promises = trackedMutations.map(({variables, query, optimisticResponse, operationName}) => client.mutate({
         variables,

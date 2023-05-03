@@ -22,10 +22,7 @@ const Login = (props) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log("clicked")
-    console.log(formState.username)
     try {
-      console.log("trying to log in");
       const response = await login({
         variables: {
           username: formState.username,
@@ -34,10 +31,8 @@ const Login = (props) => {
       });
       const token = response.data.loginUser.token;
       Auth.login(token);
-      console.log("should have logged in");
       props.setPageSelected("Home");
     } catch (error) {
-      console.log(formState);
       console.log(error);
       setErrorMessage("Password Incorrect")
     }
