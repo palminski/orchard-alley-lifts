@@ -67,6 +67,7 @@ function App() {
     const execute = async () => {
     
       const promises = trackedMutations.map(({variables, query, optimisticResponse, operationName}) => client.mutate({
+        context: {serializationKey: "SERIALIZE"},
         variables,
         mutation: query,
         update: updateFunctions[operationName],

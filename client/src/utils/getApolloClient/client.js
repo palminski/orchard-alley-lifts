@@ -41,6 +41,7 @@ const getApolloClient = async () => {
         if (forward === undefined) return null;
 
         const context = operation.getContext();
+        console.log(context);
         const trackedMutations = JSON.parse(window.localStorage.getItem('trackedMutations') || null) || []
         
 
@@ -53,7 +54,6 @@ const getApolloClient = async () => {
             operationName
         }
 
-
         const mutation = {...context.optimisticResponse};
         window.localStorage.setItem('trackedMutations', JSON.stringify([...trackedMutations, newMutation]))
         return forward(operation).map((data) => {
@@ -62,8 +62,17 @@ const getApolloClient = async () => {
         });
     })
 
+    const infoLink = new ApolloLink((operation, forward) => {
+        console.log(`${operation.operationName} => going`);
+        return forward(operation).map((data) => {
+            console.log(`${operation.operationName} => returning`)
+            return data;
+        });
+    })
+
     const link = ApolloLink.from([
         trackerLink,
+        infoLink,
         queueLink,
         serializingLink,
         retryLink,
