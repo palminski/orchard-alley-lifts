@@ -7,6 +7,12 @@ const exerciseSchema = new Schema(
             required: true,
             trim: true
         },
+        refId:{
+            type: String,
+            required: true,
+            trim: true,
+            unique:true 
+        },
         name:{
             type: String,
             required: true,

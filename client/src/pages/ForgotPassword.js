@@ -19,14 +19,13 @@ const ForgotPassword = (props) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
+
     try {
       const response = await resetPassword({
         variables: formState
       });
       setErrorMessage("A temporary password has been sent to your email!")
     } catch (error) {
-      console.log(formState);
       console.log(error);
       setErrorMessage("A user with this email could not be found!")
     }

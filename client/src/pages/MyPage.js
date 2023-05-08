@@ -31,7 +31,6 @@ const MyPage = () => {
 
   async function handleFormSubmit(event) {
     event.preventDefault();
-    // console.log(formState);
 
     try {
       const mutationResponse = await updatePassword({

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon",
-    "start":"nodemon server"
+    "start": "nodemon server"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^4.13.0",
     "mongoose": "^6.8.2",
+    "nanoid": "^3.3.4",
     "nodemailer": "^6.9.1"
   },
   "devDependencies": {

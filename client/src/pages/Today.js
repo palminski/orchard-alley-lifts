@@ -16,19 +16,16 @@ const Today = () => {
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday", "Thursday", "Friday", "Saturday"];
     const today = weekdays[new Date().getDay()];
     const todayWorkoutId = data?.currentUser.calender[today.toLowerCase()];
-    const todaysWorkout = data?.currentUser.workouts.find(workout => workout._id === todayWorkoutId);
+    const todaysWorkout = data?.currentUser.workouts.find(workout => workout.refId === todayWorkoutId);
 
     //===[Mutations]=======================================  
     const [editExercise] = useMutation(EDIT_EXERCISE,
         {
             update(cache, {data: {editExercise}}) {
+                
                 try {
+                    console.log(editExercise)
                     const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
-                    console.log(`
-                    
-                    EDITING EXERCISE FROM TODAY PAGE
-                    
-                    `)
                     //spread the workouts into new temp holding array
                     let updatedWorkouts = [...currentUser.workouts];
                     //Spread exercises as well so they can be edited
@@ -37,10 +34,10 @@ const Today = () => {
                     }
     
                     //find indexes to replace
-                    let workoutIndexToReplace = updatedWorkouts.findIndex(workout => workout._id.toString() === todayWorkoutId.toString());
-                    console.log(editExercise)
-                    let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === editExercise.id);
-                    console.log(exerciseIndexToReplace)
+                    let workoutIndexToReplace = updatedWorkouts.findIndex(workout => workout.refId.toString() === todayWorkoutId.toString());
+
+                    let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise.refId.toString() === editExercise.refId);
+
                     //splice exercise out of the workout
                     updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace] = {
                         ...updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace],
@@ -49,13 +46,12 @@ const Today = () => {
                         sets:editExercise.sets,
                         weight:editExercise.weight,
                     };
-                    console.log(updatedWorkouts)
+
     
                     cache.writeQuery({
                         query: QUERY_CURRENT_USER,
                         data: {currentUser: {...currentUser, workouts: updatedWorkouts}}
                     });
-                    console.log("<><><><><><><>")
                     
                 }
                 catch (error) {
@@ -68,10 +64,9 @@ const Today = () => {
 
     //===[Function]
     async function incrementWeight(exerciseId,name,sets,reps,weight) {
-        console.log("Hello World");
 
         try {
-            const mutationResponse = await editExercise({
+            const mutationResponse =editExercise({
                 variables: {
                     workoutId: todayWorkoutId,
                     exerciseId: exerciseId,
@@ -82,7 +77,8 @@ const Today = () => {
                 },
                 optimisticResponse:{
                     editExercise: {
-                        id: exerciseId,
+                        refId: exerciseId,
+                        workoutId:todayWorkoutId,
                         __typename: "Exercise",
                         name: name,
                         sets: parseInt(sets),
@@ -115,8 +111,8 @@ const Today = () => {
                 <>
                 <ul>
                     {todaysWorkout.exercises.map( exercise => (
-                        <li className="today-li" key={exercise._id}>
-                            {exercise.name} - {exercise.reps} reps - {exercise.sets} sets - {exercise.weight}lbs - <button className="hidden-button" onClick={() => incrementWeight(exercise._id,exercise.name,exercise.sets,exercise.reps,exercise.weight)}><FontAwesomeIcon className="icon-button" icon={faSquarePlus} /></button>
+                        <li className="today-li" key={exercise.refId}>
+                            {exercise.name} - {exercise.reps} reps - {exercise.sets} sets - {exercise.weight}lbs - <button className="hidden-button" onClick={() => incrementWeight(exercise.refId,exercise.name,exercise.sets,exercise.reps,exercise.weight)}><FontAwesomeIcon className="icon-button" icon={faSquarePlus} /></button>
                             
                         </li>
                     ))}

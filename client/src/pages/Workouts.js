@@ -29,7 +29,6 @@ const Workouts = () => {
     const [workoutEditState, setWorkoutEditState] = useState({
         workoutName: "",
     });
-
     //===[Queries]=============================================
     const { loading, data, refetch } = useQuery(QUERY_CURRENT_USER);
     const user = (data?.currentUser)
@@ -48,7 +47,7 @@ const Workouts = () => {
 
                 //find indexes to replace
                 let workoutIndexToReplace = selectedWorkoutIndex;
-                let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === deleteExercise._id);
+                let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise.refId.toString() === deleteExercise.refId);
 
                 //splice exercise out of the workout
                 updatedWorkouts[workoutIndexToReplace].exercises.splice(exerciseIndexToReplace, 1);
@@ -57,25 +56,24 @@ const Workouts = () => {
                     query: QUERY_CURRENT_USER,
                     data: { currentUser: { ...currentUser, workouts: updatedWorkouts } }
                 });
-                
             }
             catch (error) {
                 console.log(error);
             }
-        }, 
+        },
     });
 
     const [deleteWorkout] = useMutation(DELETE_WORKOUT, {
-        update(cache, {data: {deleteWorkout}}) {
+        update(cache, { data: { deleteWorkout } }) {
             try {
-                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
                 let updatedWorkouts = [...currentUser.workouts]
-                updatedWorkouts.splice(selectedWorkoutIndex,1);
+                updatedWorkouts.splice(selectedWorkoutIndex, 1);
 
-                
+                setSelectedWorkoutIndex('none');
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
-                    data: {currentUser: {...currentUser, workouts: updatedWorkouts}}
+                    data: { currentUser: { ...currentUser, workouts: updatedWorkouts } }
                 });
             }
             catch (error) {
@@ -85,10 +83,9 @@ const Workouts = () => {
     });
 
     const [editExercise] = useMutation(EDIT_EXERCISE, {
-        update(cache, {data: {editExercise}}) {
+        update(cache, { data: { editExercise } }) {
             try {
-                console.log(editExercise);
-                const {currentUser} = cache.readQuery({query: QUERY_CURRENT_USER});
+                const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
 
                 //spread the workouts into new temp holding array
                 let updatedWorkouts = [...currentUser.workouts];
@@ -99,23 +96,20 @@ const Workouts = () => {
 
                 //find indexes to replace
                 let workoutIndexToReplace = selectedWorkoutIndex;
-                let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === editExercise.id);
+                let exerciseIndexToReplace = updatedWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise.refId.toString() === editExercise.refId);
 
                 //splice exercise out of the workout
                 updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace] = {
                     ...updatedWorkouts[workoutIndexToReplace].exercises[exerciseIndexToReplace],
-                    name:editExercise.name,
-                    reps:editExercise.reps,
-                    sets:editExercise.sets,
-                    weight:editExercise.weight,
+                    name: editExercise.name,
+                    reps: editExercise.reps,
+                    sets: editExercise.sets,
+                    weight: editExercise.weight,
                 };
-                console.log(editExercise);
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
-                    data: {currentUser: {...currentUser, workouts: updatedWorkouts}}
+                    data: { currentUser: { ...currentUser, workouts: updatedWorkouts } }
                 });
-                console.log("<><><><><><><>")
-                console.log(currentUser.workouts[selectedWorkoutIndex].exercises[exerciseIndexToReplace].name);
             }
             catch (error) {
                 console.log(error);
@@ -126,15 +120,13 @@ const Workouts = () => {
         update(cache, { data: { editWorkout } }) {
             try {
                 const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
-
                 let updatedWorkouts = [...currentUser.workouts]
-                updatedWorkouts[selectedWorkoutIndex]= {...updatedWorkouts[selectedWorkoutIndex], name: editWorkout.name};
-                
+                updatedWorkouts[selectedWorkoutIndex] = { ...updatedWorkouts[selectedWorkoutIndex], name: editWorkout.name };
+
                 cache.writeQuery({
                     query: QUERY_CURRENT_USER,
-                    data: { currentUser: { ...currentUser, workouts:updatedWorkouts} }
+                    data: { currentUser: { ...currentUser, workouts: updatedWorkouts } }
                 });
-                console.log(currentUser.workouts[selectedWorkoutIndex].name)
             }
             catch (error) {
                 console.log(error);
@@ -144,31 +136,25 @@ const Workouts = () => {
 
     //===[Functions]=============================================
     const handleSelectChange = (e) => {
-        console.log(e.target.value);
         if (e.target.value === "none") {
             setSelectedWorkoutIndex("none");
         }
         else {
-            let workoutIndex = user.workouts.findIndex(workout => workout._id === e.target.value);
+            let workoutIndex = user.workouts.findIndex(workout => workout.refId === e.target.value);
             setSelectedWorkoutIndex(workoutIndex);
         }
     }
-
+    //====[DELETING]================================================================
     async function handleDeleteWorkout(workoutId) {
         setSelectedWorkoutIndex("none");
         try {
-
-            let optimisticWorkouts = [...user.workouts];
-            let workoutIndexToReplace = optimisticWorkouts.findIndex(workout => workout._id.toString() === workoutId);
-            optimisticWorkouts.splice(workoutIndexToReplace,1);
-
             const mutationResponse = await deleteWorkout({
                 variables: {
                     workoutId: workoutId,
                 },
                 optimisticResponse: {
                     deleteWorkout: {
-                        _id: workoutId
+                        refId: workoutId
                     }
                 }
             });
@@ -180,31 +166,17 @@ const Workouts = () => {
 
     async function handleDeleteExercise(exerciseId) {
         try {
-            // //spread the workouts into new temp holding array
-            // let optimisticWorkouts = [...user.workouts];
-            // //Spread exercises as well so they can be edited
-            // for (let i = 0; i < optimisticWorkouts.length; i++) {
-            //     optimisticWorkouts[i] = {...optimisticWorkouts[i],exercises:[...optimisticWorkouts[i].exercises]}
-            // }
-            
-            // //find indexes to replace
-            // let workoutIndexToReplace = optimisticWorkouts.findIndex(workout => workout._id.toString() === workoutId);
-            // let exerciseIndexToReplace = optimisticWorkouts[workoutIndexToReplace].exercises.findIndex(exercise => exercise._id.toString() === exerciseId);
-
-            // //splice exercise out of the workout
-            // optimisticWorkouts[workoutIndexToReplace].exercises.splice(exerciseIndexToReplace,1);
-            console.log(exerciseId)
             const mutationResponse = await deleteExercise({
                 variables: {
                     exerciseId: exerciseId,
                 },
-                optimisticResponse:{
+                optimisticResponse: {
                     deleteExercise: {
-                      _id: exerciseId
+                        refId: exerciseId,
+                        workoutId: user.workouts[selectedWorkoutIndex].refId
                     }
-                  }
+                }
             });
-            
         }
         catch (error) {
             console.log(error);
@@ -219,26 +191,23 @@ const Workouts = () => {
         });
     };
 
+    //====[EDITING]=============================================================================================
     async function handleWorkoutFormSubmit(event) {
         event.preventDefault();
         try {
-            let optimisticWorkouts = [...user.workouts];
-            optimisticWorkouts[selectedWorkoutIndex] = {...optimisticWorkouts[selectedWorkoutIndex], name:"test"}
-            
             editWorkout({
                 variables: {
-                    workoutId: user.workouts[selectedWorkoutIndex]._id,
+                    workoutId: user.workouts[selectedWorkoutIndex].refId,
                     name: workoutEditState.workoutName,
                 },
                 optimisticResponse: {
                     editWorkout: {
-                        id: user.workouts[selectedWorkoutIndex]._id,
-                        __typename: 'Workout',
-                        name: workoutEditState.workoutName
+                        refId: user.workouts[selectedWorkoutIndex].refId,
+                        name: workoutEditState.workoutName,
+                        __typename: 'Workout'
                     }
                 }
             });
-            
         }
         catch (error) {
             console.log(error);
@@ -256,7 +225,6 @@ const Workouts = () => {
 
     async function handleExerciseFormSubmit(event) {
         event.preventDefault();
-        console.log(exerciseEditState);
         try {
             const mutationResponse = editExercise({
                 variables: {
@@ -266,16 +234,17 @@ const Workouts = () => {
                     reps: parseInt(exerciseEditState.reps),
                     weight: parseFloat(exerciseEditState.weight),
                 },
-                optimisticResponse:{
+                optimisticResponse: {
                     editExercise: {
-                        id: currentlyEditing,
+                        refId: currentlyEditing,
+                        workoutId: user.workouts[selectedWorkoutIndex].refId,
                         __typename: "Exercise",
                         name: exerciseEditState.exerciseName,
                         sets: parseInt(exerciseEditState.sets),
                         reps: parseInt(exerciseEditState.reps),
                         weight: parseFloat(exerciseEditState.weight),
                     }
-                  }
+                }
             });
         }
         catch (error) {
@@ -295,9 +264,9 @@ const Workouts = () => {
                     </>
                     :
                     <div className="workout-container">
-                        
+
                         {user.workouts.length ?
-                        //If the user has some workouts associated witht their account
+                            //If the user has some workouts associated witht their account
                             <>
                                 {mode === "select" ?
                                     //Toggle Tabs at top of form
@@ -312,10 +281,10 @@ const Workouts = () => {
                                                 <>
                                                     <label htmlFor="workouts">Selected Workout: </label>
                                                     <br></br>
-                                                    <select className="selected-workout" name="workouts" onChange={handleSelectChange} value={user.workouts[selectedWorkoutIndex]?._id}>
+                                                    <select className="selected-workout" name="workouts" onChange={handleSelectChange} value={user.workouts[selectedWorkoutIndex]?.refId}>
                                                         <option value="none"></option>
                                                         {user.workouts && user.workouts.map(workout => (
-                                                            <option key={workout._id} value={workout._id}>{workout.name}</option>
+                                                            <option key={workout.refId} value={workout.refId}>{workout.name}</option>
                                                         ))}
                                                     </select>
                                                     {selectedWorkoutIndex !== "none" &&
@@ -326,7 +295,7 @@ const Workouts = () => {
                                                                     workoutName: user.workouts[selectedWorkoutIndex].name,
                                                                 })
                                                             }} />
-                                                            <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex]._id) }} />
+                                                            <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteWorkout(user.workouts[selectedWorkoutIndex].refId) }} />
                                                         </>}
                                                 </>
                                                 // Currently Editing Title
@@ -336,39 +305,39 @@ const Workouts = () => {
                                                     <form className="first-workout-form" onSubmit={handleWorkoutFormSubmit}>
                                                         <label htmlFor="workoutName">Workout Name: </label>
                                                         <br></br>
-                                                        <input required autoFocus="true" className="title-edit" name="workoutName" type="text" id="workoutName" onFocus={(e) => e.target.select()} onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
+                                                        <input required autoFocus={true} className="title-edit" name="workoutName" type="text" id="workoutName" onFocus={(e) => e.target.select()} onChange={handleWorkoutFormChange} value={workoutEditState.workoutName} />
                                                         <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk} /></button>
 
                                                     </form>
                                                 </>}
                                         </div>
                                         {selectedWorkoutIndex !== "none" ?
-                                        //If there is a workout that has been selected
-                                        //List of exercises contained in that workout
+                                            //If there is a workout that has been selected
+                                            //List of exercises contained in that workout
                                             <>
-                                                {user.workouts[selectedWorkoutIndex].exercises.length > 0 &&
+                                                {user.workouts[selectedWorkoutIndex]?.exercises.length > 0 &&
                                                     <ul>
                                                         {user.workouts[selectedWorkoutIndex].exercises.map(exercise => (
-                                                            <li className="exercise-li" key={exercise._id}>
-                                                                {currentlyEditing === exercise._id ?
+                                                            <li className="exercise-li" key={exercise.refId}>
+                                                                {currentlyEditing === exercise.refId ?
                                                                     // If currently editing this exercise
                                                                     //li becomes a form where values can be changed
                                                                     <form className="handle-exercise-form" onSubmit={handleExerciseFormSubmit}>
                                                                         <div className="exercise-name">
-                                                                        <label htmlFor="exerciseName"><span className="exercise-name">Exercise Name: </span></label>
-                                                                        <input required name="exerciseName" type="text" id="exerciseName" onChange={handleExerciseFormChange} value={exerciseEditState.exerciseName} />
+                                                                            <label htmlFor="exerciseName"><span className="exercise-name">Exercise Name: </span></label>
+                                                                            <input required name="exerciseName" type="text" id="exerciseName" onChange={handleExerciseFormChange} value={exerciseEditState.exerciseName} />
                                                                         </div>
                                                                         <div className="exercise-name">
-                                                                        <label htmlFor="reps">Reps: </label>
-                                                                        <input required className="small-number-input" name="reps" type="number" step={1} id="reps" onChange={handleExerciseFormChange} value={exerciseEditState.reps} />
+                                                                            <label htmlFor="reps">Reps: </label>
+                                                                            <input required className="small-number-input" name="reps" type="number" step={1} id="reps" onChange={handleExerciseFormChange} value={exerciseEditState.reps} />
                                                                         </div>
                                                                         <div className="exercise-name">
-                                                                        <label htmlFor="sets">Sets: </label>
-                                                                        <input required className="small-number-input" name="sets" type="number" step={1} id="sets" onChange={handleExerciseFormChange} value={exerciseEditState.sets} />
+                                                                            <label htmlFor="sets">Sets: </label>
+                                                                            <input required className="small-number-input" name="sets" type="number" step={1} id="sets" onChange={handleExerciseFormChange} value={exerciseEditState.sets} />
                                                                         </div>
                                                                         <div className="exercise-name">
-                                                                        <label htmlFor="weight">Weight: </label>
-                                                                        <input required className="large-number-input" name="weight" type="number" step={2.5} id="weight" onChange={handleExerciseFormChange} value={exerciseEditState.weight} />
+                                                                            <label htmlFor="weight">Weight: </label>
+                                                                            <input required className="large-number-input" name="weight" type="number" step={2.5} id="weight" onChange={handleExerciseFormChange} value={exerciseEditState.weight} />
                                                                         </div>
                                                                         <button className="hidden-button"> <FontAwesomeIcon className="icon-button" icon={faFloppyDisk} /></button>
                                                                     </form>
@@ -385,9 +354,9 @@ const Workouts = () => {
                                                                                     reps: exercise.reps,
                                                                                     weight: exercise.weight
                                                                                 });
-                                                                                setCurrentlyEditing(exercise._id)
+                                                                                setCurrentlyEditing(exercise.refId)
                                                                             }} />
-                                                                            <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteExercise(exercise._id) }} />
+                                                                            <FontAwesomeIcon className="icon-button icon-button-danger" icon={faTrashCan} onClick={() => { handleDeleteExercise(exercise.refId) }} />
                                                                         </p>
                                                                     </>
                                                                 }
@@ -397,8 +366,8 @@ const Workouts = () => {
                                                 }
                                                 {/* //Form at bottom where exercises are added */}
                                                 <div className="add-exercise-section">
-                                                    <h3>Add {user.workouts[selectedWorkoutIndex].exercises.length > 0 ? "more exercises" : "your fisrt exercise"} to this workout here</h3>
-                                                    <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]._id} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddExerciseForm>
+                                                    <h3>Add {user.workouts[selectedWorkoutIndex]?.exercises.length > 0 ? "more exercises" : "your fisrt exercise"} to this workout here</h3>
+                                                    <AddExerciseForm workoutId={user.workouts[selectedWorkoutIndex]?.refId} setSelectedWorkoutIndex={setSelectedWorkoutIndex}></AddExerciseForm>
                                                 </div>
                                             </>
                                             :
@@ -433,11 +402,11 @@ const Workouts = () => {
                                 </div>
                             </>
                         }
-                    </div>   
+                    </div>
             }
-         <div className="icon-containter">
-        <img src= {gainsIcon} className="gains-icon" alt="Master Gains icon" />
-        </div>
+            <div className="icon-containter">
+                <img src={gainsIcon} className="gains-icon" alt="Master Gains icon" />
+            </div>
         </>
     );
 }

@@ -18,7 +18,6 @@ const Calender = () => {
   const [editCalender] = useMutation(EDIT_CALENDER, {
     update(cache, { data: { editCalender } }) {
       try {
-        console.log(editCalender);
         const { currentUser } = cache.readQuery({ query: QUERY_CURRENT_USER });
 
         let newCalender = {
@@ -36,7 +35,6 @@ const Calender = () => {
           query: QUERY_CURRENT_USER,
           data: { currentUser: { ...currentUser, calender: newCalender } },
         });
-        console.log(currentUser);
       } catch (error) {
         console.log(error);
       }
@@ -47,13 +45,6 @@ const Calender = () => {
   async function handleFormChange(event) {
     const { name, value } = event.target;
 
-    // setCalenderState({
-    //     ...calenderState,
-    //     [name]:value
-    // })
-    // console.log(calenderState);
-
-    // console.log("Hello World.");
     try {
       const mutationResponse = await editCalender({
         variables: {
@@ -62,9 +53,11 @@ const Calender = () => {
         },
         optimisticResponse: {
           editCalender: {
+            __typename: "User",
             calender: {
               ...calenderState,
               [name]: value,
+              
             },
           },
         },
@@ -74,20 +67,6 @@ const Calender = () => {
     }
   }
 
-  // async function handleFormSubmit(event) {
-  //     event.preventDefault();
-  //     console.log(calenderState);
-  //     try {
-  //         const mutationResponse = await editCalender({
-  //             variables: calenderState
-  //         });
-  //         refetch();
-  //     }
-  //     catch (error) {
-  //         console.log(error);
-  //     }
-
-  // };
 
   return (
     <>
@@ -111,7 +90,7 @@ const Calender = () => {
                   <option value="none">none</option>
                   {user.workouts &&
                     user.workouts.map((workout) => (
-                      <option key={workout._id} value={workout._id}>
+                      <option key={workout.refId} value={workout.refId}>
                         {workout.name}
                       </option>
                     ))}
@@ -129,7 +108,7 @@ const Calender = () => {
                   <option value="none">none</option>
                   {user.workouts &&
                     user.workouts.map((workout) => (
-                      <option key={workout._id} value={workout._id}>
+                      <option key={workout.refId} value={workout.refId}>
                         {workout.name}
                       </option>
                     ))}
@@ -147,7 +126,7 @@ const Calender = () => {
                   <option value="none">none</option>
                   {user.workouts &&
                     user.workouts.map((workout) => (
-                      <option key={workout._id} value={workout._id}>
+                      <option key={workout.refId} value={workout.refId}>
                         {workout.name}
                       </option>
                     ))}
@@ -165,7 +144,7 @@ const Calender = () => {
                   <option value="none">none</option>
                   {user.workouts &&
                     user.workouts.map((workout) => (
-                      <option key={workout._id} value={workout._id}>
+                      <option key={workout.refId} value={workout.refId}>
                         {workout.name}
                       </option>
                     ))}
@@ -183,7 +162,7 @@ const Calender = () => {
                   <option value="none">none</option>
                   {user.workouts &&
                     user.workouts.map((workout) => (
-                      <option key={workout._id} value={workout._id}>
+                      <option key={workout.refId} value={workout.refId}>
                         {workout.name}
                       </option>
                     ))}
@@ -201,7 +180,7 @@ const Calender = () => {
                   <option value="none">none</option>
                   {user.workouts &&
                     user.workouts.map((workout) => (
-                      <option key={workout._id} value={workout._id}>
+                      <option key={workout.refId} value={workout.refId}>
                         {workout.name}
                       </option>
                     ))}
@@ -219,7 +198,7 @@ const Calender = () => {
                   <option value="none">none</option>
                   {user.workouts &&
                     user.workouts.map((workout) => (
-                      <option key={workout._id} value={workout._id}>
+                      <option key={workout.refId} value={workout.refId}>
                         {workout.name}
                       </option>
                     ))}

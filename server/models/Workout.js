@@ -15,7 +15,12 @@ const workoutSchema = new Schema(
             trim: true,
             
         },
-        // exercises: [exerciseSchema],
+        refId:{
+            type: String,
+            required: true,
+            trim: true,
+            unique:true 
+        }
 
     }
 )

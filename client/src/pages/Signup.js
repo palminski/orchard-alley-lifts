@@ -40,7 +40,6 @@ const Signup = (props) => {
       setErrorMessage(
         "Username and Email must be unique, Password Must be at least 8 characters"
       );
-      console.log(formState);
       console.log(error);
     }
   };
