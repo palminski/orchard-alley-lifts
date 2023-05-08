@@ -7,6 +7,8 @@ import { QUERY_CURRENT_USER } from "../utils/queries";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
+import {nanoid} from 'nanoid'
+
 const AddExerciseForm = (props) => {
     //===[Props]=============================================
     const {workoutId, setSelectedWorkoutIndex} = props;
@@ -34,15 +36,11 @@ const AddExerciseForm = (props) => {
                     updatedWorkouts[i] = { ...updatedWorkouts[i], exercises: [...updatedWorkouts[i].exercises] }
                 }
 
-                console.log("<><><><><><>")
-                console.log('these are the workouts of the current user')
-                console.log(updatedWorkouts);
-                console.log(`workout Id to search for: ${workoutId}`)
                 //find indexes to replace
-                let workoutIndexToReplace = updatedWorkouts.findIndex(workout => workout._id === workoutId);
-                console.log(`Workout index to replace: ${workoutIndexToReplace}`);
+                let workoutIndexToReplace = updatedWorkouts.findIndex(workout => workout.refId === workoutId);
                 const newExercise = {
-                    _id: addExercise.id,
+                    _id: addExercise._id,
+                    refId:addExercise.refId,
                     name:addExercise.name,
                     reps:addExercise.reps,
                     sets:addExercise.sets,
@@ -55,8 +53,6 @@ const AddExerciseForm = (props) => {
                 
                 
                 updatedWorkouts[workoutIndexToReplace].exercises.push(newExercise)
-                console.log(updatedWorkouts);
-                console.log("<><><><><><>")
                 
 
 
@@ -65,7 +61,6 @@ const AddExerciseForm = (props) => {
                     query: QUERY_CURRENT_USER,
                     data: { currentUser: {...currentUser, workouts: updatedWorkouts}}
                 });
-                console.log(currentUser)
             }
             catch (error) {
                 setSelectedWorkoutIndex("none");
@@ -89,10 +84,11 @@ const AddExerciseForm = (props) => {
 
     async function handleFormSubmit(event) {
         event.preventDefault();
-        console.log(formState);
+        const myId = `${nanoid()}`;
         try {
             const mutationResponse = addExercise({
                 variables: {
+                    refId: myId,
                     workoutId: workoutId,
                     name: formState.exerciseName,
                     reps: parseInt(formState.reps),
@@ -101,7 +97,8 @@ const AddExerciseForm = (props) => {
                 },
                 optimisticResponse: {
                     addExercise: {
-                        id: `temp_id-${formState.exerciseName}-Exercise-${Date.now()}`,
+                        _id: -1,
+                        refId: myId,
                         __typename: "Exercise",
                         workoutId: workoutId,
                         name: formState.exerciseName,

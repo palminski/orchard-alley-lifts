@@ -20,6 +20,7 @@ import Signup from './pages/Signup';
 import getApolloClient from "./utils/getApolloClient/client";
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import AppHome from './components/AppHome';
+import * as updateFunctions from './utils/updateFunctions';
 
 
 
@@ -51,55 +52,41 @@ function App() {
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
   
-  
-
-
   useEffect(() => {
     getApolloClient().then((client) => {
       setClient(client)
-      console.log("Client ==>", client);
       setLoading(false)
     })
   }, []);
 
-  // useEffect(() => {
-  //   if (!client) return
-  //   console.log(`
+  useEffect(() => {
+    if (!client) return;
+    let trackedMutations = JSON.parse(window.localStorage.getItem('trackedMutations') || null) || [];
+      window.localStorage.removeItem('trackedMutations');
+
+    const execute = async () => {
     
-    
-  //   RUNNING TRACKED MUTATIONS
+      const promises = trackedMutations.map(({variables, query, optimisticResponse, operationName}) => client.mutate({
+        context: {serializationKey: "SERIALIZE"},
+        variables,
+        mutation: query,
+        update: updateFunctions[operationName],
+        optimisticResponse
+      }));
+
+      try {
+        await Promise.all(promises)
+      }
+      catch(error) {
+        console.log('error occured')
+      }
+    }
 
     
-  //   `)
-  //   const execute = async () => {
-  //     const trackedOperations = JSON.parse(window.localStorage.getItem('trackedOperations') || null) || []
+    execute();
 
-  //     console.log(trackedOperations)
 
-  //     const promises = trackedOperations.map(({variables, mutation, optimisticResponse}) => client.mutate({
-  //       variables,
-  //       mutation,
-  //       optimisticResponse
-  //     }))
-
-  //     try{
-  //       await Promise.all(promises)
-  //       await client.refetchQueries({
-  //         include: "active"
-  //       })
-  //     }
-  //     catch (error) {
-  //       //Test
-  //       console.log("=========================")
-  //       console.log(error)
-  //       console.log("=========================")
-  //     }
-
-  //     window.localStorage.setItem('trackedOperations', [])
-  //   }
-  //   execute()
-
-  // }, [client])
+  }, [client])
 
   return (
     <>

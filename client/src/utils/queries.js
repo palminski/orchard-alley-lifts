@@ -14,10 +14,12 @@ query CurrentUser {
     currentUser {
       username
       workouts{
+        refId
         _id
         name
         exercises{
           _id
+          refId
           name
           reps
           sets
