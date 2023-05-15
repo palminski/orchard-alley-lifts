@@ -28,7 +28,8 @@ import * as updateFunctions from './utils/updateFunctions';
 //------[Set Up Apollo]---------------
 const httpLink = createHttpLink({
   //This can be changed to '/graphql' if using proxy in package.json
-  uri: 'http://localhost:3001/graphql'
+  // uri: 'http://localhost:3001/graphql'
+  uri: '/graphql'
 });
 
 const authLink = setContext((_, {headers}) => {
