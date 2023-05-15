@@ -6,12 +6,12 @@ import {onError} from 'apollo-link-error';
 import SerializingLink from 'apollo-link-serialize';
 import { setContext } from '@apollo/client/link/context'
 
-const API_HOST = 'http://localhost:3001/graphql';
+const API_HOST = '/graphql';
 const SCHEMA_VERSION = '1';
 const SCHEMA_VERSION_KEY = 'apollo-schema-version';
 
 const getApolloClient = async () => {
-    const httpLink = new createHttpLink({ uri: API_HOST })
+    const httpLink = new createHttpLink({ uri: '/graphql'})
     const retryLink = new RetryLink({attempts: {max:Infinity}})
 
     const authLink = setContext((_, { headers }) => {

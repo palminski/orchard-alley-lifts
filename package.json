@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start":"node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "develop": "concurrently \"cd server && npm run dev\" \"cd client && npm run start\"",
     "develop-pwa": "concurrently \"cd server && npm run start\" \"cd client && npm run build && npm run start-pwa\"",
@@ -14,7 +15,8 @@
     "client-dev-start": "cd client && npm start",
     "client-pwa-build": "cd client && npm run build",
     "client-pwa-start": "cd client && npm run start-pwa",
-    "server-start": "cd server && npm run start"
+    "server-start": "cd server && npm run start",
+    "build": "cd client && npm run build"
   },
   "author": "",
   "license": "ISC",
